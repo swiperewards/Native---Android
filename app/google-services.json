@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "891412668727",
+    "firebase_url": "https://swiperewards-b9ea4.firebaseio.com",
+    "project_id": "swiperewards-b9ea4",
+    "storage_bucket": "swiperewards-b9ea4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891412668727:android:a48be9e9c5d39b68",
+        "android_client_info": {
+          "package_name": "com.winjit.swiperewards"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "891412668727-mtk3njd8g1vcrt4r9pbh41b49h41nttl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.winjit.swiperewards",
+            "certificate_hash": "9ff41f1ab2fb045c484d330d13322eabef3ef2e9"
+          }
+        },
+        {
+          "client_id": "891412668727-0ost48gdka1q8ol4i66grl8gbk0c288h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQkGczdXu1oug_ImqqRhK0kixrl3aXkjE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "891412668727-0ost48gdka1q8ol4i66grl8gbk0c288h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

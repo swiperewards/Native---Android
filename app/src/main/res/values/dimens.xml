@@ -1,0 +1,27 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">5dp</dimen>
+
+    <!-- Other margins -->
+    <dimen name="margin_tiny">4dp</dimen>
+    <dimen name="margin_very_small">8dp</dimen>
+    <dimen name="margin_small">16dp</dimen>
+    <dimen name="margin_medium">20dp</dimen>
+    <dimen name="margin_large">24dp</dimen>
+    <dimen name="margin_extra_large">28dp</dimen>
+    <dimen name="margin_xx_large">50dp</dimen>
+
+    <!-- Text sizes -->
+    <dimen name="text_size_very_small">12sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_medium">16sp</dimen>
+    <dimen name="text_size_large">20sp</dimen>
+    <dimen name="text_size_extra_large">25sp</dimen>
+    <dimen name="home_screen_icon_size">70sp</dimen>
+    <dimen name="separator">0.5dp</dimen>
+    <dimen name="cardview_shadow_bottom">2dp</dimen>
+
+    <dimen name="loader_width_height">32dp</dimen>
+    <dimen name="category_item_dimen">100dp</dimen>
+</resources>

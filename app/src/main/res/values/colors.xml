@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#E6A12A</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#E9E9E9</color>
+    <color name="appColor">#E6A12A</color>
+
+    <color name="color_titles">#000000</color>
+    <color name="color_text">#666666</color>
+    <color name="color_spinner">#666666</color>
+
+
+    <color name="unselected_item">#808080</color>
+    <color name="color_hint">#c1c1c1</color>
+    <color name="color_separator">#c1c1c1</color>
+    <color name="color_normal_mode">#c1c1c1</color>
+    <color name="color_background">#E9E9E9</color>
+
+    <!--Card view-->
+    <color name="card_view_shadow">#CABBBBBB</color>
+    <color name="card_view_background">#FFFFFF</color>
+    <color name="card_view_divider">#D1D1D1</color>
+
+    <color name="color_white">#ffffff</color>
+
+    <!--Social-->
+    <color name="grey_100">#F5F5F5</color>
+    <color name="grey_300">#E0E0E0</color>
+    <color name="grey_500">#9E9E9E</color>
+</resources>
