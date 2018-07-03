@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.utils.UIHelper;
+import com.winjit.swiperewards.utils.ValidationHelper;
 
 
 public class RegisterFragment extends Fragment implements View.OnClickListener {
@@ -68,12 +69,22 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_sign_up:
-                SuccessFragment successFragment = SuccessFragment.newInstance();
-                Bundle bundle = new Bundle();
-                bundle.putBoolean(ISwipe.IS_FROM_SIGN_UP, true);
-                successFragment.setArguments(bundle);
-                UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, successFragment, true);
-                break;
+                if(isValidInputsEntered()) {
+                    SuccessFragment successFragment = SuccessFragment.newInstance();
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean(ISwipe.IS_FROM_SIGN_UP, true);
+                    successFragment.setArguments(bundle);
+                    UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, successFragment, true);
+                    break;
+                }
         }
+    }
+
+
+    private boolean isValidInputsEntered() {
+        ValidationHelper validationHelper = new ValidationHelper();
+        return validationHelper.isValidEditTexts(getActivity(), etFirstName, etLastName, etUserEmail, etPassword, etConfirmPassword) &&
+                validationHelper.isValidEmail(getActivity(), etUserEmail);
+
     }
 }

@@ -66,7 +66,7 @@ public class ValidationHelper {
             } else
                 return true;
         }
-        return true;
+        return false;
     }
 
     /**

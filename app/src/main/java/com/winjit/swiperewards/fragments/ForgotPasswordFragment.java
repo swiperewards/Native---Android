@@ -11,6 +11,7 @@ import android.widget.Button;
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.utils.UIHelper;
+import com.winjit.swiperewards.utils.ValidationHelper;
 
 
 public class ForgotPasswordFragment extends Fragment implements View.OnClickListener {
@@ -48,16 +49,20 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_submit:
-
-                SuccessFragment successFragment = SuccessFragment.newInstance();
-                Bundle bundle = new Bundle();
-                bundle.putBoolean(ISwipe.IS_FROM_SIGN_UP,false);
-                successFragment.setArguments(bundle);
-                UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, successFragment, true);
-
-
-                UIHelper.getInstance().popFragment(getActivity().getSupportFragmentManager());
-                break;
+                if (isValidInputsEntered()) {
+                    SuccessFragment successFragment = SuccessFragment.newInstance();
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean(ISwipe.IS_FROM_SIGN_UP, false);
+                    successFragment.setArguments(bundle);
+                    UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, successFragment, false);
+                    break;
+                }
         }
+    }
+
+    private boolean isValidInputsEntered() {
+        ValidationHelper validationHelper = new ValidationHelper();
+        return validationHelper.isValidEmail(getActivity(), etUserEmail);
+
     }
 }

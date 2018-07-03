@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.utils.UIHelper;
+import com.winjit.swiperewards.utils.ValidationHelper;
 
 
 public class LoginFragment extends BaseFragment implements View.OnClickListener {
@@ -63,7 +64,11 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.bt_login:
+                if(isValidInputsEntered()){
 
+                }
+                break;
             case R.id.forgot_password:
                 UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, ForgotPasswordFragment.newInstance(), true);
                 break;
@@ -71,5 +76,12 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                 UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, RegisterFragment.newInstance(), true);
                 break;
         }
+    }
+
+    private boolean isValidInputsEntered() {
+        ValidationHelper validationHelper = new ValidationHelper();
+        return validationHelper.isValidEditTexts(getActivity(), etUserEmail, etPassword) &&
+                validationHelper.isValidEmail(getActivity(), etUserEmail);
+
     }
 }
