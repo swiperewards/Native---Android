@@ -22,7 +22,14 @@
         </activity>
 
         <activity
+                android:name=".activities.LoginActivity"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden"
+                />
+        <activity
                 android:name=".activities.GoogleSignInActivity"
-                android:label="@string/label_google_sign_in" />
+                android:label="@string/label_google_sign_in"
+                android:theme="@style/AppTheme.NoActionBar"
+                />
     </application>
 </manifest>

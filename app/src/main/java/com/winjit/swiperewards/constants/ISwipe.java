@@ -5,4 +5,5 @@ public interface ISwipe {
     String SESSION_USER = "SESSION_USER";
     String ADAPTER_POSITION = "ADAPTER_POSITION";
     String TAG = "SwipeLog";
+    String IS_FROM_SIGN_UP = "IS_FROM_SIGN_UP";
 }

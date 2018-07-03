@@ -35,4 +35,26 @@
     <string name="firebase_status_fmt">Firebase User: %s</string>
     <string name="disconnect">Disconnect</string>
 
+
+    //Login/Register
+    <string name="forget_password"><u>Forgot Password</u></string>
+    <string name="sign_in_underline"><u>Sign In</u></string>
+    <string name="login">Sign In</string>
+    <string name="confirm_pass_code_hint_text">Confirm Password</string>
+    <string name="txt_continue">Continue</string>
+    <string name="new_user">New User? Register Now</string>
+    <string name="register">Register</string>
+    <string name="submit">Submit</string>
+    <string name="user_name_email">Username/Email</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in_with_social">Or Sign In with</string>
+    <string name="welcome">Welcome to Swipe Rewards!!</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="connect_with">Or connect with</string>
+    <string name="already_member">Already a Member?</string>
+    <string name="verify_email">Thank You!\nPlease check your email to activate your account.</string>
+    <string name="password_sent">A new password has been sent to your registered e-mail address.</string>
+
 </resources>

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:layout_marginBottom="@dimen/margin_very_small"
+              android:layout_marginLeft="@dimen/margin_medium"
+              android:layout_marginRight="@dimen/margin_medium"
+              android:layout_marginTop="@dimen/margin_very_small"
+              android:background="@color/color_white"
+              android:orientation="vertical"
+              android:paddingTop="@dimen/margin_extra_large">
+
+
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/style_edit_text"
+            app:errorTextAppearance="@style/AppEditTextInputErrorColorGray">
+
+        <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/vc_user"
+                android:drawableTint="@color/appColor"
+                android:hint="@string/first_name"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
+                android:maxLength="32"
+                android:theme="@style/style_edit_text"
+                />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/style_edit_text"
+            app:errorTextAppearance="@style/AppEditTextInputErrorColorGray">
+
+        <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/vc_user"
+                android:drawableTint="@color/appColor"
+                android:hint="@string/last_name"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
+                android:maxLength="32"
+                android:theme="@style/style_edit_text"
+                />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/style_edit_text"
+            app:errorTextAppearance="@style/AppEditTextInputErrorColorGray">
+
+        <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_user_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/vc_email"
+                android:drawableTint="@color/appColor"
+                android:hint="@string/email"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:maxLength="32"
+                android:theme="@style/style_edit_text"
+                />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/style_edit_text"
+            app:errorTextAppearance="@style/AppEditTextInputErrorColorGray">
+
+
+        <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/vc_password"
+                android:drawableTint="@color/appColor"
+                android:gravity="center_vertical"
+                android:hint="@string/password"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:maxLength="10"
+                android:theme="@style/style_edit_text"
+                />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/style_edit_text"
+            app:errorTextAppearance="@style/AppEditTextInputErrorColorGray">
+
+
+        <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/vc_password"
+                android:drawableTint="@color/appColor"
+                android:gravity="center_vertical"
+                android:hint="@string/confirm_pass_code_hint_text"
+                android:imeOptions="actionDone"
+                android:inputType="numberPassword"
+                android:maxLength="10"
+                android:theme="@style/style_edit_text"
+                />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <Button
+            android:id="@+id/bt_sign_up"
+            style="@style/AppButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            android:text="@string/sign_up"/>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/margin_very_small"
+            android:layout_marginRight="@dimen/margin_very_small"
+            android:layout_marginTop="@dimen/margin_very_small"
+            android:gravity="center">
+        <TextView
+                android:id="@+id/login_with"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/margin_small"
+                android:text="@string/connect_with"
+                android:textColor="@color/color_text"
+                android:textSize="@dimen/text_size_medium"
+                />
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/login_with"
+                android:background="@color/color_text"/>
+
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/login_with"
+                android:background="@color/color_text"/>
+    </RelativeLayout>
+
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|center_horizontal"
+            android:orientation="horizontal">
+        <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_facebook"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                app:srcCompat="@drawable/vc_facebook"/>
+
+        <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_google"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                app:srcCompat="@drawable/vc_google_plus"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/margin_very_small"
+            android:layout_marginTop="@dimen/margin_small"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:text="@string/already_member"
+                android:textColor="@color/color_text"
+                android:textSize="@dimen/text_size_medium"
+                />
+
+
+        <TextView
+                android:id="@+id/tv_sign_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="@dimen/margin_tiny"
+                android:paddingLeft="2dp"
+                android:paddingRight="@dimen/margin_tiny"
+                android:text="@string/sign_in_underline"
+                android:textColor="@color/appColor"
+                android:textSize="@dimen/text_size_medium"
+                />
+
+    </LinearLayout>
+
+
+</LinearLayout>
