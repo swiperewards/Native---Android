@@ -1,5 +1,6 @@
 package com.winjit.swiperewards.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.AppCompatImageView;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.winjit.swiperewards.R;
+import com.winjit.swiperewards.activities.HomeActivity;
 import com.winjit.swiperewards.utils.UIHelper;
 import com.winjit.swiperewards.utils.ValidationHelper;
 
@@ -65,9 +67,9 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_login:
-                if(isValidInputsEntered()){
-
-                }
+                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                startActivity(homeIntent);
+                getActivity().finish();
                 break;
             case R.id.forgot_password:
                 UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, ForgotPasswordFragment.newInstance(), true);

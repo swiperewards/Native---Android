@@ -56,5 +56,11 @@
     <string name="already_member">Already a Member?</string>
     <string name="verify_email">Thank You!\nPlease check your email to activate your account.</string>
     <string name="password_sent">A new password has been sent to your registered e-mail address.</string>
+    <string name="title_activity_home">Swipe Rewards</string>
+    <string name="title_home">Home</string>
+    <string name="title_wallet">Wallet</string>
+    <string name="title_redeem">Redeem</string>
+    <string name="title_history">History</string>
+    <string name="title_settings">Settings</string>
 
 </resources>
