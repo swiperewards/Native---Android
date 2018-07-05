@@ -24,18 +24,22 @@
         </activity>
         <activity
                 android:name=".activities.LoginActivity"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="stateHidden"
+
                 />
         <activity
                 android:name=".activities.GoogleSignInActivity"
                 android:label="@string/label_google_sign_in"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
+
                 />
         <activity
                 android:name=".activities.HomeActivity"
                 android:label="@string/title_activity_home"
-
+                android:screenOrientation="portrait"
                 >
         </activity>
     </application>

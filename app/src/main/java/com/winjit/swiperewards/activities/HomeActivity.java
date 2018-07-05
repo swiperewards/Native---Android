@@ -7,6 +7,7 @@ import android.view.MenuItem;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.winjit.swiperewards.R;
+import com.winjit.swiperewards.fragments.EventHistoryFragment;
 import com.winjit.swiperewards.fragments.HomeFragment;
 import com.winjit.swiperewards.fragments.RegisterFragment;
 import com.winjit.swiperewards.fragments.SettingsFragment;
@@ -36,6 +37,7 @@ public class HomeActivity extends BaseActivity {
                         UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, SuccessFragment.newInstance(), false);
                         return true;
                     case R.id.navigation_history:
+                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, EventHistoryFragment.newInstance(), false);
                         return true;
                     case R.id.navigation_Settings:
                         UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, SettingsFragment.newInstance(), false);
