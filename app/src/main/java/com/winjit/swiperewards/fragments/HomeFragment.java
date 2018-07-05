@@ -2,14 +2,20 @@ package com.winjit.swiperewards.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.winjit.swiperewards.R;
+import com.winjit.swiperewards.adapters.DealsAdapter;
+import com.winjit.swiperewards.interfaces.AdapterResponseInterface;
 
 
-public class HomeFragment extends Fragment implements View.OnClickListener {
+public class HomeFragment extends Fragment implements View.OnClickListener, AdapterResponseInterface {
+
+    private RecyclerView rvDeals;
 
     public HomeFragment() {
     }
@@ -31,6 +37,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initViews(View mRootView) {
+        rvDeals = mRootView.findViewById(R.id.rv_deals);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        rvDeals.setLayoutManager(linearLayoutManager);
+        rvDeals.setAdapter(new DealsAdapter(getActivity(),this));
     }
 
 
@@ -38,5 +48,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
         }
+    }
+
+    @Override
+    public void getAdapterResponse(Bundle bundle) {
+
     }
 }
