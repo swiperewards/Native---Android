@@ -2,11 +2,12 @@
 <resources>
     <color name="colorPrimary">#53C1FF</color>
     <color name="colorPrimaryDark">#34A8F1</color>
-    <color name="colorAccent">#34A8F1</color>
-    <color name="appColor">#34A8F1</color>
+    <color name="colorAccent">#53C1FF</color>
+    <color name="appColor">#53C1FF</color>
 
     <color name="color_titles">#000000</color>
     <color name="color_text">#666666</color>
+    <color name="secondary_text_color">#ffffff</color>
     <color name="color_spinner">#666666</color>
 
 
