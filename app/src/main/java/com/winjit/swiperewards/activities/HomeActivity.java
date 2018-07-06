@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.winjit.swiperewards.R;
+import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.fragments.EventHistoryFragment;
 import com.winjit.swiperewards.fragments.HomeFragment;
 import com.winjit.swiperewards.fragments.RegisterFragment;
@@ -64,16 +65,18 @@ public class HomeActivity extends BaseActivity {
     }
 
 
-    private void setTopLayoutVisibility(int itemId) {
+    public void setTopLayoutVisibility(int itemId) {
 
         switch (itemId) {
             case R.id.navigation_home:
             case R.id.navigation_wallet:
             case R.id.navigation_redeem:
             case R.id.navigation_Settings:
+            case ISwipe.SHOW_TOP_VIEW:
                 llTop.setVisibility(View.VISIBLE);
                 break;
             case R.id.navigation_history:
+            case ISwipe.HIDE_TOP_VIEW:
                 llTop.setVisibility(View.GONE);
                 break;
         }

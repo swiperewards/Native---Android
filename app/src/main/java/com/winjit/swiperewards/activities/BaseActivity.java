@@ -19,7 +19,7 @@ public class BaseActivity extends UniversalBaseActivity {
      */
     private void doubleBackPressToExit() {
         //Checking for fragment count on backstack
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             getSupportFragmentManager().popBackStackImmediate();
 
         } else if (!doubleBackToExitPressedOnce) {
