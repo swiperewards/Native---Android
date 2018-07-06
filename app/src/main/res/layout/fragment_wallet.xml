@@ -13,162 +13,60 @@
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            android:padding="@dimen/margin_small"
+            android:padding="@dimen/margin_very_small"
             >
 
 
-        <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:gravity="center_vertical">
-            <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/margin_very_small"
-                    android:drawableLeft="@drawable/vc_notification"
-                    android:drawablePadding="@dimen/margin_very_small"
-                    android:gravity="center_vertical"
-                    android:text="Notification"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_text"/>
-
-            <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/sw_notification"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:layout_gravity="center_vertical"
-                    android:layout_alignParentRight="true"/>
-        </RelativeLayout>
-
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/separator"
-                android:layout_marginBottom="@dimen/margin_very_small"
-                android:layout_marginTop="@dimen/margin_very_small"
-                android:background="@color/color_separator"/>
-
-
         <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_change_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/margin_very_small"
-                android:drawableLeft="@drawable/vc_password"
+                android:drawableLeft="@drawable/vc_wallet"
                 android:drawablePadding="@dimen/margin_very_small"
                 android:gravity="center_vertical"
-                android:text="Change Password"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/color_text"/>
+                android:text="Credit/Debit Cards"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/appColor"/>
 
         <View
+                android:id="@+id/separator"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator"
                 android:layout_marginBottom="@dimen/margin_very_small"
                 android:layout_marginTop="@dimen/margin_very_small"
                 android:background="@color/color_separator"/>
 
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_cards"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/tv_disclaimer"
+                android:layout_below="@id/separator"
+                android:layout_marginLeft="@dimen/margin_very_small"
+                android:layout_marginRight="@dimen/margin_very_small"
+                android:nestedScrollingEnabled="false"
+                android:scrollbars="none"/>
 
         <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_contact_us"
+                android:id="@+id/tv_disclaimer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="@dimen/margin_very_small"
-                android:drawableLeft="@drawable/vc_contact"
+                android:layout_alignParentBottom="true"
                 android:drawablePadding="@dimen/margin_very_small"
                 android:gravity="center_vertical"
-                android:text="Contact Us"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@string/disclaimer"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/color_text"/>
-
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/separator"
-                android:layout_marginBottom="@dimen/margin_very_small"
-                android:layout_marginTop="@dimen/margin_very_small"
-                android:background="@color/color_separator"/>
-
-
-        <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_privacy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="@dimen/margin_very_small"
-                android:drawableLeft="@drawable/vc_privacy"
-                android:drawablePadding="@dimen/margin_very_small"
-                android:gravity="center_vertical"
-                android:text="@string/privacy"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/color_text"/>
-
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/separator"
-                android:layout_marginBottom="@dimen/margin_very_small"
-                android:layout_marginTop="@dimen/margin_very_small"
-                android:background="@color/color_separator"/>
-
-
-        <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_terms_of_use"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="@dimen/margin_very_small"
-                android:drawableLeft="@drawable/vc_terms_of_use"
-                android:drawablePadding="@dimen/margin_very_small"
-                android:gravity="center_vertical"
-                android:text="Terms of Use"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/color_text"/>
-
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/separator"
-                android:layout_marginBottom="@dimen/margin_very_small"
-                android:layout_marginTop="@dimen/margin_very_small"
-                android:background="@color/color_separator"/>
-
-        <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_sign_out"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="@dimen/margin_very_small"
-                android:drawableLeft="@drawable/vc_sign_out"
-                android:drawablePadding="@dimen/margin_very_small"
-                android:gravity="center_vertical"
-                android:text="Sign Out"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/color_text"/>
-
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/separator"
-                android:layout_marginBottom="@dimen/margin_very_small"
-                android:layout_marginTop="@dimen/margin_very_small"
-                android:background="@color/color_separator"/>
 
 
     </LinearLayout>
 
 </LinearLayout>
+
 
 

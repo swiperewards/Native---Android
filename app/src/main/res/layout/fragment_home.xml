@@ -22,16 +22,19 @@
             android:drawableRight="@drawable/vc_search"
             android:gravity="center_vertical"
             android:hint="Store Location"
-            android:padding="@dimen/margin_tiny"
+            android:paddingBottom="@dimen/margin_tiny"
+            android:paddingLeft="@dimen/margin_very_small"
+            android:paddingRight="@dimen/margin_very_small"
+            android:paddingTop="@dimen/margin_tiny"
             android:textSize="@dimen/text_size_small"/>
 
     <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_deals"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:nestedScrollingEnabled="false"
-
             android:cacheColorHint="@android:color/transparent"
+
+            android:nestedScrollingEnabled="false"
             android:scrollbars="none"/>
 
 </LinearLayout>

@@ -8,4 +8,5 @@ public interface ISwipe {
     String IS_FROM_SIGN_UP = "IS_FROM_SIGN_UP";
     int HIDE_TOP_VIEW = 0;
     int SHOW_TOP_VIEW = 1;
+    String IS_ADD_NEW_CARD = "IS_ADD_NEW_CARD";
 }

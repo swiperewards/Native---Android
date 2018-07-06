@@ -12,9 +12,9 @@ import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.fragments.EventHistoryFragment;
 import com.winjit.swiperewards.fragments.HomeFragment;
-import com.winjit.swiperewards.fragments.RegisterFragment;
 import com.winjit.swiperewards.fragments.SettingsFragment;
 import com.winjit.swiperewards.fragments.SuccessFragment;
+import com.winjit.swiperewards.fragments.WalletFragment;
 import com.winjit.swiperewards.utils.UIHelper;
 
 public class HomeActivity extends BaseActivity {
@@ -37,7 +37,7 @@ public class HomeActivity extends BaseActivity {
                         UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, HomeFragment.newInstance(), false);
                         return true;
                     case R.id.navigation_wallet:
-                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, RegisterFragment.newInstance(), false);
+                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, WalletFragment.newInstance(), false);
                         return true;
                     case R.id.navigation_redeem:
                         UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, SuccessFragment.newInstance(), false);
