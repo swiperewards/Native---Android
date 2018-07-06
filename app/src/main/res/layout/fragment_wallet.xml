@@ -24,6 +24,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/margin_very_small"
+                android:layout_marginTop="@dimen/margin_tiny"
                 android:drawableLeft="@drawable/vc_wallet"
                 android:drawablePadding="@dimen/margin_very_small"
                 android:gravity="center_vertical"
@@ -56,9 +57,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_marginTop="@dimen/margin_small"
                 android:drawablePadding="@dimen/margin_very_small"
                 android:gravity="center_vertical"
-                android:layout_marginTop="@dimen/margin_small"
                 android:text="@string/disclaimer"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/color_text"/>

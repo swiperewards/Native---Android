@@ -68,5 +68,7 @@
     <string name="dummy_level_desc">Intermediate</string>
     <string name="privacy"><![CDATA[Privacy & Security]]></string>
     <string name="disclaimer"><b>Message:</b> Everytime you swipe any card in your wallet at any of our partner merchant we automatically reward you with your rewards</string>
+    <string name="add">Add</string>
+    <string name="description">Description</string>
 
 </resources>

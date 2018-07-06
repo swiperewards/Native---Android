@@ -15,6 +15,7 @@ import com.winjit.swiperewards.activities.HomeActivity;
 import com.winjit.swiperewards.adapters.MyCardsAdapter;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.interfaces.AdapterResponseInterface;
+import com.winjit.swiperewards.utils.UIHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,7 +65,8 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
             public void getAdapterResponse(Bundle bundle) {
                 if(bundle!=null && bundle.containsKey(ISwipe.IS_ADD_NEW_CARD)){
                     if(bundle.getBoolean(ISwipe.IS_ADD_NEW_CARD)){
-//                        UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, d.newInstance(), true);
+                        ((HomeActivity)getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
+                        UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, AddNewCardFragment.newInstance(), true);
                     }
                 }
             }
@@ -77,9 +79,6 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_change_password:
-                break;
-        }
+
     }
 }

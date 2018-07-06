@@ -20,13 +20,13 @@
             app:errorTextAppearance="@style/AppEditTextInputErrorColorGray">
 
         <android.support.design.widget.TextInputEditText
-                android:id="@+id/et_old_password"
+                android:id="@+id/et_card_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableRight="@drawable/vc_user"
-                android:hint="Old password"
+                android:drawableRight="@drawable/vc_wallet"
+                android:hint="Card Number"
                 android:imeOptions="actionNext"
-                android:inputType="textPassword"
+                android:inputType="number"
                 android:maxLength="32"
                 android:theme="@style/style_edit_text"
                 />
@@ -40,13 +40,13 @@
             app:errorTextAppearance="@style/AppEditTextInputErrorColorGray">
 
         <android.support.design.widget.TextInputEditText
-                android:id="@+id/et_new_password"
+                android:id="@+id/et_expiry_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableRight="@drawable/vc_user"
-                android:hint="New password"
+                android:drawableRight="@drawable/vc_date"
+                android:hint="Expired on (MM-YYYY)"
                 android:imeOptions="actionNext"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:maxLength="32"
                 android:theme="@style/style_edit_text"
                 />
@@ -57,17 +57,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/style_edit_text"
-            app:passwordToggleEnabled="true"
             app:errorTextAppearance="@style/AppEditTextInputErrorColorGray">
 
         <android.support.design.widget.TextInputEditText
-                android:id="@+id/et_confirm_new_password"
+                android:id="@+id/et_cvv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/vc_password"
+                android:hint="CVV"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="5"
+                android:theme="@style/style_edit_text"
+                />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/style_edit_text"
+            app:errorTextAppearance="@style/AppEditTextInputErrorColorGray">
+
+        <android.support.design.widget.TextInputEditText
+                android:id="@+id/ET_NAME"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/vc_user"
-                android:hint="Confirm new password"
+                android:hint="Name of Card"
                 android:imeOptions="actionDone"
-                android:inputType="textPassword"
+                android:inputType="number"
                 android:maxLength="32"
                 android:theme="@style/style_edit_text"
                 />
@@ -79,6 +98,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_medium"
-            android:text="@string/submit"/>
+            android:text="@string/add"/>
 
 </LinearLayout>

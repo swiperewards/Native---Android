@@ -30,7 +30,7 @@ public class AddNewCardFragment extends BaseFragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_change_password, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_new_card, container, false);
         initViews(view);
         return view;
     }
