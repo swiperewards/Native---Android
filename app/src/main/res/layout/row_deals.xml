@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/margin_very_small"
+                android:background="@drawable/rounded_button_background_white"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/margin_tiny"
+                android:paddingRight="@dimen/margin_tiny"
+        >
+
+    <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/margin_tiny"
+            app:srcCompat="@drawable/vc_facebook"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_toRightOf="@id/iv_icon"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:layout_weight="0.4"
+                    android:gravity="center_vertical|left"
+                    android:text="Store"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/color_hint"/>
+
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:layout_weight="0.6"
+                    android:gravity="center_vertical|right"
+                    android:maxLines="2"
+                    android:text="Whole Foods Market"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/color_text"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="left"
+                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:layout_weight="0.4"
+                    android:gravity="center_vertical|left"
+                    android:text="Store"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/color_hint"/>
+
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:layout_weight="0.6"
+                    android:gravity="center_vertical|right"
+                    android:maxLines="2"
+                    android:text="Whole Foods Market"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/color_text"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="left"
+                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:layout_weight="0.4"
+                    android:gravity="center_vertical|left"
+                    android:text="Store"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/color_hint"/>
+
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:layout_weight="0.6"
+                    android:gravity="center_vertical|right"
+                    android:maxLines="2"
+                    android:text="Whole Foods Market"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/color_text"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="left"
+                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:layout_weight="0.4"
+                    android:gravity="center_vertical|left"
+                    android:text="Store"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/color_hint"/>
+
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:layout_weight="0.6"
+                    android:gravity="center_vertical|right"
+                    android:maxLines="2"
+                    android:text="Whole Foods Market"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/color_text"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
+
+

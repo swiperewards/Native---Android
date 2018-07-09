@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_gravity="center"
+              android:layout_marginBottom="@dimen/margin_very_small"
+              android:layout_marginLeft="@dimen/margin_medium"
+              android:layout_marginRight="@dimen/margin_medium"
+              android:layout_marginTop="@dimen/margin_very_small"
+              android:background="@color/color_white"
+              android:orientation="vertical"
+              android:paddingTop="@dimen/margin_extra_large">
+
+
+    <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/margin_small"
+            android:textColor="@color/color_text"
+            android:textSize="@dimen/text_size_large"
+            />
+
+    <Button
+            android:id="@+id/bt_continue"
+            style="@style/AppButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_small"
+            android:text="@string/txt_continue"/>
+
+</LinearLayout>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.HomeActivity">
+
+
+    <android.support.v4.widget.NestedScrollView
+            android:id="@+id/sv_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#fff"
+                android:orientation="vertical"
+                >
+
+            <LinearLayout
+                    android:id="@+id/ll_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/curved_background"
+                    android:orientation="vertical"
+                    >
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/margin_very_small"
+                        android:baselineAligned="false"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+
+                        android:weightSum="8">
+
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="3"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                        <android.support.v7.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:gravity="center_horizontal|bottom"
+                                android:padding="@dimen/margin_tiny"
+                                android:text="@string/user_location"
+                                android:textColor="@color/secondary_text_color"
+                                android:textSize="@dimen/text_size_small"
+                                />
+
+                        <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/tv_user_location"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:gravity="center_horizontal"
+                                android:padding="@dimen/margin_tiny"
+                                android:text="@string/dummy_user_location"
+                                android:textColor="@color/secondary_text_color"
+                                android:textSize="@dimen/text_size_medium"
+                                />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                                xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/profile_image"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:scaleType="centerCrop"
+                                android:src="@mipmap/ic_launcher"
+                                app:civ_border_color="#ffffff"
+                                app:civ_border_width="1dp"/>
+
+                        <android.support.v7.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:gravity="center_horizontal"
+                                android:padding="@dimen/margin_tiny"
+                                android:text="@string/dummy_user_location"
+                                android:textColor="@color/secondary_text_color"
+                                android:textSize="@dimen/text_size_small"
+                                />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="3"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                        <android.support.v7.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:gravity="center_horizontal"
+                                android:padding="@dimen/margin_tiny"
+                                android:text="@string/user_location"
+                                android:textColor="@color/secondary_text_color"
+                                android:textSize="@dimen/text_size_small"
+                                />
+
+                        <android.support.v7.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:gravity="center_horizontal"
+                                android:padding="@dimen/margin_tiny"
+                                android:text="@string/dummy_user_location"
+                                android:textColor="@color/secondary_text_color"
+                                android:textSize="@dimen/text_size_small"
+                                />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:layout_marginRight="@dimen/margin_medium"
+                        android:paddingBottom="@dimen/margin_extra_large"
+
+                        >
+
+
+                    <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_level"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:gravity="center_horizontal"
+                            android:padding="@dimen/margin_tiny"
+                            android:text="@string/dummy_level"
+                            android:textColor="@color/secondary_text_color"
+                            android:textSize="@dimen/text_size_small"
+                            />
+
+
+                    <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tv_level_desc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:gravity="center_horizontal"
+                            android:padding="@dimen/margin_tiny"
+                            android:text="@string/dummy_level_desc"
+                            android:textColor="@color/secondary_text_color"
+                            android:textSize="@dimen/text_size_small"/>
+
+                    <android.support.v7.widget.AppCompatSeekBar
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="10dp"
+                            android:layout_below="@+id/tv_level_desc"
+                            android:max="100"
+                            android:maxHeight="10dp"
+                            android:minHeight="10dp"
+                            android:paddingEnd="0dp"
+                            android:paddingStart="0dp"
+                            android:progress="50"
+                            android:progressDrawable="@drawable/progress_drawable"
+                            android:thumb="@null"/>
+                </RelativeLayout>
+            </LinearLayout>
+            <include
+                    layout="@layout/layout_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ll_top"
+                    />
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+    <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="0dp"
+            app:itemBackground="@drawable/navigation_background"
+            app:itemIconTint="@color/color_white"
+            app:itemTextColor="@color/color_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sv_parent"
+            app:menu="@menu/navigation"/>
+
+</android.support.constraint.ConstraintLayout>

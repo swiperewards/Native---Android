@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/navigation_home"
+            android:icon="@drawable/vc_home"
+            android:title="@string/title_home"/>
+
+    <item
+            android:id="@+id/navigation_wallet"
+            android:icon="@drawable/vc_wallet"
+            android:title="@string/title_wallet"/>
+
+    <item
+            android:id="@+id/navigation_redeem"
+            android:icon="@drawable/vc_redeem"
+            android:title="@string/title_redeem"/>
+
+
+    <item
+            android:id="@+id/navigation_history"
+            android:icon="@drawable/vc_history"
+            android:title="@string/title_history"/>
+
+    <item
+            android:id="@+id/navigation_Settings"
+            android:icon="@drawable/vc_setting"
+            android:title="@string/title_settings"/>
+
+</menu>
