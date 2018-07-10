@@ -17,16 +17,16 @@
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:background="@color/appColor"
-                android:paddingLeft="@dimen/margin_small"
-                android:paddingRight="@dimen/margin_small"
+                android:paddingLeft="@dimen/margin_medium"
+                android:paddingRight="@dimen/margin_medium"
                 app:srcCompat="@drawable/vc_edit"/>
         <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_delete"
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:background="#f00"
-                android:paddingLeft="@dimen/margin_small"
-                android:paddingRight="@dimen/margin_small"
+                android:paddingLeft="@dimen/margin_medium"
+                android:paddingRight="@dimen/margin_medium"
                 app:srcCompat="@drawable/vc_delete"/>
     </LinearLayout>
 

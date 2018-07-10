@@ -12,21 +12,22 @@ import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.fragments.EventHistoryFragment;
 import com.winjit.swiperewards.fragments.HomeFragment;
+import com.winjit.swiperewards.fragments.RedeemFragment;
 import com.winjit.swiperewards.fragments.SettingsFragment;
-import com.winjit.swiperewards.fragments.SuccessFragment;
 import com.winjit.swiperewards.fragments.WalletFragment;
 import com.winjit.swiperewards.utils.UIHelper;
 
 public class HomeActivity extends BaseActivity {
 
     private LinearLayout llTop;
-
+    private BottomNavigationViewEx navigation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         llTop = findViewById(R.id.ll_top);
-        BottomNavigationViewEx navigation = (BottomNavigationViewEx) findViewById(R.id.bottom_navigation);
+
+        navigation = (BottomNavigationViewEx) findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -40,7 +41,7 @@ public class HomeActivity extends BaseActivity {
                         UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, WalletFragment.newInstance(), false);
                         return true;
                     case R.id.navigation_redeem:
-                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, SuccessFragment.newInstance(), false);
+                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, RedeemFragment.newInstance(), false);
                         return true;
                     case R.id.navigation_history:
                         UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, EventHistoryFragment.newInstance(), false);
@@ -60,6 +61,10 @@ public class HomeActivity extends BaseActivity {
         navigation.enableAnimation(false);
         navigation.enableShiftingMode(false);
         navigation.enableItemShiftingMode(false);
+        setDefaultHomeIndex();
+    }
+
+    public void setDefaultHomeIndex(){
         View view = navigation.findViewById(R.id.navigation_home);
         view.performClick();
     }

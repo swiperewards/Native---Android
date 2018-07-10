@@ -77,6 +77,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                 ((HomeActivity)getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
                 UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, ContactUsFragment.newInstance(), true);
                 break;
+
         }
     }
 }

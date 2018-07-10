@@ -5,19 +5,26 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.util.Base64;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.winjit.swiperewards.R;
+import com.winjit.swiperewards.interfaces.MessageDialogConfirm;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -367,6 +374,40 @@ public class UIHelper {
         scaleDown.setRepeatCount(frequency);
         scaleDown.setRepeatMode(ObjectAnimator.REVERSE);
         scaleDown.start();
+    }
+
+
+    public static void configureShowConfirmDialog(final String message, Context context, int positiveButton, int negativeButton, final MessageDialogConfirm messageDialogConfirm) {
+        if (message.trim().length() > 0) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogStyle);
+//            builder.setMessage(message);
+            TextView myMsg = new TextView(context);
+            myMsg.setText(Html.fromHtml(message));
+            myMsg.setGravity(Gravity.CENTER_HORIZONTAL);
+            int padding = 20;
+            int sidePadding = 20;
+            myMsg.setPadding(sidePadding, padding, sidePadding, padding);
+            myMsg.setLineSpacing(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5.0f, context.getResources().getDisplayMetrics()), 1.0f);
+            myMsg.setTextAppearance(context, android.R.style.TextAppearance_DeviceDefault_Small);
+            builder.setView(myMsg);
+            builder.setTitle("Confirm?");
+            builder.setCancelable(false);
+            builder.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    messageDialogConfirm.onPositiveClick();
+                }
+            }).setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                    messageDialogConfirm.onNegativeClick();
+                }
+            });
+            builder.show();
+        }
     }
 
 }
