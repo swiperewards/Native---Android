@@ -9,4 +9,7 @@ public interface ISwipe {
     int HIDE_TOP_VIEW = 0;
     int SHOW_TOP_VIEW = 1;
     String IS_ADD_NEW_CARD = "IS_ADD_NEW_CARD";
+    String WEB_URL = "WEB_URL";
+    String PRIVACY_SECURITY_URL = "http://www.google.co.in";
+    String TERMS_OF_USE_URL = "http://www.google.co.in";
 }

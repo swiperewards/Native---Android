@@ -74,5 +74,6 @@
     <string name="confirm">Confirm</string>
     <string name="acc_number">Account Number</string>
     <string name="btn_cancel">Cancel</string>
+    <string name="yes">Yes</string>
 
 </resources>

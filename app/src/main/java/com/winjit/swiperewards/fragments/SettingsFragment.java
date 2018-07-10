@@ -1,5 +1,6 @@
 package com.winjit.swiperewards.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatTextView;
@@ -11,9 +12,10 @@ import android.widget.CompoundButton;
 
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.activities.HomeActivity;
+import com.winjit.swiperewards.activities.LoginActivity;
 import com.winjit.swiperewards.constants.ISwipe;
+import com.winjit.swiperewards.interfaces.MessageDialogConfirm;
 import com.winjit.swiperewards.utils.UIHelper;
-
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {
     private SwitchCompat swNotification;
@@ -39,7 +41,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         initViews(view);
-        ((HomeActivity)getActivity()).setTopLayoutVisibility(ISwipe.SHOW_TOP_VIEW);
+        ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.SHOW_TOP_VIEW);
         return view;
     }
 
@@ -65,19 +67,55 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         });
     }
 
+    private void showConfirmationLogoutDialog() {
+        String dialogInterfaceMessage = "Are you sure you want to sign out?";
+
+        UIHelper.configureShowConfirmDialog(dialogInterfaceMessage, getActivity(),
+                R.string.yes, R.string.btn_cancel,
+                new MessageDialogConfirm() {
+                    @Override
+                    public void onPositiveClick() {
+                        Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
+                        startActivity(loginIntent);
+                        getActivity().finish();
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+                    }
+                });
+
+    }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_change_password:
-                ((HomeActivity)getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
+                ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
                 UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, ChangePasswordFragment.newInstance(), true);
                 break;
             case R.id.tv_contact_us:
-                ((HomeActivity)getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
+                ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
                 UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, ContactUsFragment.newInstance(), true);
                 break;
-
+            case R.id.tv_privacy:
+                WebViewFragment webViewFragment = WebViewFragment.newInstance();
+                Bundle bundle = new Bundle();
+                bundle.putString(ISwipe.WEB_URL,ISwipe.PRIVACY_SECURITY_URL);
+                webViewFragment.setArguments(bundle);
+                UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, webViewFragment, true);
+                break;
+            case R.id.tv_terms_of_use:
+                WebViewFragment webViewTermsFragment = WebViewFragment.newInstance();
+                Bundle termsBundle = new Bundle();
+                termsBundle.putString(ISwipe.WEB_URL, ISwipe.TERMS_OF_USE_URL);
+                webViewTermsFragment.setArguments(termsBundle);
+                UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, webViewTermsFragment, true);
+                break;
+            case R.id.tv_sign_out:
+                showConfirmationLogoutDialog();
+                break;
         }
     }
 }
