@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.winjit.swiperewards.R;
+import com.winjit.swiperewards.activities.HomeActivity;
+import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.utils.UIHelper;
 
 
@@ -50,4 +52,11 @@ public class AddNewCardFragment extends BaseFragment implements View.OnClickList
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (((HomeActivity) getActivity()) != null) {
+            ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_ADD_NEW_CARD);
+        }
+    }
 }

@@ -14,6 +14,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.winjit.swiperewards.R;
+import com.winjit.swiperewards.activities.HomeActivity;
+import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.utils.UIHelper;
 import com.winjit.swiperewards.utils.ValidationHelper;
 
@@ -100,5 +102,13 @@ public class ContactUsFragment extends BaseFragment implements View.OnClickListe
     private boolean isValidInputsEntered() {
         ValidationHelper validationHelper = new ValidationHelper();
         return validationHelper.isValidEditTexts(getActivity(), etFeedback);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (((HomeActivity) getActivity()) != null) {
+            ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_CONTACT_US);
+        }
     }
 }

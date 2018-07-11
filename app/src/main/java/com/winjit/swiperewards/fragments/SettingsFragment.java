@@ -100,6 +100,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                 UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, ContactUsFragment.newInstance(), true);
                 break;
             case R.id.tv_privacy:
+                if (((HomeActivity) getActivity()) != null) {
+                    ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_PRIVACY_SECURITY);
+                }
                 WebViewFragment webViewFragment = WebViewFragment.newInstance();
                 Bundle bundle = new Bundle();
                 bundle.putString(ISwipe.WEB_URL,ISwipe.PRIVACY_SECURITY_URL);
@@ -107,7 +110,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                 UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, webViewFragment, true);
                 break;
             case R.id.tv_terms_of_use:
-                WebViewFragment webViewTermsFragment = WebViewFragment.newInstance();
+                if (((HomeActivity) getActivity()) != null) {
+                    ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_TERMS_OF_USE);
+                }                WebViewFragment webViewTermsFragment = WebViewFragment.newInstance();
                 Bundle termsBundle = new Bundle();
                 termsBundle.putString(ISwipe.WEB_URL, ISwipe.TERMS_OF_USE_URL);
                 webViewTermsFragment.setArguments(termsBundle);
@@ -116,6 +121,14 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             case R.id.tv_sign_out:
                 showConfirmationLogoutDialog();
                 break;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (((HomeActivity) getActivity()) != null) {
+            ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_SETTINGS);
         }
     }
 }

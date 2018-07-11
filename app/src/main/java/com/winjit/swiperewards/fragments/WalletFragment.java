@@ -81,4 +81,12 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (((HomeActivity) getActivity()) != null) {
+            ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_WALLET);
+        }
+    }
 }

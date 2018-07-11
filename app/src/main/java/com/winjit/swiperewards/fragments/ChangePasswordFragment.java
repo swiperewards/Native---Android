@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.winjit.swiperewards.R;
+import com.winjit.swiperewards.activities.HomeActivity;
+import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.utils.UIHelper;
 import com.winjit.swiperewards.utils.ValidationHelper;
 
@@ -64,5 +66,13 @@ public class ChangePasswordFragment extends BaseFragment implements View.OnClick
         ValidationHelper validationHelper = new ValidationHelper();
         return validationHelper.isValidEditTexts(getActivity(), etOldPassword, etNewPassword, etConfirmNewPassword) &&
                 validationHelper.isPasswordMatch(getActivity(), etNewPassword, etOldPassword);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (((HomeActivity) getActivity()) != null) {
+            ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_CHANGE_PASSWORD);
+        }
     }
 }

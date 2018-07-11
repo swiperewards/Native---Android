@@ -16,6 +16,7 @@ import android.widget.Spinner;
 
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.activities.HomeActivity;
+import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.interfaces.MessageDialogConfirm;
 import com.winjit.swiperewards.utils.UIHelper;
 import com.winjit.swiperewards.utils.ValidationHelper;
@@ -115,5 +116,13 @@ public class RedeemFragment extends Fragment implements View.OnClickListener {
     private boolean isValidInputsEntered() {
         ValidationHelper validationHelper = new ValidationHelper();
         return validationHelper.isValidEditTexts(getActivity(), etAccountNumber, etAmount);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (((HomeActivity) getActivity()) != null) {
+            ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_REDEEM);
+        }
     }
 }

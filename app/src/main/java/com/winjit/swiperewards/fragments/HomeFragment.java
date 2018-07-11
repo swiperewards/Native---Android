@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.winjit.swiperewards.R;
+import com.winjit.swiperewards.activities.HomeActivity;
 import com.winjit.swiperewards.adapters.DealsAdapter;
+import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.interfaces.AdapterResponseInterface;
 
 
@@ -40,7 +42,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Adap
         rvDeals = mRootView.findViewById(R.id.rv_deals);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rvDeals.setLayoutManager(linearLayoutManager);
-        rvDeals.setAdapter(new DealsAdapter(getActivity(),this));
+        rvDeals.setAdapter(new DealsAdapter(getActivity(), this));
     }
 
 
@@ -53,5 +55,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Adap
     @Override
     public void getAdapterResponse(Bundle bundle) {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (((HomeActivity) getActivity()) != null) {
+            ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_HOME);
+        }
     }
 }

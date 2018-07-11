@@ -12,4 +12,14 @@ public interface ISwipe {
     String WEB_URL = "WEB_URL";
     String PRIVACY_SECURITY_URL = "http://www.google.co.in";
     String TERMS_OF_USE_URL = "http://www.google.co.in";
+    String TITLE_HOME = "HOME";
+    String TITLE_WALLET = "WALLET";
+    String TITLE_REDEEM = "REDEEM";
+    String TITLE_HISTORY = "HISTORY";
+    String TITLE_SETTINGS = "SETTINGS";
+    String TITLE_CHANGE_PASSWORD = "CHANGE PASSWORD";
+    String TITLE_CONTACT_US = "CONTACT US";
+    String TITLE_PRIVACY_SECURITY = "PRIVACY & SECURITY";
+    String TITLE_TERMS_OF_USE = "TERMS OF USE";
+    String TITLE_ADD_NEW_CARD = "ADD NEW CARD";
 }
