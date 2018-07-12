@@ -42,7 +42,7 @@ public class MyCardsAdapter extends RecyclerSwipeAdapter<MyCardsAdapter.SimpleVi
         if (position == getItemCount() - 1) {
             viewHolder.swipeLayout.setSwipeEnabled(false);
             viewHolder.tvCardName.setText("Add New Card");
-            viewHolder.tvCardName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.vc_add, 0, 0, 0);
+            viewHolder.tvCardName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wrapper_add, 0, 0, 0);
             viewHolder.swipeLayout.setClickable(true);
             viewHolder.swipeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -56,7 +56,7 @@ public class MyCardsAdapter extends RecyclerSwipeAdapter<MyCardsAdapter.SimpleVi
 
         } else {
             viewHolder.tvCardName.setText("Visa **** 4445");
-            viewHolder.tvCardName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.vc_wallet, 0, 0, 0);
+            viewHolder.tvCardName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wrapper_wallet, 0, 0, 0);
             viewHolder.swipeLayout.setSwipeEnabled(true);
             viewHolder.swipeLayout.setClickable(false);
         }

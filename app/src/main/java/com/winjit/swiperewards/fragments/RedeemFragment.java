@@ -6,6 +6,8 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,12 +57,44 @@ public class RedeemFragment extends Fragment implements View.OnClickListener {
         etAccountNumber = (TextInputEditText) mRootView.findViewById(R.id.et_account_number);
         etAmount = (AppCompatEditText) mRootView.findViewById(R.id.et_amount);
         btConfirm = (Button) mRootView.findViewById(R.id.bt_confirm);
-
-        btConfirm.setOnClickListener(this);
+        setListeners();
         String[] dummyArray = new String[]{"item 1", "item 2", "item 3"};
         String[] dummySubArray = new String[]{"sub-item 1", "sub-item 2", "sub-item 3"};
         setAdaptersForSpinners(getActivity(), spRedeemVia, dummyArray);
         setAdaptersForSpinners(getActivity(), spRedeemVendor, dummySubArray);
+    }
+
+    private void setListeners() {
+        btConfirm.setOnClickListener(this);
+
+        etAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence != null && !charSequence.equals("")) {
+                    String strAmount = etAmount.getText().toString();
+                    int indexOfDec = strAmount.indexOf(".");
+
+                    if (indexOfDec >= 0) {
+                        if (strAmount.substring(indexOfDec).length() > 3) {
+                            strAmount = strAmount.substring(0, strAmount.length() - 1);
+                            etAmount.setText(strAmount);
+                            etAmount.setSelection(strAmount.length());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
     }
 
 

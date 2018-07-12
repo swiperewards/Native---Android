@@ -60,7 +60,11 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         ivFacebook.setOnClickListener(this);
         ivGoogle.setOnClickListener(this);
         btRegister.setOnClickListener(this);
+
     }
+
+
+
 
 
     @Override

@@ -49,7 +49,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/margin_very_small"
-                android:drawableLeft="@drawable/vc_add"
+                android:drawableLeft="@drawable/wrapper_add"
                 android:drawablePadding="@dimen/margin_very_small"
                 android:gravity="center_vertical"
                 android:text="Visa Credit Card 4455"

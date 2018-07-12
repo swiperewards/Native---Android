@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:drawableRight="@drawable/vc_arrow_up"
+            android:drawableRight="@drawable/wrapper_arrow_up"
             android:gravity="center_vertical"
             android:text="$55.25"
             android:textAppearance="?android:attr/textAppearanceMedium"
