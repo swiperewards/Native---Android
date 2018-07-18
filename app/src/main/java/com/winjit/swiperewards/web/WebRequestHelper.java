@@ -1,5 +1,7 @@
 package com.winjit.swiperewards.web;
 
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
@@ -9,6 +11,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonRequest;
 import com.google.gson.Gson;
+import com.winjit.swiperewards.constants.ISwipe;
 
 import org.json.JSONObject;
 
@@ -67,7 +70,7 @@ class WebRequestHelper<T> extends JsonRequest<T> { //com.android.volley.Request<
         Response<T> ntResponse;
         try {
             String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-//            Log.e(TaskConstants.TAG,jsonString);
+            Log.e(ISwipe.TAG,jsonString);
             ntResponse = Response.success(new Gson().fromJson(jsonString, clazz), HttpHeaderParser.parseCacheHeaders(response));
         } catch (Exception e) {
             ntResponse = Response.error(new ParseError(e));

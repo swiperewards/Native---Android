@@ -96,6 +96,7 @@
                 android:layout_marginTop="@dimen/margin_very_small"
                 android:background="@drawable/rounded_button_background_white"
                 android:gravity="center"
+                android:drawableLeft="@drawable/wrapper_sign_out"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:maxLength="8"

@@ -1,7 +1,7 @@
 package com.winjit.swiperewards.constants;
 
 public interface ISwipe {
-    boolean IS_DUMMY_DATA_ENABLED = false;
+    boolean IS_DUMMY_DATA_ENABLED = true;
     String SESSION_USER = "SESSION_USER";
     String ADAPTER_POSITION = "ADAPTER_POSITION";
     String TAG = "SwipeLog";
@@ -22,4 +22,6 @@ public interface ISwipe {
     String TITLE_PRIVACY_SECURITY = "PRIVACY & SECURITY";
     String TITLE_TERMS_OF_USE = "TERMS OF USE";
     String TITLE_ADD_NEW_CARD = "ADD NEW CARD";
+    String PLATFORM = "Android";
+    int SUCCESS = 200;
 }

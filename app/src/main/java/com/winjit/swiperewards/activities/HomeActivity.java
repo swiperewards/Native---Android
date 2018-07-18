@@ -19,7 +19,7 @@ import com.winjit.swiperewards.fragments.HomeFragment;
 import com.winjit.swiperewards.fragments.RedeemFragment;
 import com.winjit.swiperewards.fragments.SettingsFragment;
 import com.winjit.swiperewards.fragments.WalletFragment;
-import com.winjit.swiperewards.utils.UIHelper;
+import com.winjit.swiperewards.helpers.UIHelper;
 
 public class HomeActivity extends BaseActivity {
 

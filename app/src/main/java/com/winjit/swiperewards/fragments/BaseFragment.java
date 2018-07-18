@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 
 import com.winjit.swiperewards.activities.UniversalBaseActivity;
 import com.winjit.swiperewards.mvpviews.BaseMVPView;
-import com.winjit.swiperewards.utils.UIHelper;
+import com.winjit.swiperewards.helpers.UIHelper;
 
 
 public class BaseFragment extends Fragment implements BaseMVPView {

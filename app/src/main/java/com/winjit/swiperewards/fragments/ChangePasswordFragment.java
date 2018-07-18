@@ -10,8 +10,8 @@ import android.widget.Button;
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.activities.HomeActivity;
 import com.winjit.swiperewards.constants.ISwipe;
-import com.winjit.swiperewards.utils.UIHelper;
-import com.winjit.swiperewards.utils.ValidationHelper;
+import com.winjit.swiperewards.helpers.UIHelper;
+import com.winjit.swiperewards.helpers.ValidationHelper;
 
 
 public class ChangePasswordFragment extends BaseFragment implements View.OnClickListener {

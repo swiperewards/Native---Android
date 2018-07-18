@@ -15,7 +15,7 @@ import com.winjit.swiperewards.activities.HomeActivity;
 import com.winjit.swiperewards.adapters.MyCardsAdapter;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.interfaces.AdapterResponseInterface;
-import com.winjit.swiperewards.utils.UIHelper;
+import com.winjit.swiperewards.helpers.UIHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;

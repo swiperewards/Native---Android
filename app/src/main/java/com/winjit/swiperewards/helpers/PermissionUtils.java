@@ -1,4 +1,4 @@
-package com.winjit.swiperewards.utils;
+package com.winjit.swiperewards.helpers;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;

@@ -75,5 +75,7 @@
     <string name="acc_number">Account Number</string>
     <string name="btn_cancel">Cancel</string>
     <string name="yes">Yes</string>
+    <string name="err_email_exist">This email id is already registered.</string>
+    <string name="err_invalid_creds">Invalid email id or password.</string>
 
 </resources>
