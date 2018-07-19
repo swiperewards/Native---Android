@@ -11,6 +11,10 @@ public class WebRequestConstants {
 
     public static final String WS_REGISTER = URL + "/users/registerUser";
     public static final String WS_LOGIN = URL + "/users/loginUser";
+    public static final String WS_GET_DEALS = URL + "/deals/getDeals";
+    public static final String WS_CHANGE_PASSWORD = URL + "/users/changepassword";
+    public static final String WS_ADD_CARD = URL + "/user/cards/addCard";
+    public static final String WS_GET_CARDS = URL + "/user/cards/getCards";
 
 
 

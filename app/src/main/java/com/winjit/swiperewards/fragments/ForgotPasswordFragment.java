@@ -47,6 +47,7 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        UIHelper.getInstance().hideKeyboard(getActivity());
         switch (v.getId()) {
             case R.id.bt_submit:
                 if (isValidInputsEntered()) {

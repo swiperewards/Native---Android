@@ -24,4 +24,5 @@ public interface ISwipe {
     String TITLE_ADD_NEW_CARD = "ADD NEW CARD";
     String PLATFORM = "Android";
     int SUCCESS = 200;
+    String DUMMY_CITY = "new york";
 }

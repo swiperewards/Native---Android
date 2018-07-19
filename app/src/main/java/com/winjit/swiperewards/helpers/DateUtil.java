@@ -1,5 +1,7 @@
 package com.winjit.swiperewards.helpers;
 
+import android.text.TextUtils;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,23 +15,16 @@ public class DateUtil {
 
     private static final String DisplayDateFormat = "dd MMM yyyy";
     public static final SimpleDateFormat DISPLAY_DATE_FORMAT = new SimpleDateFormat(DisplayDateFormat, Locale.US);
-    private static final String apiFormat = "yyyy-MM-dd";
-    public static final SimpleDateFormat API_FORMAT = new SimpleDateFormat(apiFormat, Locale.US);
-    private static final String transactionDetailDateFormat = "dd-MM-yyyy hh:mm:ss";
-    private static final String mandateTimeStampformat = "yyyy-MM-dd hh:mm:ss";
-    public static final SimpleDateFormat MANDATE_TIME_STAMP_FORMAT = new SimpleDateFormat(mandateTimeStampformat, Locale.US);
     private static final String transactionDateFormat = "yyyy-MM-dd";
     private static final String transactionTimeFormat = "hh:mm:ss";
-    private static final String rowMandateDateFormat = "MMM dd yyyy";
+    private static final String dealApiFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+    private static final String dealDisplayFormat = "dd/MM/yyyy";
 
-    public static final SimpleDateFormat MANDATE_ROW_DATE_FORMAT = new SimpleDateFormat(rowMandateDateFormat, Locale.US);
     private static final SimpleDateFormat simpleDateFormatTransaction = new SimpleDateFormat(transactionDateFormat, Locale.US);
     private static final SimpleDateFormat simpleTimeFormatTransaction = new SimpleDateFormat(transactionTimeFormat, Locale.US);
-    private static final String mandateTimeStampFormatMilliSecond = "yyyy-MM-dd hh:mm:ss.SSS";
-    public static final SimpleDateFormat MANDATE_TIME_STAMP_FORMAT_MILLISECOND = new SimpleDateFormat(mandateTimeStampFormatMilliSecond, Locale.US);
-    private static final String mandateDetailTimestampFormat = "MMM dd yyyy hh:mm a";
-    public static final SimpleDateFormat MANDATE_DETAIL_TIME_STAMP_FORMAT = new SimpleDateFormat(mandateDetailTimestampFormat, Locale.US);
-    private static final SimpleDateFormat transactionDetailSDF = new SimpleDateFormat(transactionDetailDateFormat, Locale.US);
+    public static final SimpleDateFormat DEAL_API_FORMAT = new SimpleDateFormat(dealApiFormat, Locale.US);
+    public static final SimpleDateFormat DEAL_DISPLAY_FORMAT = new SimpleDateFormat(dealDisplayFormat, Locale.US);
+
 
     private static String getCurrentDateInString() {
 
@@ -57,12 +52,6 @@ public class DateUtil {
         return "";
     }
 
-    public static String getTransactionDetailDate(Date date) {
-        if (date != null) {
-            return transactionDetailSDF.format(date.getTime());
-        }
-        return "";
-    }
 
     public static String getDateInTransactionFormat(Date date) {
         if (date != null) {
@@ -152,8 +141,9 @@ public class DateUtil {
 
     /**
      * Function used to convert date from one format to another.
-     * @param strDate - Date which needs to be converted
-     * @param currentFormat - Current format of the date
+     *
+     * @param strDate        - Date which needs to be converted
+     * @param currentFormat  - Current format of the date
      * @param requiredFormat - Required format of the date
      * @return - Required formatted date.
      */
@@ -163,15 +153,19 @@ public class DateUtil {
             Date date = currentFormat.parse(strDate);
             strUTCDate = requiredFormat.format(date.getTime());
         } catch (Exception e) {
-
             e.printStackTrace();
+            return strDate;
         }
-        return strUTCDate;
+        if (TextUtils.isEmpty(strUTCDate))
+            return strDate;
+        else
+            return strUTCDate;
     }
 
     /**
      * Function to get calendar instance from given date.
-     * @param date - Date from which date of month needs to be extracted.
+     *
+     * @param date       - Date from which date of month needs to be extracted.
      * @param dateFormat - Format of the input date.
      * @return Calendar instance from given date.
      */
@@ -193,11 +187,11 @@ public class DateUtil {
      */
 
     /**
-     * @author - vishalb
-     * Function to get day of month from given date
-     * @param date - Date from which date of month needs to be extracted.
+     * @param date       - Date from which date of month needs to be extracted.
      * @param dateFormat - Format of the input date.
      * @return - Date of the month.
+     * @author - vishalb
+     * Function to get day of month from given date
      */
     public static int getMandateDayOfMonthIndex(String date, DateFormat dateFormat) {
         Calendar cal = getCalendarByDate(date, dateFormat);

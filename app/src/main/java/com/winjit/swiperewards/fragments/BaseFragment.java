@@ -34,13 +34,13 @@ public class BaseFragment extends Fragment implements BaseMVPView {
     }
 
     @Override
-    public void showError(String error) {
+    public void showMessage(String error) {
         hideProgress();
         ((UniversalBaseActivity) getActivity()).showToast(getActivity(), error);
     }
 
-    public void showLongToast(String error) {
-        ((UniversalBaseActivity) getActivity()).showLongToast(getActivity(), error);
+    public void showLongToast(String message) {
+        ((UniversalBaseActivity) getActivity()).showLongToast(getActivity(), message);
     }
 
     @Override

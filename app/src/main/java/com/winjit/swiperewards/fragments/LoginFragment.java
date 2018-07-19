@@ -79,9 +79,11 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
 
     @Override
     public void onClick(View v) {
+        UIHelper.getInstance().hideKeyboard(getActivity());
         switch (v.getId()) {
             case R.id.bt_login:
                 if (isValidInputsEntered()) {
+                    showProgress(getActivity().getResources().getString(R.string.please_wait));
                     onBoardingPresenter.loginUser(etUserEmail.getText().toString(), etPassword.getText().toString());
                 }
                 break;

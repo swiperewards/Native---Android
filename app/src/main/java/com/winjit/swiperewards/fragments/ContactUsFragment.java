@@ -94,7 +94,7 @@ public class ContactUsFragment extends BaseFragment implements View.OnClickListe
         if (spFeedbackType.getSelectedItemPosition() > 0) {
             return true;
         } else {
-            showError("Please select feedback type");
+            showMessage("Please select feedback type");
         }
         return false;
     }

@@ -77,5 +77,9 @@
     <string name="yes">Yes</string>
     <string name="err_email_exist">This email id is already registered.</string>
     <string name="err_invalid_creds">Invalid email id or password.</string>
+    <string name="password_changed">Password changed successfully.</string>
+    <string name="err_invalid_old_password">Please enter valid old password.</string>
+    <string name="card_added">Card added successfully.</string>
+    <string name="err_card_aready_exists">This card is already added.</string>
 
 </resources>

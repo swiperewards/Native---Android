@@ -77,9 +77,11 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+        UIHelper.getInstance().hideKeyboard(getActivity());
         switch (v.getId()) {
             case R.id.bt_sign_up:
                 if (isValidInputsEntered()) {
+                    showProgress(getActivity().getResources().getString(R.string.please_wait));
                     onBoardingPresenter.registerUser(getUserDetails());
                     break;
                 }

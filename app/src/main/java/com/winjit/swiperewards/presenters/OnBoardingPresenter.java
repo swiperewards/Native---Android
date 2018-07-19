@@ -23,21 +23,24 @@ public class OnBoardingPresenter {
                 @Override
                 public void onWebProcessSuccess(RegisterUserEvent registerUserEvent) {
                     if (registerUserEvent.getSessionData() != null) {
+                        onBoardingView.hideProgress();
                         onBoardingView.onSuccessfulRegistration(registerUserEvent.getSessionData());
                     } else if (registerUserEvent.getStatus() != ISwipe.SUCCESS) {
                         onBoardingView.hideProgress();
-                        onBoardingView.showError(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), registerUserEvent.getStatus()));
+                        onBoardingView.showMessage(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), registerUserEvent.getStatus()));
                     }
                 }
 
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
-                    onBoardingView.showError(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    onBoardingView.hideProgress();
+                    onBoardingView.showMessage(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            onBoardingView.showError(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+            onBoardingView.hideProgress();
+            onBoardingView.showMessage(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
         }
     }
 
@@ -48,21 +51,24 @@ public class OnBoardingPresenter {
                 @Override
                 public void onWebProcessSuccess(LoginEvent loginEvent) {
                     if (loginEvent.getSessionData() != null) {
+                        onBoardingView.hideProgress();
                         onBoardingView.onSuccessfulLogin(loginEvent.getSessionData());
                     } else if (loginEvent.getStatus() != ISwipe.SUCCESS) {
-                        onBoardingView.showError(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), loginEvent.getStatus()));
+                        onBoardingView.showMessage(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), loginEvent.getStatus()));
                         onBoardingView.hideProgress();
                     }
                 }
 
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
-                    onBoardingView.showError(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    onBoardingView.hideProgress();
+                    onBoardingView.showMessage(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            onBoardingView.showError(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+            onBoardingView.hideProgress();
+            onBoardingView.showMessage(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
         }
     }
 }
