@@ -72,4 +72,29 @@ public class WalletPresenter {
     }
 
 
+    public void deleteCard(long cardID) {
+        try {
+            new ServiceController().deleteCard(walletCardView.getViewContext(), cardID, new WebRequestManager.WebProcessListener<BaseEvent>() {
+                @Override
+                public void onWebProcessSuccess(BaseEvent baseEvent) {
+                    walletCardView.hideProgress();
+                    if (baseEvent.getStatus() == ISwipe.SUCCESS) {
+                        walletCardView.onCardDeletedSuccessfully();
+                    } else {
+                        walletCardView.showMessage(ErrorCodesHelper.getErrorStringFromCode(walletCardView.getViewContext(), baseEvent.getStatus()));
+                    }
+                }
+
+                @Override
+                public void onWebProcessFailed(VolleyError error, Class aClass) {
+                    walletCardView.hideProgress();
+                    walletCardView.showMessage(ErrorCodesHelper.getErrorStringFromCode(walletCardView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            walletCardView.hideProgress();
+            walletCardView.showMessage(ErrorCodesHelper.getErrorStringFromCode(walletCardView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+        }
+    }
 }

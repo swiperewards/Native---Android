@@ -81,6 +81,11 @@
     <string name="err_invalid_old_password">Please enter valid old password.</string>
     <string name="card_added">Card added successfully.</string>
     <string name="err_card_aready_exists">This card is already added.</string>
+    <string name="delete_card">Card deleted successfully.</string>
+    <string name="err_delete_card">Error while deleting card.</string>
     <string name="ticket_raised">Support ticket request has been raised successfully!</string>
+    <string name="notification_enabled">Notifications enabled successfully.</string>
+    <string name="notification_disabled">Notifications disabled successfully.</string>
+    <string name="err_notification">Notifications disabled successfully.</string>
 
 </resources>

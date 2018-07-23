@@ -112,8 +112,6 @@ public class AddNewCardFragment extends BaseFragment implements View.OnClickList
 
     @Override
     public void onCardDeletedSuccessfully() {
-        showLongToast(getActivity().getResources().getString(R.string.card_added));
-        UIHelper.getInstance().popFragment(getActivity().getSupportFragmentManager());
 
     }
 

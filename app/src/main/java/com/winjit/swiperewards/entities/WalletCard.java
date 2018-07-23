@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class WalletCard {
 
+    @SerializedName("id")
+    @Expose
+    private long id;
     @SerializedName("cardNumber")
     @Expose
     private String cardNumber;
@@ -20,6 +23,15 @@ public class WalletCard {
     @SerializedName("nameOnCard")
     @Expose
     private String nameOnCard;
+
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getCardNumber() {
         return cardNumber;

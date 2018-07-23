@@ -83,10 +83,17 @@ public class WalletFragment extends BaseFragment implements View.OnClickListener
         mAdapter = new WalletCardsAdapter(getActivity(), this.walletCards, new AdapterResponseInterface() {
             @Override
             public void getAdapterResponse(Bundle bundle) {
-                if (bundle != null && bundle.containsKey(ISwipe.ACTION_IS_ADD_NEW_CARD)) {
-                    if (bundle.getBoolean(ISwipe.ACTION_IS_ADD_NEW_CARD)) {
-                        ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
-                        UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, AddNewCardFragment.newInstance(), true);
+                if (bundle != null && bundle.containsKey(ISwipe.ACTION_NAME)) {
+                    String actionName = bundle.getString(ISwipe.ACTION_NAME);
+                    switch (actionName) {
+                        case ISwipe.ACTION_ADD_NEW_CARD:
+                            ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
+                            UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, AddNewCardFragment.newInstance(), true);
+                            break;
+                        case ISwipe.ACTION_DELETE_CARD:
+                            long cardID = bundle.getLong(ISwipe.CARD_ID);
+                            walletPresenter.deleteCard(cardID);
+                            break;
                     }
                 }
             }
@@ -98,11 +105,11 @@ public class WalletFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onCardAddedSuccessfully() {
-
     }
 
     @Override
     public void onCardDeletedSuccessfully() {
-
+        showLongToast(getActivity().getResources().getString(R.string.delete_card));
+        walletPresenter.getWalletCards();
     }
 }

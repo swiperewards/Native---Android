@@ -8,7 +8,8 @@ public interface ISwipe {
     String IS_FROM_SIGN_UP = "IS_FROM_SIGN_UP";
     int HIDE_TOP_VIEW = 0;
     int SHOW_TOP_VIEW = 1;
-    String ACTION_IS_ADD_NEW_CARD = "ACTION_IS_ADD_NEW_CARD";
+    String ACTION_NAME = "ACTION_NAME";
+    String ACTION_ADD_NEW_CARD = "ACTION_ADD_NEW_CARD";
     String ACTION_DELETE_CARD = "ACTION_DELETE_CARD";
     String WEB_URL = "WEB_URL";
     String PRIVACY_SECURITY_URL = "http://www.google.co.in";

@@ -2,7 +2,7 @@ package com.winjit.swiperewards.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -14,19 +14,20 @@ import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.activities.HomeActivity;
 import com.winjit.swiperewards.activities.LoginActivity;
 import com.winjit.swiperewards.constants.ISwipe;
-import com.winjit.swiperewards.interfaces.MessageDialogConfirm;
 import com.winjit.swiperewards.helpers.UIHelper;
+import com.winjit.swiperewards.interfaces.MessageDialogConfirm;
+import com.winjit.swiperewards.mvpviews.SettingsView;
+import com.winjit.swiperewards.presenters.SettingsPresenter;
 
-public class SettingsFragment extends Fragment implements View.OnClickListener {
+public class SettingsFragment extends BaseFragment implements View.OnClickListener, SettingsView, CompoundButton.OnCheckedChangeListener {
     private SwitchCompat swNotification;
     private AppCompatTextView tvChangePassword;
     private AppCompatTextView tvContactUs;
     private AppCompatTextView tvPrivacy;
     private AppCompatTextView tvTermsOfUse;
     private AppCompatTextView tvSignOut;
+    private SettingsPresenter settingsPresenter;
 
-    public SettingsFragment() {
-    }
 
     public static SettingsFragment newInstance() {
         Bundle args = new Bundle();
@@ -35,6 +36,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        settingsPresenter = new SettingsPresenter(this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,12 +65,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         tvTermsOfUse.setOnClickListener(this);
         tvSignOut.setOnClickListener(this);
 
-        swNotification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
-            }
-        });
+        swNotification.setOnCheckedChangeListener(this);
     }
 
     private void showConfirmationLogoutDialog() {
@@ -105,14 +106,15 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                 }
                 WebViewFragment webViewFragment = WebViewFragment.newInstance();
                 Bundle bundle = new Bundle();
-                bundle.putString(ISwipe.WEB_URL,ISwipe.PRIVACY_SECURITY_URL);
+                bundle.putString(ISwipe.WEB_URL, ISwipe.PRIVACY_SECURITY_URL);
                 webViewFragment.setArguments(bundle);
                 UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, webViewFragment, true);
                 break;
             case R.id.tv_terms_of_use:
                 if (((HomeActivity) getActivity()) != null) {
                     ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_TERMS_OF_USE);
-                }                WebViewFragment webViewTermsFragment = WebViewFragment.newInstance();
+                }
+                WebViewFragment webViewTermsFragment = WebViewFragment.newInstance();
                 Bundle termsBundle = new Bundle();
                 termsBundle.putString(ISwipe.WEB_URL, ISwipe.TERMS_OF_USE_URL);
                 webViewTermsFragment.setArguments(termsBundle);
@@ -130,5 +132,24 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         if (((HomeActivity) getActivity()) != null) {
             ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_SETTINGS);
         }
+    }
+
+    @Override
+    public void onNotificationStatusChanged(boolean updatedNotificationStatus) {
+        if (swNotification.isEnabled()) {
+            showMessage(getActivity().getResources().getString(R.string.notification_enabled));
+        }
+    }
+
+    @Override
+    public void onErrorNotificationState() {
+        swNotification.setOnCheckedChangeListener(null);
+        swNotification.setChecked(!swNotification.isChecked());
+        swNotification.setOnCheckedChangeListener(this);
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean isEnabled) {
+        settingsPresenter.updateNotificationStatus(isEnabled);
     }
 }

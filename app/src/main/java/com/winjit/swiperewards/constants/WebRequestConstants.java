@@ -15,8 +15,10 @@ public class WebRequestConstants {
     public static final String WS_CHANGE_PASSWORD = URL + "/users/changepassword";
     public static final String WS_ADD_CARD = URL + "/user/cards/addCard";
     public static final String WS_GET_CARDS = URL + "/user/cards/getCards";
+    public static final String WS_DELETE_CARD = URL + "/user/cards/deleteCard";
     public static final String WS_GET_TICKET_TYPES = URL + "/tickets/getTicketTypes";
     public static final String WS_GENERATE_TICKET = URL + "/tickets/generateTicket";
+    public static final String WS_SET_NOTIFICATION_STATUS = URL + "/users/toggleNotification";
 
 
 

@@ -6,7 +6,6 @@ import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,9 +48,8 @@ public class WalletCardsAdapter extends RecyclerSwipeAdapter<WalletCardsAdapter.
             viewHolder.swipeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.e("swiped", "onClick: " + position);
                     Bundle bundle = new Bundle();
-                    bundle.putBoolean(ISwipe.ACTION_IS_ADD_NEW_CARD, true);
+                    bundle.putString(ISwipe.ACTION_NAME, ISwipe.ACTION_ADD_NEW_CARD);
                     adapterResponseInterface.getAdapterResponse(bundle);
                 }
             });
@@ -76,8 +74,8 @@ public class WalletCardsAdapter extends RecyclerSwipeAdapter<WalletCardsAdapter.
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
-                bundle.putBoolean(ISwipe.ACTION_DELETE_CARD, true);
-                bundle.putInt(ISwipe.CARD_ID, walletCards.get(position).getid);
+                bundle.putString(ISwipe.ACTION_NAME, ISwipe.ACTION_DELETE_CARD);
+                bundle.putLong(ISwipe.CARD_ID, walletCards.get(position).getId());
                 adapterResponseInterface.getAdapterResponse(bundle);
             }
         });

@@ -14,6 +14,7 @@ import com.winjit.swiperewards.events.GetDealsEvent;
 import com.winjit.swiperewards.events.GetTicketTypeEvent;
 import com.winjit.swiperewards.events.GetWalletCardsEvent;
 import com.winjit.swiperewards.events.LoginEvent;
+import com.winjit.swiperewards.events.NotificationStatusEvent;
 import com.winjit.swiperewards.events.RegisterUserEvent;
 import com.winjit.swiperewards.helpers.InputRequestHelper;
 import com.winjit.swiperewards.helpers.PreferenceUtils;
@@ -103,6 +104,19 @@ public class ServiceController {
     }
 
 
+    public void deleteCard(Context context, long cardId,  WebRequestManager.WebProcessListener<BaseEvent> webProcessListener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("cardId", cardId);
+
+        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+                WebRequestConstants.WS_DELETE_CARD,
+                generateRequestHeader(getSessionToken(context)),
+                new InputRequestHelper().prepareWrappedInputRequest(context, map),
+                BaseEvent.class);
+    }
+
+
+
     public void getTicketTypes(Context context, WebRequestManager.WebProcessListener<GetTicketTypeEvent> webProcessListener) {
 
         new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
@@ -123,6 +137,18 @@ public class ServiceController {
                 generateRequestHeader(getSessionToken(context)),
                 new InputRequestHelper().prepareWrappedInputRequest(context, map),
                 BaseEvent.class);
+    }
+
+
+    public void updateNotificationStatus(Context context, boolean isEnabled, WebRequestManager.WebProcessListener<NotificationStatusEvent> webProcessListener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("enableNotification",isEnabled);
+
+        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+                WebRequestConstants.WS_SET_NOTIFICATION_STATUS,
+                generateRequestHeader(getSessionToken(context)),
+                new InputRequestHelper().prepareWrappedInputRequest(context, map),
+                NotificationStatusEvent.class);
     }
 
 
