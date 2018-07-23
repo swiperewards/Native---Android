@@ -81,5 +81,6 @@
     <string name="err_invalid_old_password">Please enter valid old password.</string>
     <string name="card_added">Card added successfully.</string>
     <string name="err_card_aready_exists">This card is already added.</string>
+    <string name="ticket_raised">Support ticket request has been raised successfully!</string>
 
 </resources>

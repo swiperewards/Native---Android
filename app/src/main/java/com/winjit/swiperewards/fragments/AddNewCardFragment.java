@@ -69,6 +69,7 @@ public class AddNewCardFragment extends BaseFragment implements View.OnClickList
         switch (v.getId()) {
             case R.id.bt_submit:
                 if (isValidInputsEntered()) {
+                    showProgress(getActivity().getResources().getString(R.string.please_wait));
                     walletPresenter.addWalletCard(getWalletCardInfo());
                 }
                 break;

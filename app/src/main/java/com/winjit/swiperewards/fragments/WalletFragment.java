@@ -83,8 +83,8 @@ public class WalletFragment extends BaseFragment implements View.OnClickListener
         mAdapter = new WalletCardsAdapter(getActivity(), this.walletCards, new AdapterResponseInterface() {
             @Override
             public void getAdapterResponse(Bundle bundle) {
-                if (bundle != null && bundle.containsKey(ISwipe.IS_ADD_NEW_CARD)) {
-                    if (bundle.getBoolean(ISwipe.IS_ADD_NEW_CARD)) {
+                if (bundle != null && bundle.containsKey(ISwipe.ACTION_IS_ADD_NEW_CARD)) {
+                    if (bundle.getBoolean(ISwipe.ACTION_IS_ADD_NEW_CARD)) {
                         ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
                         UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, AddNewCardFragment.newInstance(), true);
                     }

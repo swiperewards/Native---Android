@@ -10,7 +10,7 @@
               android:layout_marginTop="@dimen/margin_very_small"
               android:background="@color/color_white"
               android:orientation="vertical"
-              android:paddingTop="@dimen/margin_extra_large">
+              android:paddingTop="@dimen/margin_medium">
 
 
     <android.support.v7.widget.AppCompatSpinner
@@ -113,6 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_small"
             android:text="@string/confirm"/>
 
 </LinearLayout>

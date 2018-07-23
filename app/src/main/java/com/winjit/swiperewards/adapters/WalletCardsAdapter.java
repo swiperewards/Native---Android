@@ -51,7 +51,7 @@ public class WalletCardsAdapter extends RecyclerSwipeAdapter<WalletCardsAdapter.
                 public void onClick(View view) {
                     Log.e("swiped", "onClick: " + position);
                     Bundle bundle = new Bundle();
-                    bundle.putBoolean(ISwipe.IS_ADD_NEW_CARD, true);
+                    bundle.putBoolean(ISwipe.ACTION_IS_ADD_NEW_CARD, true);
                     adapterResponseInterface.getAdapterResponse(bundle);
                 }
             });
@@ -72,17 +72,15 @@ public class WalletCardsAdapter extends RecyclerSwipeAdapter<WalletCardsAdapter.
         });
 
 
-//        viewHolder.buttonDelete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mItemManger.removeShownLayouts(viewHolder.swipeLayout);
-//                walletCards.remove(position);
-//                notifyItemRemoved(position);
-//                notifyItemRangeChanged(position, walletCards.size());
-//                mItemManger.closeAllItems();
-//                Toast.makeText(view.getContext(), "Deleted " + viewHolder.textViewData.getText().toString() + "!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        viewHolder.ivDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(ISwipe.ACTION_DELETE_CARD, true);
+                bundle.putInt(ISwipe.CARD_ID, walletCards.get(position).getid);
+                adapterResponseInterface.getAdapterResponse(bundle);
+            }
+        });
 
         mItemManger.bindView(viewHolder.itemView, position);
     }

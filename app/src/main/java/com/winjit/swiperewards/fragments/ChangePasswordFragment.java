@@ -87,7 +87,7 @@ public class ChangePasswordFragment extends BaseFragment implements View.OnClick
 
     @Override
     public void onPasswordChangedSuccessfully() {
-        showLongToast(getActivity().getResources().getString(R.string.password_changed));
+        showMessage(getActivity().getResources().getString(R.string.password_changed));
         clearInputFields();
 //        UIHelper.getInstance().popFragment(getActivity().getSupportFragmentManager());
     }

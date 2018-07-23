@@ -2,6 +2,7 @@ package com.winjit.swiperewards.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -16,17 +17,18 @@ import android.widget.TextView;
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.activities.HomeActivity;
 import com.winjit.swiperewards.constants.ISwipe;
-import com.winjit.swiperewards.helpers.UIHelper;
+import com.winjit.swiperewards.entities.TicketType;
 import com.winjit.swiperewards.helpers.ValidationHelper;
+import com.winjit.swiperewards.mvpviews.TicketView;
+import com.winjit.swiperewards.presenters.TicketPresenter;
 
 
-public class ContactUsFragment extends BaseFragment implements View.OnClickListener {
+public class ContactUsFragment extends BaseFragment implements View.OnClickListener,TicketView {
     private Spinner spFeedbackType;
     private TextInputEditText etFeedback;
     private Button btnSubmit;
-
-    public ContactUsFragment() {
-    }
+    private TicketPresenter ticketPresenter;
+    private TicketType[] ticketTypes;
 
     public static ContactUsFragment newInstance() {
         Bundle args = new Bundle();
@@ -36,11 +38,19 @@ public class ContactUsFragment extends BaseFragment implements View.OnClickListe
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ticketPresenter = new TicketPresenter(this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_contact_us, container, false);
         initViews(view);
+        showProgress(getActivity().getResources().getString(R.string.please_wait));
+        ticketPresenter.getTicketTypes();
         return view;
     }
 
@@ -50,9 +60,7 @@ public class ContactUsFragment extends BaseFragment implements View.OnClickListe
         btnSubmit = (Button) mRootView.findViewById(R.id.bt_submit);
         btnSubmit.setOnClickListener(this);
 
-        String[] dummyArray = new String[]{"Select type", "item 1", "item 2", "item 3"};
 
-        setAdaptersForSpinners(getActivity(), spFeedbackType, dummyArray);
     }
 
 
@@ -84,9 +92,22 @@ public class ContactUsFragment extends BaseFragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_submit:
-                if (isValidInputsEntered() && isFeedbackTypeSelected())
-                    new UIHelper().popFragment(getActivity().getSupportFragmentManager());
+                if (isValidInputsEntered() && isFeedbackTypeSelected()){
+                    showProgress(getActivity().getResources().getString(R.string.please_wait));
+                    int ticketTypeId = getSelectedTicketTypeId(spFeedbackType.getSelectedItemPosition()-1);
+                    ticketPresenter.generateTicketRequest(ticketTypeId,ISwipe.USER_CATEGORY,etFeedback.getText().toString());
+                }
                 break;
+        }
+    }
+
+    private int getSelectedTicketTypeId(int selectedItemPosition) {
+        try{
+            return ticketTypes[selectedItemPosition].getId();
+        }catch (ArrayIndexOutOfBoundsException ae){
+            return 0;
+        }catch (Exception e){
+            return 0;
         }
     }
 
@@ -110,5 +131,32 @@ public class ContactUsFragment extends BaseFragment implements View.OnClickListe
         if (((HomeActivity) getActivity()) != null) {
             ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_CONTACT_US);
         }
+    }
+
+    @Override
+    public void onTicketTypesReceived(TicketType[] ticketTypes) {
+        this.ticketTypes = ticketTypes;
+        setAdaptersForSpinners(getActivity(), spFeedbackType, getStringArrayForAdapter(ticketTypes));
+    }
+
+    private String[] getStringArrayForAdapter(TicketType[] ticketTypes) {
+        String[] ticketArrayForAdapter = new String[ticketTypes.length+1];
+        ticketArrayForAdapter[0] = "Select ticket type";
+        for (int i = 0; i < ticketTypes.length; i++) {
+            ticketArrayForAdapter[i+1] = ticketTypes[i].getTicketTypeName();
+        }
+        return ticketArrayForAdapter;
+    }
+
+    @Override
+    public void onTicketRaisedSuccessfully() {
+        showLongToast(getActivity().getResources().getString(R.string.ticket_raised));
+        clearInputFields();
+
+    }
+
+    private void clearInputFields() {
+        spFeedbackType.setSelection(0);
+        etFeedback.setText("");
     }
 }

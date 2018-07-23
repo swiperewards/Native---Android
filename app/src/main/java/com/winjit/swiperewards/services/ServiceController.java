@@ -11,6 +11,7 @@ import com.winjit.swiperewards.entities.WalletCard;
 import com.winjit.swiperewards.events.BaseEvent;
 import com.winjit.swiperewards.events.ChangePasswordEvent;
 import com.winjit.swiperewards.events.GetDealsEvent;
+import com.winjit.swiperewards.events.GetTicketTypeEvent;
 import com.winjit.swiperewards.events.GetWalletCardsEvent;
 import com.winjit.swiperewards.events.LoginEvent;
 import com.winjit.swiperewards.events.RegisterUserEvent;
@@ -99,6 +100,29 @@ public class ServiceController {
                 generateRequestHeader(getSessionToken(context)),
                 new InputRequestHelper().prepareWrappedInputRequest(context, null),
                 GetWalletCardsEvent.class);
+    }
+
+
+    public void getTicketTypes(Context context, WebRequestManager.WebProcessListener<GetTicketTypeEvent> webProcessListener) {
+
+        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+                WebRequestConstants.WS_GET_TICKET_TYPES,
+                generateRequestHeader(getSessionToken(context)),
+                new InputRequestHelper().prepareWrappedInputRequest(context, null),
+                GetTicketTypeEvent.class);
+    }
+
+    public void generateTicket(Context context, int ticketTypeId, String userCategory, String feedback, WebRequestManager.WebProcessListener<BaseEvent> webProcessListener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("ticketTypeId", Integer.valueOf(ticketTypeId));
+        map.put("userCategory", userCategory);
+        map.put("feedback", feedback);
+
+        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+                WebRequestConstants.WS_GENERATE_TICKET,
+                generateRequestHeader(getSessionToken(context)),
+                new InputRequestHelper().prepareWrappedInputRequest(context, map),
+                BaseEvent.class);
     }
 
 
