@@ -21,6 +21,7 @@ public class DealsPresenter {
                 @Override
                 public void onWebProcessSuccess(GetDealsEvent getDealsEvent) {
                     if (getDealsEvent.getDeals() != null) {
+                        dealsView.hideProgress();
                         dealsView.onDealsReceived(getDealsEvent.getDeals());
                     } else if (getDealsEvent.getStatus() != ISwipe.SUCCESS) {
                         dealsView.hideProgress();
@@ -30,10 +31,12 @@ public class DealsPresenter {
 
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
+                    dealsView.hideProgress();
                     dealsView.showMessage(ErrorCodesHelper.getErrorStringFromCode(dealsView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
                 }
             });
         } catch (Exception e) {
+            dealsView.hideProgress();
             e.printStackTrace();
             dealsView.showMessage(ErrorCodesHelper.getErrorStringFromCode(dealsView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
         }

@@ -29,4 +29,6 @@ public interface ISwipe {
     String DUMMY_CITY = "new york";
     String USER_CATEGORY = "Customer";
     String CARD_ID = "CARD_ID";
+    String LATITUDE ="LATITUDE" ;
+    String LONGITUDE ="LONGITUDE" ;
 }

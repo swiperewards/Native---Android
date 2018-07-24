@@ -41,7 +41,9 @@ public class HomeActivity extends BaseActivity {
         navigation.enableShiftingMode(false);
         navigation.enableItemShiftingMode(false);
         setDefaultHomeIndex();
+
     }
+
 
     private void setListeners() {
         skLevel.setOnTouchListener(new View.OnTouchListener() {
@@ -118,5 +120,8 @@ public class HomeActivity extends BaseActivity {
             toolbarTitle.setText(title);
         }
     }
+
+
+
 }
 

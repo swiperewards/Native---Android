@@ -384,7 +384,7 @@ public class UIHelper {
 //            builder.setMessage(message);
             TextView myMsg = new TextView(context);
             myMsg.setText(Html.fromHtml(message));
-            myMsg.setGravity(Gravity.CENTER_HORIZONTAL);
+            myMsg.setGravity(Gravity.CENTER_VERTICAL);
             int padding = 20;
             int sidePadding = 20;
             myMsg.setPadding(sidePadding, padding, sidePadding, padding);

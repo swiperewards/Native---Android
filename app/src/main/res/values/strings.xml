@@ -87,5 +87,7 @@
     <string name="notification_enabled">Notifications enabled successfully.</string>
     <string name="notification_disabled">Notifications disabled successfully.</string>
     <string name="err_notification">Notifications disabled successfully.</string>
+    <string name="enable_location">Enable Location Services</string>
+    <string name="enable">Enable</string>
 
 </resources>

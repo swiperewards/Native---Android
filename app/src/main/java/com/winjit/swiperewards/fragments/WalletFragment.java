@@ -17,6 +17,7 @@ import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.entities.WalletCard;
 import com.winjit.swiperewards.helpers.UIHelper;
 import com.winjit.swiperewards.interfaces.AdapterResponseInterface;
+import com.winjit.swiperewards.interfaces.MessageDialogConfirm;
 import com.winjit.swiperewards.mvpviews.WalletCardView;
 import com.winjit.swiperewards.presenters.WalletPresenter;
 
@@ -63,6 +64,24 @@ public class WalletFragment extends BaseFragment implements View.OnClickListener
     }
 
 
+    private void showConfirmationDeleteDialog(final long cardID) {
+        String dialogInterfaceMessage = "Are you sure you want to delete this card?";
+
+        UIHelper.configureShowConfirmDialog(dialogInterfaceMessage, getActivity(),
+                R.string.yes, R.string.btn_cancel,
+                new MessageDialogConfirm() {
+                    @Override
+                    public void onPositiveClick() {
+                        walletPresenter.deleteCard(cardID);
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+                    }
+                });
+
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -92,7 +111,7 @@ public class WalletFragment extends BaseFragment implements View.OnClickListener
                             break;
                         case ISwipe.ACTION_DELETE_CARD:
                             long cardID = bundle.getLong(ISwipe.CARD_ID);
-                            walletPresenter.deleteCard(cardID);
+                            showConfirmationDeleteDialog(cardID);
                             break;
                     }
                 }
@@ -112,4 +131,6 @@ public class WalletFragment extends BaseFragment implements View.OnClickListener
         showLongToast(getActivity().getResources().getString(R.string.delete_card));
         walletPresenter.getWalletCards();
     }
+
+
 }

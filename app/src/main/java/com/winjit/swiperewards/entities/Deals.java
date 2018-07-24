@@ -49,6 +49,17 @@ public class Deals {
     @Expose
     private String modifiedDate;
 
+
+    @SerializedName("latitude")
+    @Expose
+    private String latitude;
+
+
+
+    @SerializedName("longitude")
+    @Expose
+    private String longitude;
+
     public Integer getId() {
         return id;
     }
@@ -161,4 +172,19 @@ public class Deals {
         this.modifiedDate = modifiedDate;
     }
 
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
 }

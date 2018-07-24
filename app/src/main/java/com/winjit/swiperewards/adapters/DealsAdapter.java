@@ -1,6 +1,7 @@
 package com.winjit.swiperewards.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.winjit.swiperewards.R;
+import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.entities.Deals;
 import com.winjit.swiperewards.interfaces.AdapterResponseInterface;
 
@@ -40,6 +42,15 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.AccountDetai
         holder.tvLocationName.setText(dealsList.get(position).getLocation());
         holder.tvCashBack.setText("" + dealsList.get(position).getCashBonus());
         holder.tvValidity.setText(dealsList.get(position).getStartDate() + "-" + dealsList.get(position).getEndDate());
+        holder.rlParent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString(ISwipe.LATITUDE,dealsList.get(position).getLatitude());
+                bundle.putString(ISwipe.LONGITUDE,dealsList.get(position).getLongitude());
+                adapterResponseInterface.getAdapterResponse(bundle);
+            }
+        });
     }
 
     @Override
