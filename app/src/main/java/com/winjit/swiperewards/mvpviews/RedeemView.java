@@ -4,10 +4,10 @@
 
 package com.winjit.swiperewards.mvpviews;
 
-import com.winjit.swiperewards.entities.TicketType;
+import com.winjit.swiperewards.entities.RedeemModes;
 
 public interface RedeemView extends BaseMVPView {
-    void onRedeemModesReceived(TicketType[] ticketTypes);
+    void onRedeemModesReceived(RedeemModes[] redeemModes);
 
     void onRedeemRequestGenerated();
 }

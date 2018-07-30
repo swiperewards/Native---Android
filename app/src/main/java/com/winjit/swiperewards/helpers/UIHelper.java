@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -23,6 +24,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.interfaces.MessageDialogConfirm;
 
@@ -409,5 +413,34 @@ public class UIHelper {
             builder.show();
         }
     }
+
+
+
+
+    public void loadImageOnline(Context context, String url, ImageView target, int defaultImage, int errorImage) {
+        if (TextUtils.isEmpty(url) == false) {
+            Picasso.with(context)
+                    .load(url.replace(" ", "%20"))
+                    .placeholder(defaultImage)
+                    .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                    .error(errorImage)
+                    .into(target);
+        }
+    }
+
+
+    public void loadImageWithSize(Context context, String url, ImageView target, int defaultImage, int errorImage, int widhhHeight) {
+        if (TextUtils.isEmpty(url) == false) {
+            Picasso.with(context)
+                    .load(url).resize(widhhHeight, widhhHeight)
+                    .placeholder(defaultImage).centerInside()
+//                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                    .error(errorImage)
+                    .into(target);
+        }
+    }
+
+
 
 }

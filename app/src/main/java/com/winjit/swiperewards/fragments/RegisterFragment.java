@@ -114,7 +114,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         Bundle bundle = new Bundle();
         bundle.putBoolean(ISwipe.IS_FROM_SIGN_UP, true);
         successFragment.setArguments(bundle);
-        UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, successFragment, true);
+        UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, successFragment, false);
     }
 
     @Override

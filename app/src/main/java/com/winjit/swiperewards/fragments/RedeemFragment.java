@@ -2,8 +2,8 @@ package com.winjit.swiperewards.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
 import android.text.Editable;
@@ -19,20 +19,23 @@ import android.widget.Spinner;
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.activities.HomeActivity;
 import com.winjit.swiperewards.constants.ISwipe;
-import com.winjit.swiperewards.interfaces.MessageDialogConfirm;
+import com.winjit.swiperewards.entities.RedeemModes;
 import com.winjit.swiperewards.helpers.UIHelper;
 import com.winjit.swiperewards.helpers.ValidationHelper;
+import com.winjit.swiperewards.interfaces.MessageDialogConfirm;
+import com.winjit.swiperewards.mvpviews.RedeemView;
+import com.winjit.swiperewards.presenters.RedeemPresenter;
 
 
-public class RedeemFragment extends Fragment implements View.OnClickListener {
-    private AppCompatSpinner spRedeemVia;
-    private AppCompatSpinner spRedeemVendor;
+public class RedeemFragment extends BaseFragment implements View.OnClickListener, RedeemView {
+    private AppCompatSpinner spRedeemMode;
+    private AppCompatSpinner spRedeemModeOptions;
     private TextInputEditText etAccountNumber;
     private AppCompatEditText etAmount;
     private Button btConfirm;
+    private RedeemPresenter redeemPresenter;
+    private RedeemModes[] redeemModes;
 
-    public RedeemFragment() {
-    }
 
     public static RedeemFragment newInstance() {
         Bundle args = new Bundle();
@@ -42,26 +45,31 @@ public class RedeemFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        redeemPresenter = new RedeemPresenter(this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_redeem, container, false);
         initViews(view);
+        redeemPresenter.getRedeemModes();
         return view;
     }
 
     private void initViews(View mRootView) {
 
-        spRedeemVia = (AppCompatSpinner) mRootView.findViewById(R.id.sp_redeem_via);
-        spRedeemVendor = (AppCompatSpinner) mRootView.findViewById(R.id.sp_redeem_vendor);
+        spRedeemMode = (AppCompatSpinner) mRootView.findViewById(R.id.sp_redeem_via);
+        spRedeemModeOptions = (AppCompatSpinner) mRootView.findViewById(R.id.sp_redeem_vendor);
         etAccountNumber = (TextInputEditText) mRootView.findViewById(R.id.et_account_number);
         etAmount = (AppCompatEditText) mRootView.findViewById(R.id.et_amount);
         btConfirm = (Button) mRootView.findViewById(R.id.bt_confirm);
         setListeners();
-        String[] dummyArray = new String[]{"item 1", "item 2", "item 3"};
-        String[] dummySubArray = new String[]{"sub-item 1", "sub-item 2", "sub-item 3"};
-        setAdaptersForSpinners(getActivity(), spRedeemVia, dummyArray);
-        setAdaptersForSpinners(getActivity(), spRedeemVendor, dummySubArray);
+
+
     }
 
     private void setListeners() {
@@ -98,17 +106,16 @@ public class RedeemFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public void setAdaptersForSpinners(Context context, Spinner spinner, String[] dropDownValues) {
+    public void setAdaptersForSpinners(Context context, final Spinner spinner, String[] dropDownValues) {
         if (dropDownValues != null && dropDownValues.length > 0) {
             spinner.setAdapter(new ArrayAdapter<>(context, R.layout.row_spinner, dropDownValues));
         }
-
 
         //Setting account details after user select the VPA.
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-
+                setAdaptersForSpinners(getActivity(), spRedeemModeOptions, getRedeemOptions(String.valueOf(spinner.getSelectedItem())));
             }
 
             @Override
@@ -128,7 +135,7 @@ public class RedeemFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    private void showConfirmationDialog(){
+    private void showConfirmationDialog() {
         String dialogInterfaceMessage = "You are creating a redeem request of $XX.XX to your account XXXX. Do you want to continue?";
 
         UIHelper.configureShowConfirmDialog(dialogInterfaceMessage, getActivity(),
@@ -158,5 +165,42 @@ public class RedeemFragment extends Fragment implements View.OnClickListener {
         if (((HomeActivity) getActivity()) != null) {
             ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_REDEEM);
         }
+    }
+
+
+    @Override
+    public void onRedeemModesReceived(RedeemModes[] redeemModes) {
+        this.redeemModes = redeemModes;
+        setAdaptersForSpinners(getActivity(), spRedeemMode, getRedeemModes(redeemModes));
+    }
+
+    private String[] getRedeemModes(RedeemModes[] redeemModes) {
+        String[] arrRedeemModes = new String[redeemModes.length];
+        for (int i = 0; i < redeemModes.length; i++) {
+            arrRedeemModes[i] = redeemModes[i].getMode();
+        }
+        return arrRedeemModes;
+    }
+
+
+    private String[] getRedeemOptions(String selectedMode) {
+        String[] arrRedeemModeOptions = null;
+        for (int i = 0; i < redeemModes.length; i++) {
+            if (selectedMode.equalsIgnoreCase(redeemModes[i].getMode())) {
+                arrRedeemModeOptions = new String[redeemModes[i].getModeOptions().length];
+                for (int j = 0; j < redeemModes[i].getModeOptions().length; j++) {
+                    arrRedeemModeOptions[j] = redeemModes[i].getModeOptions()[j].getName();
+                }
+                break;
+            }
+
+        }
+        return arrRedeemModeOptions;
+    }
+
+
+    @Override
+    public void onRedeemRequestGenerated() {
+
     }
 }

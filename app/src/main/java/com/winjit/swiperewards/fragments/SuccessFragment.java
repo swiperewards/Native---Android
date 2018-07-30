@@ -33,8 +33,8 @@ public class SuccessFragment extends Fragment implements View.OnClickListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        if(bundle!=null && bundle.containsKey(ISwipe.IS_FROM_SIGN_UP)){
-            isFromSignUpScreen=bundle.getBoolean(ISwipe.IS_FROM_SIGN_UP);
+        if (bundle != null && bundle.containsKey(ISwipe.IS_FROM_SIGN_UP)) {
+            isFromSignUpScreen = bundle.getBoolean(ISwipe.IS_FROM_SIGN_UP);
         }
     }
 
@@ -52,9 +52,9 @@ public class SuccessFragment extends Fragment implements View.OnClickListener {
 
         btContinue.setOnClickListener(this);
 
-        if(isFromSignUpScreen){
+        if (isFromSignUpScreen) {
             tvMessage.setText(getActivity().getResources().getString(R.string.verify_email));
-        }else{
+        } else {
             tvMessage.setText(getActivity().getResources().getString(R.string.password_sent));
         }
     }
@@ -64,7 +64,9 @@ public class SuccessFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_continue:
-                UIHelper.getInstance().popFragment(getActivity().getSupportFragmentManager());
+                if (isFromSignUpScreen) {
+                    UIHelper.getInstance().popFragment(getActivity().getSupportFragmentManager());
+                }
                 break;
         }
     }

@@ -11,8 +11,11 @@ import com.winjit.swiperewards.entities.WalletCard;
 import com.winjit.swiperewards.events.BaseEvent;
 import com.winjit.swiperewards.events.ChangePasswordEvent;
 import com.winjit.swiperewards.events.GetDealsEvent;
+import com.winjit.swiperewards.events.GetEventHistoryEvent;
+import com.winjit.swiperewards.events.GetRedeemModesEvent;
 import com.winjit.swiperewards.events.GetTicketTypeEvent;
 import com.winjit.swiperewards.events.GetWalletCardsEvent;
+import com.winjit.swiperewards.events.InitSwipeEvent;
 import com.winjit.swiperewards.events.LoginEvent;
 import com.winjit.swiperewards.events.NotificationStatusEvent;
 import com.winjit.swiperewards.events.RegisterUserEvent;
@@ -152,4 +155,32 @@ public class ServiceController {
     }
 
 
+    public void initialiseSwipeRewards(Context context, int appVersionCode, WebRequestManager.WebProcessListener<InitSwipeEvent> webProcessListener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("appVersionCode",appVersionCode);
+
+        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+                WebRequestConstants.WS_INIT_SWIPE,
+                generateRequestHeader(getSessionToken(context)),
+                new InputRequestHelper().prepareWrappedInputRequest(context, map),
+                InitSwipeEvent.class);
+    }
+
+    public void getRedeemModes(Context context, WebRequestManager.WebProcessListener<GetRedeemModesEvent> webProcessListener) {
+        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+                WebRequestConstants.WS_GET_REDEEM_OPTIONS,
+                generateRequestHeader(getSessionToken(context)),
+                new InputRequestHelper().prepareWrappedInputRequest(context, null),
+                GetRedeemModesEvent.class);
+
+    }
+
+    public void getEventHistory(Context context, WebRequestManager.WebProcessListener<GetEventHistoryEvent> webProcessListener) {
+        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+                WebRequestConstants.WS_GET_EVENT_HISTORY,
+                generateRequestHeader(getSessionToken(context)),
+                new InputRequestHelper().prepareWrappedInputRequest(context, null),
+                GetEventHistoryEvent.class);
+
+    }
 }

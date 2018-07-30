@@ -89,5 +89,7 @@
     <string name="err_notification">Notifications disabled successfully.</string>
     <string name="enable_location">Enable Location Services</string>
     <string name="enable">Enable</string>
+    <string name="cashback_till_date">Cashback till Date</string>
+    <string name="permission_error">Location permission is must to explore the exciting deals!</string>
 
 </resources>

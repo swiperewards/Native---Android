@@ -76,7 +76,7 @@
                                 android:layout_centerVertical="true"
                                 android:gravity="center_horizontal"
                                 android:padding="@dimen/margin_tiny"
-                                android:text="@string/dummy_user_location"
+                                android:text="-"
                                 android:textColor="@color/secondary_text_color"
                                 android:textSize="@dimen/text_size_medium"
                                 />
@@ -102,13 +102,14 @@
                                 app:civ_border_width="1dp"/>
 
                         <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/tv_user_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:layout_centerVertical="true"
                                 android:gravity="center_horizontal"
                                 android:padding="@dimen/margin_tiny"
-                                android:text="@string/dummy_user_location"
+                                android:text="-"
                                 android:textColor="@color/secondary_text_color"
                                 android:textSize="@dimen/text_size_small"
                                 />
@@ -130,19 +131,20 @@
                                 android:layout_centerVertical="true"
                                 android:gravity="center_horizontal"
                                 android:padding="@dimen/margin_tiny"
-                                android:text="@string/user_location"
+                                android:text="@string/cashback_till_date"
                                 android:textColor="@color/secondary_text_color"
                                 android:textSize="@dimen/text_size_small"
                                 />
 
                         <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/tv_cashback"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:layout_centerVertical="true"
                                 android:gravity="center_horizontal"
                                 android:padding="@dimen/margin_tiny"
-                                android:text="@string/dummy_user_location"
+                                android:text="-"
                                 android:textColor="@color/secondary_text_color"
                                 android:textSize="@dimen/text_size_small"
                                 />
@@ -167,7 +169,7 @@
                             android:layout_alignParentLeft="true"
                             android:gravity="center_horizontal"
                             android:padding="@dimen/margin_tiny"
-                            android:text="@string/dummy_level"
+                            android:text="Level"
                             android:textColor="@color/secondary_text_color"
                             android:textSize="@dimen/text_size_small"
                             />
@@ -181,7 +183,6 @@
                             android:layout_alignParentRight="true"
                             android:gravity="center_horizontal"
                             android:padding="@dimen/margin_tiny"
-                            android:text="@string/dummy_level_desc"
                             android:textColor="@color/secondary_text_color"
                             android:textSize="@dimen/text_size_small"/>
 
@@ -191,7 +192,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="10dp"
                             android:layout_below="@+id/tv_level_desc"
-                            android:max="100"
+                            android:max="10"
+                            android:min="1"
                             android:maxHeight="10dp"
                             android:minHeight="10dp"
                             android:paddingEnd="0dp"
@@ -210,7 +212,7 @@
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 
-
+    <!-- Adding bottom sheet after main content -->
 
     <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
             android:id="@+id/bottom_navigation"

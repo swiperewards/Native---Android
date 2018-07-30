@@ -12,8 +12,6 @@ public interface ISwipe {
     String ACTION_ADD_NEW_CARD = "ACTION_ADD_NEW_CARD";
     String ACTION_DELETE_CARD = "ACTION_DELETE_CARD";
     String WEB_URL = "WEB_URL";
-    String PRIVACY_SECURITY_URL = "http://www.google.co.in";
-    String TERMS_OF_USE_URL = "http://www.google.co.in";
     String TITLE_HOME = "HOME";
     String TITLE_WALLET = "WALLET";
     String TITLE_REDEEM = "REDEEM";
@@ -29,6 +27,15 @@ public interface ISwipe {
     String DUMMY_CITY = "new york";
     String USER_CATEGORY = "Customer";
     String CARD_ID = "CARD_ID";
-    String LATITUDE ="LATITUDE" ;
-    String LONGITUDE ="LONGITUDE" ;
+    String LATITUDE = "LATITUDE";
+    String LONGITUDE = "LONGITUDE";
+
+    int CAMERA_REQUEST = 1888;
+    int FILE_REQUEST = 1889;
+    int LOCATION_PERMISSION = 1;
+
+    int EVENT_TYPE_GENERAL =1;
+    int EVENT_TYPE_REWARD =2;
+    int EVENT_TYPE_TRANSACTION =3;
+
 }

@@ -2,72 +2,71 @@ package com.winjit.swiperewards.presenters;
 
 import com.android.volley.VolleyError;
 import com.winjit.swiperewards.constants.ISwipe;
-import com.winjit.swiperewards.events.BaseEvent;
-import com.winjit.swiperewards.events.GetTicketTypeEvent;
+import com.winjit.swiperewards.events.GetRedeemModesEvent;
 import com.winjit.swiperewards.helpers.ErrorCodesHelper;
-import com.winjit.swiperewards.mvpviews.TicketView;
+import com.winjit.swiperewards.mvpviews.RedeemView;
 import com.winjit.swiperewards.services.ServiceController;
 import com.winjit.swiperewards.web.WebRequestManager;
 
 public class RedeemPresenter {
-    private TicketView ticketView;
+    private RedeemView redeemView;
 
-    public RedeemPresenter(TicketView ticketView) {
-        this.ticketView = ticketView;
+    public RedeemPresenter(RedeemView redeemView) {
+        this.redeemView = redeemView;
     }
 
-    public void getTicketTypes() {
+    public void getRedeemModes() {
         try {
-            new ServiceController().getTicketTypes(ticketView.getViewContext(), new WebRequestManager.WebProcessListener<GetTicketTypeEvent>() {
+            new ServiceController().getRedeemModes(redeemView.getViewContext(), new WebRequestManager.WebProcessListener<GetRedeemModesEvent>() {
                 @Override
-                public void onWebProcessSuccess(GetTicketTypeEvent getTicketTypeEvent) {
-                    ticketView.hideProgress();
-                    if (getTicketTypeEvent.getStatus() == ISwipe.SUCCESS) {
-                        ticketView.onTicketTypesReceived(getTicketTypeEvent.getTicketTypes());
+                public void onWebProcessSuccess(GetRedeemModesEvent getRedeemModesEvent) {
+                    redeemView.hideProgress();
+                    if (getRedeemModesEvent.getStatus() == ISwipe.SUCCESS) {
+                        redeemView.onRedeemModesReceived(getRedeemModesEvent.getRedeemModes());
                     } else {
-                        ticketView.showMessage(ErrorCodesHelper.getErrorStringFromCode(ticketView.getViewContext(), getTicketTypeEvent.getStatus()));
+                        redeemView.showMessage(ErrorCodesHelper.getErrorStringFromCode(redeemView.getViewContext(), getRedeemModesEvent.getStatus()));
                     }
                 }
 
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
-                    ticketView.hideProgress();
-                    ticketView.showMessage(ErrorCodesHelper.getErrorStringFromCode(ticketView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    redeemView.hideProgress();
+                    redeemView.showMessage(ErrorCodesHelper.getErrorStringFromCode(redeemView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            ticketView.hideProgress();
-            ticketView.showMessage(ErrorCodesHelper.getErrorStringFromCode(ticketView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+            redeemView.hideProgress();
+            redeemView.showMessage(ErrorCodesHelper.getErrorStringFromCode(redeemView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
         }
     }
 
-
-    public void generateTicketRequest(int ticketTypeId, String userCategory, String feedback) {
-        try {
-            new ServiceController().generateTicket(ticketView.getViewContext(),ticketTypeId,userCategory,feedback, new WebRequestManager.WebProcessListener<BaseEvent>() {
-                @Override
-                public void onWebProcessSuccess(BaseEvent baseEvent) {
-                    ticketView.hideProgress();
-                    if (baseEvent.getStatus() == ISwipe.SUCCESS) {
-                        ticketView.onTicketRaisedSuccessfully();
-                    } else {
-                        ticketView.showMessage(ErrorCodesHelper.getErrorStringFromCode(ticketView.getViewContext(), baseEvent.getStatus()));
-                    }
-                }
-
-                @Override
-                public void onWebProcessFailed(VolleyError error, Class aClass) {
-                    ticketView.hideProgress();
-                    ticketView.showMessage(ErrorCodesHelper.getErrorStringFromCode(ticketView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            ticketView.hideProgress();
-            ticketView.showMessage(ErrorCodesHelper.getErrorStringFromCode(ticketView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
-        }
-    }
-
+//
+//    public void generateTicketRequest(int ticketTypeId, String userCategory, String feedback) {
+//        try {
+//            new ServiceController().generateTicket(redeemView.getViewContext(),ticketTypeId,userCategory,feedback, new WebRequestManager.WebProcessListener<BaseEvent>() {
+//                @Override
+//                public void onWebProcessSuccess(BaseEvent baseEvent) {
+//                    redeemView.hideProgress();
+//                    if (baseEvent.getStatus() == ISwipe.SUCCESS) {
+//                        redeemView.onTicketRaisedSuccessfully();
+//                    } else {
+//                        redeemView.showMessage(ErrorCodesHelper.getErrorStringFromCode(redeemView.getViewContext(), baseEvent.getStatus()));
+//                    }
+//                }
+//
+//                @Override
+//                public void onWebProcessFailed(VolleyError error, Class aClass) {
+//                    redeemView.hideProgress();
+//                    redeemView.showMessage(ErrorCodesHelper.getErrorStringFromCode(redeemView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+//                }
+//            });
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            redeemView.hideProgress();
+//            redeemView.showMessage(ErrorCodesHelper.getErrorStringFromCode(redeemView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+//        }
+//    }
+//
 
 }
