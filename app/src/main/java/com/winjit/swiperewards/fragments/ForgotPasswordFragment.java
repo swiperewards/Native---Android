@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.winjit.swiperewards.R;
+import com.winjit.swiperewards.activities.LoginActivity;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.helpers.UIHelper;
 import com.winjit.swiperewards.helpers.ValidationHelper;
@@ -42,6 +43,7 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
         btSubmit = (Button) mRootView.findViewById(R.id.bt_submit);
 
         btSubmit.setOnClickListener(this);
+        ((LoginActivity) getActivity()).changeHeader(getActivity().getResources().getString(R.string.welcome));
     }
 
 

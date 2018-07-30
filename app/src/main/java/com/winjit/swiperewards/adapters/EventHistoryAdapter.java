@@ -48,7 +48,7 @@ public class EventHistoryAdapter extends RecyclerView.Adapter<EventHistoryAdapte
                 break;
 
         }
-        String formattedDate = DateUtil.getFormattedDate(event.getNotificationDate(), DateUtil.DEAL_API_FORMAT, DateUtil.DEAL_DISPLAY_FORMAT);
+        String formattedDate = DateUtil.getFormattedDate(event.getNotificationDate(), DateUtil.DEAL_API_FORMAT, DateUtil.DISPLAY_DATE_FORMAT);
         holder.tvDate.setText(formattedDate);
         holder.tvEventDesc.setText(event.getNotificationDetails());
 

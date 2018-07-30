@@ -118,7 +118,7 @@
 
     <Button
             android:id="@+id/bt_sign_up"
-            style="@style/AppButton"
+            android:theme="@style/AppButton"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

@@ -16,7 +16,7 @@
             android:gravity="center_vertical"
             android:padding="@dimen/margin_very_small"
             android:text="@string/disclaimer"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="@dimen/text_size_very_small"
             android:textColor="@color/color_text"/>
 
 
@@ -64,7 +64,6 @@
                 android:layout_below="@id/separator"
                 android:layout_marginLeft="@dimen/margin_very_small"
                 android:layout_marginRight="@dimen/margin_very_small"
-                android:nestedScrollingEnabled="false"
                 android:scrollbars="none"/>
 
 

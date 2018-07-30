@@ -193,7 +193,7 @@
                             android:layout_height="10dp"
                             android:layout_below="@+id/tv_level_desc"
                             android:max="10"
-                            android:min="1"
+                            android:min="0"
                             android:maxHeight="10dp"
                             android:minHeight="10dp"
                             android:paddingEnd="0dp"

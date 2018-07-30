@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorButtonNormal">@color/appColor</item>
     </style>
 
 
@@ -47,8 +48,8 @@
     </style>
 
     <style name="AppButton" parent="Base.Widget.AppCompat.Button">
-        <item name="android:background">@drawable/rounded_button_background_app_color</item>
         <item name="android:textColor">@android:color/white</item>
+        <item name="colorButtonNormal">@color/appColor</item>
         <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
     </style>
 

@@ -77,7 +77,6 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         navigation.enableShiftingMode(false);
         navigation.enableItemShiftingMode(false);
         initSwipe();
-        setDefaultHomeIndex();
 
     }
 
@@ -169,6 +168,8 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         SingletonAppCache.getInstance().setUserProfile(initSwipeEvent.getInitSwipe().getUserProfile());
         SingletonAppCache.getInstance().setAppConfig(initSwipeEvent.getInitSwipe().getAppConfig());
         setUserData(initSwipeEvent.getInitSwipe().getUserProfile());
+        setDefaultHomeIndex();
+
     }
 
     private void setUserData(UserProfile userProfile) {
@@ -185,7 +186,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             }
 
         if (userProfile.getUserLevel() != null) {
-            tvLevel.setText(""+userProfile.getUserLevel());
+            tvLevel.setText("Level "+userProfile.getUserLevel());
             skLevel.setProgress(userProfile.getUserLevel());
         }
 
