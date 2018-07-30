@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,20 +15,21 @@ import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.constants.ISwipe;
+import com.winjit.swiperewards.entities.WalletCard;
 import com.winjit.swiperewards.interfaces.AdapterResponseInterface;
 
 import java.util.ArrayList;
 
-public class MyCardsAdapter extends RecyclerSwipeAdapter<MyCardsAdapter.SimpleViewHolder> {
+public class WalletCardsAdapter extends RecyclerSwipeAdapter<WalletCardsAdapter.SimpleViewHolder> {
 
     private Context mContext;
-    private ArrayList<String> mDataset;
+    private ArrayList<WalletCard> walletCards;
     private AdapterResponseInterface adapterResponseInterface;
 
-    public MyCardsAdapter(Context context, ArrayList<String> objects, AdapterResponseInterface adapterResponseInterface) {
+    public WalletCardsAdapter(Context context, ArrayList<WalletCard> walletCards, AdapterResponseInterface adapterResponseInterface) {
         this.mContext = context;
-        this.mDataset = objects;
-        this.adapterResponseInterface=adapterResponseInterface;
+        this.walletCards = walletCards;
+        this.adapterResponseInterface = adapterResponseInterface;
     }
 
     @Override
@@ -42,21 +43,21 @@ public class MyCardsAdapter extends RecyclerSwipeAdapter<MyCardsAdapter.SimpleVi
         if (position == getItemCount() - 1) {
             viewHolder.swipeLayout.setSwipeEnabled(false);
             viewHolder.tvCardName.setText("Add New Card");
-            viewHolder.tvCardName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.vc_add, 0, 0, 0);
+            viewHolder.tvCardName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wrapper_add, 0, 0, 0);
             viewHolder.swipeLayout.setClickable(true);
             viewHolder.swipeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.e("swiped", "onClick: " + position);
                     Bundle bundle = new Bundle();
-                    bundle.putBoolean(ISwipe.IS_ADD_NEW_CARD,true);
+                    bundle.putString(ISwipe.ACTION_NAME, ISwipe.ACTION_ADD_NEW_CARD);
                     adapterResponseInterface.getAdapterResponse(bundle);
                 }
             });
 
         } else {
-            viewHolder.tvCardName.setText("Visa **** 4445");
-            viewHolder.tvCardName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.vc_wallet, 0, 0, 0);
+            String lastFourDigits = getLastFourDigits(walletCards.get(position).getCardNumber());
+            viewHolder.tvCardName.setText(walletCards.get(position).getNameOnCard() + " " + lastFourDigits);
+            viewHolder.tvCardName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wrapper_wallet, 0, 0, 0);
             viewHolder.swipeLayout.setSwipeEnabled(true);
             viewHolder.swipeLayout.setClickable(false);
         }
@@ -69,24 +70,29 @@ public class MyCardsAdapter extends RecyclerSwipeAdapter<MyCardsAdapter.SimpleVi
         });
 
 
-//        viewHolder.buttonDelete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mItemManger.removeShownLayouts(viewHolder.swipeLayout);
-//                mDataset.remove(position);
-//                notifyItemRemoved(position);
-//                notifyItemRangeChanged(position, mDataset.size());
-//                mItemManger.closeAllItems();
-//                Toast.makeText(view.getContext(), "Deleted " + viewHolder.textViewData.getText().toString() + "!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        viewHolder.ivDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString(ISwipe.ACTION_NAME, ISwipe.ACTION_DELETE_CARD);
+                bundle.putLong(ISwipe.CARD_ID, walletCards.get(position).getId());
+                adapterResponseInterface.getAdapterResponse(bundle);
+            }
+        });
 
         mItemManger.bindView(viewHolder.itemView, position);
     }
 
+    private String getLastFourDigits(String cardNumber) {
+        if (!TextUtils.isEmpty(cardNumber) && cardNumber.length() > 4) {
+            return cardNumber.substring(cardNumber.length() - 4);
+        }
+        return "";
+    }
+
     @Override
     public int getItemCount() {
-        return 3;
+        return walletCards.size();
     }
 
     @Override

@@ -80,7 +80,7 @@
             app:errorTextAppearance="@style/AppEditTextInputErrorColorGray">
 
         <android.support.design.widget.TextInputEditText
-                android:id="@+id/ET_NAME"
+                android:id="@+id/et_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/vc_user"

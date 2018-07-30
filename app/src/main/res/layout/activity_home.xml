@@ -8,13 +8,19 @@
         tools:context=".activities.HomeActivity">
 
 
+    <include
+            android:id="@+id/toolbar"
+            layout="@layout/layout_action_bar"
+            app:layout_constraintTop_toTopOf="parent"/>
+
     <android.support.v4.widget.NestedScrollView
             android:id="@+id/sv_parent"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            >
 
         <RelativeLayout
                 android:layout_width="match_parent"
@@ -180,6 +186,7 @@
                             android:textSize="@dimen/text_size_small"/>
 
                     <android.support.v7.widget.AppCompatSeekBar
+                            android:id="@+id/sk_level"
                             style="@android:style/Widget.ProgressBar.Horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="10dp"
@@ -204,6 +211,7 @@
     </android.support.v4.widget.NestedScrollView>
 
 
+
     <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
@@ -217,7 +225,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sv_parent"
             app:menu="@menu/navigation"/>
 
 </android.support.constraint.ConstraintLayout>

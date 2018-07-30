@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.fragments.LoginFragment;
-import com.winjit.swiperewards.utils.UIHelper;
+import com.winjit.swiperewards.helpers.UIHelper;
 
 
 public class LoginActivity extends UniversalBaseActivity implements View.OnClickListener {

@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:drawableRight="@drawable/vc_arrow_up"
+            android:drawableRight="@drawable/wrapper_arrow_up"
             android:gravity="center_vertical"
             android:text="$55.25"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -51,7 +51,7 @@
                 android:layout_marginRight="@dimen/margin_very_small"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                android:text="@string/dummy_text"
                 android:maxLines="2"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/color_text"/>

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.constants.ISwipe;
-import com.winjit.swiperewards.utils.UIHelper;
+import com.winjit.swiperewards.helpers.UIHelper;
 
 
 public class SuccessFragment extends Fragment implements View.OnClickListener {

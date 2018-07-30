@@ -19,14 +19,12 @@ import com.winjit.swiperewards.constants.ISwipe;
 public class SwipeRewardsApp extends Application {
 
 
-    public static Context mInstance;
     private static boolean activityVisible;
     private static RequestQueue sQueue;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mInstance = getApplicationContext();
 //        setCustomFont();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
@@ -51,10 +49,10 @@ public class SwipeRewardsApp extends Application {
      *
      * @return : Global volley request queue instance
      */
-    public static RequestQueue getRequestQueue() {
-        if (mInstance != null) {
+    public static RequestQueue getRequestQueue(Context context) {
+        if (context != null) {
             if (sQueue == null) {
-                sQueue = Volley.newRequestQueue(mInstance);
+                sQueue = Volley.newRequestQueue(context);
                 return sQueue;
             } else {
                 return sQueue;

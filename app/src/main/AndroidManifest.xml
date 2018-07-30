@@ -3,6 +3,13 @@
           package="com.winjit.swiperewards"
         >
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/> <!-- Dangerous Permission -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/> <!-- Dangerous Permission -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/> <!-- Dangerous Permission -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+
     <application
             android:name=".SwipeRewardsApp"
             android:allowBackup="true"
@@ -40,6 +47,7 @@
                 android:name=".activities.HomeActivity"
                 android:label="@string/title_activity_home"
                 android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="adjustPan|stateHidden"
                 >
         </activity>

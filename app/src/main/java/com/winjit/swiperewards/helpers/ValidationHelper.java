@@ -1,4 +1,4 @@
-package com.winjit.swiperewards.utils;
+package com.winjit.swiperewards.helpers;
 
 import android.content.Context;
 import android.text.Editable;
@@ -7,9 +7,9 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.winjit.swiperewards.R;
-import com.winjit.swiperewards.activities.UniversalBaseActivity;
 
 
 /**
@@ -213,13 +213,13 @@ public class ValidationHelper {
         return false;
     }
 
-    public boolean isPasswordMatch(UniversalBaseActivity activity, EditText editPassword, EditText editConfirmPassword) {
+    public boolean isPasswordMatch(Context context, EditText editPassword, EditText editConfirmPassword) {
 
         if (editConfirmPassword.getText().toString().equals(editPassword.getText().toString())) {
 
             return true;
         }
-        activity.showToast(activity, "Password and confirm password should be same!");
+        Toast.makeText(context, "Password and confirm password should be same!", Toast.LENGTH_SHORT).show();
         return false;
 
     }

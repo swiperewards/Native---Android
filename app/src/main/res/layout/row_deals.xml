@@ -1,23 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rl_parent"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="@dimen/margin_very_small"
+                android:layout_marginBottom="@dimen/margin_tiny"
+                android:layout_marginTop="@dimen/margin_tiny"
                 android:background="@drawable/rounded_button_background_white"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/margin_tiny"
-                android:paddingRight="@dimen/margin_tiny"
+                android:paddingLeft="0dp"
+
         >
+
+    <View
+            android:id="@+id/ll_left_decor"
+            android:layout_width="4dp"
+            android:layout_height="54dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_very_small"
+            android:background="@drawable/vertical_curved_background"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            />
+
 
     <android.support.v7.widget.AppCompatImageView
             android:id="@+id/iv_icon"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_alignParentLeft="true"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
             android:layout_centerVertical="true"
-            android:layout_margin="@dimen/margin_tiny"
+            android:layout_toEndOf="@id/ll_left_decor"
+            android:layout_toRightOf="@id/ll_left_decor"
             app:srcCompat="@drawable/vc_facebook"/>
 
     <LinearLayout
@@ -25,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="@dimen/margin_tiny"
+            android:layout_marginLeft="@dimen/margin_tiny"
             android:layout_marginTop="@dimen/margin_tiny"
             android:layout_toRightOf="@id/iv_icon"
             android:gravity="center_vertical"
@@ -50,6 +67,7 @@
 
 
             <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_store_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -81,12 +99,13 @@
                     android:layout_marginRight="@dimen/margin_tiny"
                     android:layout_weight="0.4"
                     android:gravity="center_vertical|left"
-                    android:text="Store"
+                    android:text="Location"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/color_hint"/>
 
 
             <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_location_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -95,7 +114,7 @@
                     android:layout_weight="0.6"
                     android:gravity="center_vertical|right"
                     android:maxLines="2"
-                    android:text="Whole Foods Market"
+                    android:text="Los Angeles"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/color_text"/>
 
@@ -117,12 +136,13 @@
                     android:layout_marginRight="@dimen/margin_tiny"
                     android:layout_weight="0.4"
                     android:gravity="center_vertical|left"
-                    android:text="Store"
+                    android:text="Cashback"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/color_hint"/>
 
 
             <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_cashback"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -131,7 +151,7 @@
                     android:layout_weight="0.6"
                     android:gravity="center_vertical|right"
                     android:maxLines="2"
-                    android:text="Whole Foods Market"
+                    android:text="10%"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/color_text"/>
 
@@ -153,12 +173,13 @@
                     android:layout_marginRight="@dimen/margin_tiny"
                     android:layout_weight="0.4"
                     android:gravity="center_vertical|left"
-                    android:text="Store"
+                    android:text="Promotion Date"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/color_hint"/>
 
 
             <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_validity"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -167,7 +188,7 @@
                     android:layout_weight="0.6"
                     android:gravity="center_vertical|right"
                     android:maxLines="2"
-                    android:text="Whole Foods Market"
+                    android:text="10/05/2018-09-06-2018"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/color_text"/>
 

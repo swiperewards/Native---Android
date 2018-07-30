@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.winjit.swiperewards.R;
+import com.winjit.swiperewards.activities.HomeActivity;
 import com.winjit.swiperewards.adapters.EventHistoryAdapter;
+import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.interfaces.AdapterResponseInterface;
 
 
@@ -45,7 +47,7 @@ public class EventHistoryFragment extends Fragment implements View.OnClickListen
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvEventHistory.getContext(),
                 linearLayoutManager.getOrientation());
         rvEventHistory.addItemDecoration(dividerItemDecoration);
-        rvEventHistory.setAdapter(new EventHistoryAdapter(getActivity(),this));
+        rvEventHistory.setAdapter(new EventHistoryAdapter(getActivity(), this));
     }
 
 
@@ -58,5 +60,13 @@ public class EventHistoryFragment extends Fragment implements View.OnClickListen
     @Override
     public void getAdapterResponse(Bundle bundle) {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (((HomeActivity) getActivity()) != null) {
+            ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_HISTORY);
+        }
     }
 }

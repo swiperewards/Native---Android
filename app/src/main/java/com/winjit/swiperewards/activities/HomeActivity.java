@@ -3,30 +3,57 @@ package com.winjit.swiperewards.activities;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.widget.AppCompatSeekBar;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.fragments.EventHistoryFragment;
 import com.winjit.swiperewards.fragments.HomeFragment;
+import com.winjit.swiperewards.fragments.RedeemFragment;
 import com.winjit.swiperewards.fragments.SettingsFragment;
-import com.winjit.swiperewards.fragments.SuccessFragment;
 import com.winjit.swiperewards.fragments.WalletFragment;
-import com.winjit.swiperewards.utils.UIHelper;
+import com.winjit.swiperewards.helpers.UIHelper;
 
 public class HomeActivity extends BaseActivity {
 
     private LinearLayout llTop;
+    private BottomNavigationViewEx navigation;
+    private TextView toolbarTitle;
+    private AppCompatSeekBar skLevel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         llTop = findViewById(R.id.ll_top);
-        BottomNavigationViewEx navigation = (BottomNavigationViewEx) findViewById(R.id.bottom_navigation);
+        skLevel = findViewById(R.id.sk_level);
+        navigation = (BottomNavigationViewEx) findViewById(R.id.bottom_navigation);
+        initToolBar();
+        setListeners();
+        navigation.enableAnimation(false);
+        navigation.enableShiftingMode(false);
+        navigation.enableItemShiftingMode(false);
+        setDefaultHomeIndex();
+
+    }
+
+
+    private void setListeners() {
+        skLevel.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+
+
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -40,7 +67,7 @@ public class HomeActivity extends BaseActivity {
                         UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, WalletFragment.newInstance(), false);
                         return true;
                     case R.id.navigation_redeem:
-                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, SuccessFragment.newInstance(), false);
+                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, RedeemFragment.newInstance(), false);
                         return true;
                     case R.id.navigation_history:
                         UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, EventHistoryFragment.newInstance(), false);
@@ -55,11 +82,17 @@ public class HomeActivity extends BaseActivity {
 
 
         });
+    }
 
+    private void initToolBar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        setSupportActionBar(toolbar);
+        toolbarTitle.setText(toolbar.getTitle());
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
 
-        navigation.enableAnimation(false);
-        navigation.enableShiftingMode(false);
-        navigation.enableItemShiftingMode(false);
+    public void setDefaultHomeIndex() {
         View view = navigation.findViewById(R.id.navigation_home);
         view.performClick();
     }
@@ -81,6 +114,14 @@ public class HomeActivity extends BaseActivity {
                 break;
         }
     }
+
+    public void setTopBarTitle(String title) {
+        if (toolbarTitle != null) {
+            toolbarTitle.setText(title);
+        }
+    }
+
+
 
 }
 
