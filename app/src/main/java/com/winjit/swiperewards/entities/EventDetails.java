@@ -10,7 +10,7 @@ public class EventDetails {
     private Integer eventId;
     @SerializedName("eventType")
     @Expose
-    private String eventType;
+    private Integer eventType;
     @SerializedName("notificationDate")
     @Expose
     private String notificationDate;
@@ -22,7 +22,7 @@ public class EventDetails {
     private Float transactionAmount;
     @SerializedName("isCredit")
     @Expose
-    private Integer isCredit;
+    private Boolean isCredit;
 
     public Integer getEventId() {
         return eventId;
@@ -32,11 +32,11 @@ public class EventDetails {
         this.eventId = eventId;
     }
 
-    public String getEventType() {
+    public Integer getEventType() {
         return eventType;
     }
 
-    public void setEventType(String eventType) {
+    public void setEventType(Integer eventType) {
         this.eventType = eventType;
     }
 
@@ -64,11 +64,11 @@ public class EventDetails {
         this.transactionAmount = transactionAmount;
     }
 
-    public Integer getIsCredit() {
+    public Boolean getCredit() {
         return isCredit;
     }
 
-    public void setIsCredit(Integer isCredit) {
-        this.isCredit = isCredit;
+    public void setCredit(Boolean credit) {
+        isCredit = credit;
     }
 }

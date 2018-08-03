@@ -36,7 +36,7 @@ public class EventHistoryAdapter extends RecyclerView.Adapter<EventHistoryAdapte
     @Override
     public void onBindViewHolder(AccountDetailViewHolder holder, final int position) {
         EventDetails event = eventDetails[position];
-        switch (event.getEventId()) {
+        switch (event.getEventType()) {
             case ISwipe.EVENT_TYPE_GENERAL:
                 holder.ivIcon.setImageResource(R.drawable.vc_notification);
                 break;
@@ -54,15 +54,16 @@ public class EventHistoryAdapter extends RecyclerView.Adapter<EventHistoryAdapte
 
         if (event.getTransactionAmount() != null && event.getTransactionAmount() > 0) {
             holder.tvAmount.setVisibility(View.VISIBLE);
-            holder.tvAmount.setText("" + event.getTransactionAmount());
-            if (event.getIsCredit() != null) {
-                if (event.getIsCredit()==1) {
+            if (event.getCredit() != null) {
+                if (event.getCredit()) {
+                    holder.tvAmount.setText("+$" + event.getTransactionAmount());
                     holder.tvAmount.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.vc_arrow_up, 0);
                 } else {
+                    holder.tvAmount.setText("-$" + event.getTransactionAmount());
                     holder.tvAmount.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.vc_arrow_down, 0);
                 }
-            }else{
-                holder.tvAmount.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+            } else {
+                holder.tvAmount.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             }
         } else {
             holder.tvAmount.setVisibility(View.GONE);

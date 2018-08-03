@@ -2,11 +2,14 @@ package com.winjit.swiperewards.presenters;
 
 import com.android.volley.VolleyError;
 import com.winjit.swiperewards.constants.ISwipe;
+import com.winjit.swiperewards.events.BaseEvent;
 import com.winjit.swiperewards.events.GetRedeemModesEvent;
 import com.winjit.swiperewards.helpers.ErrorCodesHelper;
 import com.winjit.swiperewards.mvpviews.RedeemView;
 import com.winjit.swiperewards.services.ServiceController;
 import com.winjit.swiperewards.web.WebRequestManager;
+
+import java.util.HashMap;
 
 public class RedeemPresenter {
     private RedeemView redeemView;
@@ -41,32 +44,32 @@ public class RedeemPresenter {
         }
     }
 
-//
-//    public void generateTicketRequest(int ticketTypeId, String userCategory, String feedback) {
-//        try {
-//            new ServiceController().generateTicket(redeemView.getViewContext(),ticketTypeId,userCategory,feedback, new WebRequestManager.WebProcessListener<BaseEvent>() {
-//                @Override
-//                public void onWebProcessSuccess(BaseEvent baseEvent) {
-//                    redeemView.hideProgress();
-//                    if (baseEvent.getStatus() == ISwipe.SUCCESS) {
-//                        redeemView.onTicketRaisedSuccessfully();
-//                    } else {
-//                        redeemView.showMessage(ErrorCodesHelper.getErrorStringFromCode(redeemView.getViewContext(), baseEvent.getStatus()));
-//                    }
-//                }
-//
-//                @Override
-//                public void onWebProcessFailed(VolleyError error, Class aClass) {
-//                    redeemView.hideProgress();
-//                    redeemView.showMessage(ErrorCodesHelper.getErrorStringFromCode(redeemView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
-//                }
-//            });
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            redeemView.hideProgress();
-//            redeemView.showMessage(ErrorCodesHelper.getErrorStringFromCode(redeemView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
-//        }
-//    }
-//
+
+    public void raiseRedeemRequest(HashMap<String, Object> map) {
+        try {
+            new ServiceController().raiseRedeemRequest(redeemView.getViewContext(),map, new WebRequestManager.WebProcessListener<BaseEvent>() {
+                @Override
+                public void onWebProcessSuccess(BaseEvent baseEvent) {
+                    redeemView.hideProgress();
+                    if (baseEvent.getStatus() == ISwipe.SUCCESS) {
+                        redeemView.onRedeemRequestGenerated();
+                    } else {
+                        redeemView.showMessage(ErrorCodesHelper.getErrorStringFromCode(redeemView.getViewContext(), baseEvent.getStatus()));
+                    }
+                }
+
+                @Override
+                public void onWebProcessFailed(VolleyError error, Class aClass) {
+                    redeemView.hideProgress();
+                    redeemView.showMessage(ErrorCodesHelper.getErrorStringFromCode(redeemView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            redeemView.hideProgress();
+            redeemView.showMessage(ErrorCodesHelper.getErrorStringFromCode(redeemView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+        }
+    }
+
 
 }

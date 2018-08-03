@@ -381,7 +381,7 @@ public class UIHelper {
     }
 
 
-    public static void configureShowConfirmDialog(final String message, Context context, int positiveButton, int negativeButton, final MessageDialogConfirm messageDialogConfirm) {
+    public static void configureShowConfirmDialog(final String message, Context context, int positiveButton, int negativeButton, int title, final MessageDialogConfirm messageDialogConfirm) {
         if (message.trim().length() > 0) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogStyle);
@@ -395,7 +395,7 @@ public class UIHelper {
             myMsg.setLineSpacing(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5.0f, context.getResources().getDisplayMetrics()), 1.0f);
             myMsg.setTextAppearance(context, android.R.style.TextAppearance_DeviceDefault_Small);
             builder.setView(myMsg);
-            builder.setTitle("Confirm?");
+            builder.setTitle(title);
             builder.setCancelable(false);
             builder.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
                 @Override

@@ -84,8 +84,8 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                 if (isValidInputsEntered()) {
                     showProgress(getActivity().getResources().getString(R.string.please_wait));
                     onBoardingPresenter.registerUser(getUserDetails());
-                    break;
-                }
+                    }
+                break;
             case R.id.tv_sign_in:
                 new UIHelper().getInstance().popFragment(getActivity().getSupportFragmentManager());
                 break;
@@ -108,6 +108,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         ValidationHelper validationHelper = new ValidationHelper();
         return validationHelper.isValidEditTexts(getActivity(), etFirstName, etLastName, etUserEmail, etPassword, etConfirmPassword) &&
                 validationHelper.isPasswordMatch(getActivity(), etPassword, etConfirmPassword) &&
+                validationHelper.isAcceptablePassword(getActivity(),etPassword) &&
                 validationHelper.isValidEmail(getActivity(), etUserEmail);
 
     }

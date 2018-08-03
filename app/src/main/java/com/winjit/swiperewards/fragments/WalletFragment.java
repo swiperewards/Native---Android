@@ -50,6 +50,7 @@ public class WalletFragment extends BaseFragment implements View.OnClickListener
         View view = inflater.inflate(R.layout.fragment_wallet, container, false);
         initViews(view);
         ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.SHOW_TOP_VIEW);
+        showProgress(getActivity().getResources().getString(R.string.please_wait));
         walletPresenter.getWalletCards();
         return view;
     }
@@ -68,7 +69,7 @@ public class WalletFragment extends BaseFragment implements View.OnClickListener
         String dialogInterfaceMessage = "Are you sure you want to delete this card?";
 
         UIHelper.configureShowConfirmDialog(dialogInterfaceMessage, getActivity(),
-                R.string.yes, R.string.btn_cancel,
+                R.string.yes, R.string.btn_cancel,R.string.confirm,
                 new MessageDialogConfirm() {
                     @Override
                     public void onPositiveClick() {

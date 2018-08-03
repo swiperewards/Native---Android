@@ -77,7 +77,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         String dialogInterfaceMessage = "Are you sure you want to sign out?";
 
         UIHelper.configureShowConfirmDialog(dialogInterfaceMessage, getActivity(),
-                R.string.yes, R.string.btn_cancel,
+                R.string.yes, R.string.btn_cancel, R.string.confirm,
                 new MessageDialogConfirm() {
                     @Override
                     public void onPositiveClick() {
@@ -156,8 +156,10 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void onNotificationStatusChanged(boolean updatedNotificationStatus) {
-        if (swNotification.isEnabled()) {
+        if (swNotification.isChecked()) {
             showMessage(getActivity().getResources().getString(R.string.notification_enabled));
+        } else {
+            showMessage(getActivity().getResources().getString(R.string.notification_disabled));
         }
     }
 

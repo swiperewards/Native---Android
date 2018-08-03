@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:fillViewport="true"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+            app:layout_constraintBottom_toTopOf="@+id/linear_bottom_bar"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             >
 
@@ -91,16 +91,32 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                        <de.hdodenhof.circleimageview.CircleImageView
-                                xmlns:app="http://schemas.android.com/apk/res-auto"
-                                android:id="@+id/profile_image"
+                        <RelativeLayout
+                                android:id="@+id/rl_profile_pic"
                                 android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/ic_launcher"
-                                app:civ_border_color="#ffffff"
-                                app:civ_border_width="1dp"/>
+                                android:layout_height="64dp">
 
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    android:id="@+id/profile_image"
+                                    android:layout_width="64dp"
+                                    android:layout_height="64dp"
+                                    android:scaleType="centerCrop"
+                                    app:srcCompat="@drawable/vc_user"
+                                    app:civ_border_color="#ffffff"
+                                    app:civ_border_width="1dp"/>
+
+                            <android.support.v7.widget.AppCompatImageView
+                                    android:id="@+id/iv_change_profile_pic"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_alignParentRight="true"
+                                    android:background="@drawable/camera_background_circle"
+                                    android:padding="@dimen/margin_tiny"
+                                    app:srcCompat="@drawable/vc_camera"/>
+
+                        </RelativeLayout>
                         <android.support.v7.widget.AppCompatTextView
                                 android:id="@+id/tv_user_name"
                                 android:layout_width="wrap_content"
@@ -193,8 +209,8 @@
                             android:layout_height="10dp"
                             android:layout_below="@+id/tv_level_desc"
                             android:max="10"
-                            android:min="0"
                             android:maxHeight="10dp"
+                            android:min="0"
                             android:minHeight="10dp"
                             android:paddingEnd="0dp"
                             android:paddingStart="0dp"
@@ -212,7 +228,15 @@
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 
-    <!-- Adding bottom sheet after main content -->
+
+    <LinearLayout
+            android:id="@+id/linear_bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:orientation="vertical">
 
     <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
             android:id="@+id/bottom_navigation"
@@ -224,9 +248,21 @@
             app:itemBackground="@drawable/navigation_background"
             app:itemIconTint="@color/color_white"
             app:itemTextColor="@color/color_white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+
             app:menu="@menu/navigation"/>
+    </LinearLayout>
+
+    <!-- Adding bottom sheet after main content -->
+
+
+    <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+        <include layout="@layout/view_bottom_sheet"/>
+
+    </android.support.design.widget.CoordinatorLayout>
+    <!-- End bottom sheet after main content -->
 
 </android.support.constraint.ConstraintLayout>

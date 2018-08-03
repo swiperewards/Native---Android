@@ -74,7 +74,8 @@ public class ChangePasswordFragment extends BaseFragment implements View.OnClick
     private boolean isValidInputsEntered() {
         ValidationHelper validationHelper = new ValidationHelper();
         return validationHelper.isValidEditTexts(getActivity(), etOldPassword, etNewPassword, etConfirmNewPassword) &&
-                validationHelper.isPasswordMatch(getActivity(), etNewPassword, etConfirmNewPassword);
+                validationHelper.isPasswordMatch(getActivity(), etNewPassword, etConfirmNewPassword) &&
+                validationHelper.isAcceptablePassword(getActivity(), etNewPassword);
     }
 
     @Override

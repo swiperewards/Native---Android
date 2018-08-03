@@ -120,8 +120,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
 
     private void setDummyData() {
         if (ISwipe.IS_DUMMY_DATA_ENABLED) {
-            etUserEmail.setText("vishalb@winjit.com");
-            etPassword.setText("winjit@123");
+            etUserEmail.setText("adityab@winjit.com");
+            etPassword.setText("Qwerty@123");
         }
     }
 }
