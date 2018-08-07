@@ -9,7 +9,7 @@ public class ErrorCodesHelper {
 
     public static final int ERROR_GENERIC = 1;
     public static final int ERROR_NETOWRK = 2;
-    private static final int USER_ALREADY_EXIST = 801;
+    private static final int USER_ALREADY_EXIST = 1004;
     private static final int INVALID_LOGIN_CREDENTIALS = 1003;
     private static final int INVALID_OLD_PASSWORD = 1006;
     private static final int CARD_ALREADY_EXIST = 1051;

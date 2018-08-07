@@ -13,6 +13,7 @@ import com.daimajia.swipe.util.Attributes;
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.activities.HomeActivity;
 import com.winjit.swiperewards.adapters.WalletCardsAdapter;
+import com.winjit.swiperewards.constants.CardType;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.entities.WalletCard;
 import com.winjit.swiperewards.helpers.UIHelper;
@@ -28,7 +29,7 @@ import java.util.Arrays;
 public class WalletFragment extends BaseFragment implements View.OnClickListener, WalletCardView {
     private RecyclerView rvCards;
     private RecyclerView.Adapter mAdapter;
-    private ArrayList<WalletCard> walletCards;
+    private ArrayList<WalletCard> walletCardArrayList;
     private WalletPresenter walletPresenter;
 
     public static WalletFragment newInstance() {
@@ -69,7 +70,7 @@ public class WalletFragment extends BaseFragment implements View.OnClickListener
         String dialogInterfaceMessage = "Are you sure you want to delete this card?";
 
         UIHelper.configureShowConfirmDialog(dialogInterfaceMessage, getActivity(),
-                R.string.yes, R.string.btn_cancel,R.string.confirm,
+                R.string.yes, R.string.btn_cancel, R.string.confirm,
                 new MessageDialogConfirm() {
                     @Override
                     public void onPositiveClick() {
@@ -98,9 +99,10 @@ public class WalletFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onWalletCardListReceived(WalletCard[] walletCards) {
-        this.walletCards = new ArrayList<WalletCard>(Arrays.asList(walletCards));
-        this.walletCards.add(new WalletCard()); //Adding extra empty card to inject the Add new card at bottom of the card list
-        mAdapter = new WalletCardsAdapter(getActivity(), this.walletCards, new AdapterResponseInterface() {
+        this.walletCardArrayList = new ArrayList<WalletCard>(Arrays.asList(walletCards));
+        this.walletCardArrayList = updateCardType(walletCardArrayList);
+        this.walletCardArrayList.add(new WalletCard()); //Adding extra empty card to inject the Add new card at bottom of the card list
+        mAdapter = new WalletCardsAdapter(getActivity(), this.walletCardArrayList, new AdapterResponseInterface() {
             @Override
             public void getAdapterResponse(Bundle bundle) {
                 if (bundle != null && bundle.containsKey(ISwipe.ACTION_NAME)) {
@@ -122,6 +124,17 @@ public class WalletFragment extends BaseFragment implements View.OnClickListener
         rvCards.setAdapter(mAdapter);
 
     }
+
+
+    private ArrayList<WalletCard> updateCardType(ArrayList<WalletCard> walletCardArrayList) {
+
+        for (int i = 0; i < walletCardArrayList.size(); i++) {
+            CardType type = CardType.forCardNumber(walletCardArrayList.get(i).getCardNumber());
+            walletCardArrayList.get(i).setCardType(type);
+        }
+        return walletCardArrayList;
+    }
+
 
     @Override
     public void onCardAddedSuccessfully() {

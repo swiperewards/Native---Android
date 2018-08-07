@@ -2,6 +2,7 @@ package com.winjit.swiperewards.entities;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.winjit.swiperewards.constants.CardType;
 
 public class WalletCard {
 
@@ -24,6 +25,7 @@ public class WalletCard {
     @Expose
     private String nameOnCard;
 
+    private CardType cardType;
 
     public long getId() {
         return id;
@@ -73,4 +75,11 @@ public class WalletCard {
         this.nameOnCard = nameOnCard;
     }
 
+    public CardType getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(CardType cardType) {
+        this.cardType = cardType;
+    }
 }

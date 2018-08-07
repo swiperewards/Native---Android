@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/style_edit_text"
+            android:visibility="gone"
             app:errorTextAppearance="@style/AppEditTextInputErrorColorGray">
 
         <android.support.design.widget.TextInputEditText
@@ -37,6 +38,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/style_edit_text"
+            app:errorTextAppearance="@style/AppEditTextInputErrorColorRed">
+
+        <com.winjit.swiperewards.customviews.creditcard.CardEditText
+                android:id="@+id/tv_card_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Card Number"
+                android:imeOptions="actionNext"/>
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/style_edit_text"
             app:errorTextAppearance="@style/AppEditTextInputErrorColorGray">
 
         <android.support.design.widget.TextInputEditText
@@ -44,14 +60,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/vc_date"
-                android:hint="Expired on (MM-YYYY)"
+                android:hint="Expiry (MM-YYYY)"
                 android:imeOptions="actionNext"
                 android:inputType="text"
                 android:maxLength="32"
                 android:theme="@style/style_edit_text"
                 />
     </android.support.design.widget.TextInputLayout>
-
 
     <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -84,20 +99,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/vc_user"
-                android:hint="Name of Card"
+                android:hint="@string/name_on_card"
                 android:imeOptions="actionDone"
-                android:inputType="number"
+                android:inputType="text"
                 android:maxLength="32"
+                android:maxLines="1"
                 android:theme="@style/style_edit_text"
                 />
     </android.support.design.widget.TextInputLayout>
+
+
     <Button
             android:id="@+id/bt_submit"
-            android:theme="@style/AppButton"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_medium"
-            android:text="@string/add"/>
+            android:text="@string/add"
+            android:theme="@style/AppButton"/>
 
 </LinearLayout>

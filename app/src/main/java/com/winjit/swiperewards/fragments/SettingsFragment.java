@@ -175,4 +175,12 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         showProgress(getActivity().getResources().getString(R.string.please_wait));
         settingsPresenter.updateNotificationStatus(isEnabled);
     }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if(swNotification!=null){
+            swNotification.setOnCheckedChangeListener(null);
+        }
+    }
 }

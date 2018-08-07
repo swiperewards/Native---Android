@@ -1,11 +1,12 @@
 package com.winjit.swiperewards.fragments;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -15,7 +16,7 @@ import com.winjit.swiperewards.activities.HomeActivity;
 import com.winjit.swiperewards.constants.ISwipe;
 
 
-public class WebViewFragment extends Fragment {
+public class WebViewFragment extends BaseFragment {
 
     public WebView mWebView;
 
@@ -54,22 +55,23 @@ public class WebViewFragment extends Fragment {
         mWebView.setWebViewClient(new WebViewClient());
 
 
-//        mWebView.setWebChromeClient(new WebChromeClient() {
-//            private ProgressDialog mProgress;
-//
-//            @Override
-//            public void onProgressChanged(WebView view, int progress) {
-//                if (mProgress == null) {
-//                    mProgress = new ProgressDialog(getActivity());
-//                    mProgress.show();
-//                }
-//                mProgress.setMessage("Loading " + String.valueOf(progress) + "%");
-//                if (progress == 100) {
-//                    mProgress.dismiss();
-//                    mProgress = null;
-//                }
-//            }
-//        });
+        mWebView.setWebChromeClient(new WebChromeClient() {
+            private ProgressDialog mProgress;
+
+            @Override
+            public void onProgressChanged(WebView view, int progress) {
+                if (mProgress == null) {
+                    mProgress = new ProgressDialog(getActivity());
+                    mProgress.show();
+                }
+                mProgress.setMessage("Loading " + String.valueOf(progress) + "%");
+                if (progress == 100) {
+                    mProgress.dismiss();
+                    mProgress = null;
+                }
+            }
+
+        });
         return v;
     }
 

@@ -18,6 +18,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/appColor"
                 android:paddingLeft="@dimen/margin_medium"
+                android:visibility="gone"
                 android:paddingRight="@dimen/margin_medium"
                 app:srcCompat="@drawable/vc_edit"/>
         <android.support.v7.widget.AppCompatImageView

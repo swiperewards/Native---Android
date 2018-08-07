@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
@@ -53,7 +54,13 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     private AppCompatSeekBar skLevel;
     private InitSwipePresenter initSwipePresenter;
     private RelativeLayout bottomSheet;
-    private LinearLayout linCamera, linGallery;
+    private LinearLayout linCamera;
+    private LinearLayout linGallery;
+    private LinearLayout llUserInfo;
+    private LinearLayout llCashback;
+    private RelativeLayout rlLevelDetails;
+    private AppCompatImageView ivChangeProfilePic;
+    private RelativeLayout rlProfilePic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +73,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         llTop = (LinearLayout) findViewById(R.id.ll_top);
         tvUserLocation = (AppCompatTextView) findViewById(R.id.tv_user_location);
         profileImage = (CircleImageView) findViewById(R.id.profile_image);
+        ivChangeProfilePic = findViewById(R.id.iv_change_profile_pic);
         tvUserName = (AppCompatTextView) findViewById(R.id.tv_user_name);
         tvCashBack = (AppCompatTextView) findViewById(R.id.tv_cashback);
         tvLevel = (AppCompatTextView) findViewById(R.id.tv_level);
@@ -74,7 +82,10 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         bottomSheet = (RelativeLayout) findViewById(R.id.bottom_sheet);
         linCamera = (LinearLayout) findViewById(R.id.lin_camera);
         linGallery = (LinearLayout) findViewById(R.id.lin_gallery);
-
+        llUserInfo = (LinearLayout) findViewById(R.id.ll_user_info);
+        llCashback = (LinearLayout) findViewById(R.id.ll_cashback);
+        rlLevelDetails = (RelativeLayout) findViewById(R.id.rl_level_details);
+        rlProfilePic = (RelativeLayout) findViewById(R.id.rl_profile_pic);
 
 
         navigation = (BottomNavigationViewEx) findViewById(R.id.bottom_navigation);
@@ -109,6 +120,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 setTopLayoutVisibility(item.getItemId());
+                setTopLayoutItemsVisibility(item.getItemId());
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
                         UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, HomeFragment.newInstance(), false);
@@ -166,6 +178,31 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         }
     }
 
+    public void setTopLayoutItemsVisibility(int itemId) {
+
+        switch (itemId) {
+            case R.id.navigation_Settings:
+                llUserInfo.setVisibility(View.INVISIBLE);
+                llCashback.setVisibility(View.INVISIBLE);
+                rlLevelDetails.setVisibility(View.GONE);
+                ivChangeProfilePic.setVisibility(View.VISIBLE);
+                rlProfilePic.setOnClickListener(this);
+                tvUserName.setPadding(4, 4, 4, 25);
+                break;
+            case R.id.navigation_home:
+            case R.id.navigation_wallet:
+            case R.id.navigation_redeem:
+            default:
+                llUserInfo.setVisibility(View.VISIBLE);
+                llCashback.setVisibility(View.VISIBLE);
+                rlLevelDetails.setVisibility(View.VISIBLE);
+                ivChangeProfilePic.setVisibility(View.INVISIBLE);
+                rlProfilePic.setOnClickListener(null);
+                tvUserName.setPadding(4, 4, 4, 4);
+                break;
+        }
+    }
+
     public void setTopBarTitle(String title) {
         if (toolbarTitle != null) {
             toolbarTitle.setText(title);
@@ -175,8 +212,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
 
     @Override
     public void onSwipeInitialized(InitSwipeEvent initSwipeEvent) {
-//        if (!checkIfForcedUpdate(initSwipeEvent.getInitSwipe().getAppConfig()))
-        {
+        if (!checkIfForcedUpdate(initSwipeEvent.getInitSwipe().getAppConfig())) {
             SingletonAppCache.getInstance().setUserProfile(initSwipeEvent.getInitSwipe().getUserProfile());
             SingletonAppCache.getInstance().setAppConfig(initSwipeEvent.getInitSwipe().getAppConfig());
             setUserData(initSwipeEvent.getInitSwipe().getUserProfile());
@@ -254,7 +290,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.profile_image:
+            case R.id.rl_profile_pic:
             case R.id.bottom_sheet:
                 showBottomSheetMenu();
                 break;
@@ -269,7 +305,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
 
     private void showBottomSheetMenu() {
 
-        if (bottomSheet.getVisibility()==View.VISIBLE) {
+        if (bottomSheet.getVisibility() == View.VISIBLE) {
             bottomSheet.setVisibility(View.GONE);
         } else {
             bottomSheet.setVisibility(View.VISIBLE);

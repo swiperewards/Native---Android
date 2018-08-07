@@ -49,6 +49,7 @@
                         android:weightSum="8">
 
                     <LinearLayout
+                            android:id="@+id/ll_user_info"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -97,18 +98,18 @@
                                 android:layout_height="64dp">
 
                             <de.hdodenhof.circleimageview.CircleImageView
-                                    xmlns:app="http://schemas.android.com/apk/res-auto"
                                     android:id="@+id/profile_image"
                                     android:layout_width="64dp"
                                     android:layout_height="64dp"
                                     android:scaleType="centerCrop"
-                                    app:srcCompat="@drawable/vc_user"
+                                    android:src="@mipmap/ic_launcher"
                                     app:civ_border_color="#ffffff"
                                     app:civ_border_width="1dp"/>
 
                             <android.support.v7.widget.AppCompatImageView
                                     android:id="@+id/iv_change_profile_pic"
                                     android:layout_width="24dp"
+                                    android:visibility="invisible"
                                     android:layout_height="24dp"
                                     android:layout_alignParentBottom="true"
                                     android:layout_alignParentRight="true"
@@ -133,6 +134,7 @@
 
 
                     <LinearLayout
+                            android:id="@+id/ll_cashback"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -169,6 +171,7 @@
 
 
                 <RelativeLayout
+                        android:id="@+id/rl_level_details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin_medium"

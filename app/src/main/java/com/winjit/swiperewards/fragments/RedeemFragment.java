@@ -123,6 +123,8 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
 
 
     public void setAdaptersForRedeemMode(Context context, final Spinner spinner, String[] dropDownValues) {
+        if(context==null)
+            return;
         if (dropDownValues != null && dropDownValues.length > 0) {
             spinner.setAdapter(new ArrayAdapter<>(context, R.layout.row_spinner, dropDownValues));
         }

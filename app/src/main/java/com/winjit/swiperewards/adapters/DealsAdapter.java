@@ -36,9 +36,14 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.AccountDetai
         return new AccountDetailViewHolder(view);
     }
 
+    public void updateList(ArrayList<Deals> list){
+        dealsList = list;
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(AccountDetailViewHolder holder, final int position) {
-        holder.tvStoreName.setText(dealsList.get(position).getMerchantId());
+        holder.tvStoreName.setText(dealsList.get(position).getShortDescription());
         holder.tvLocationName.setText(dealsList.get(position).getLocation());
         holder.tvCashBack.setText("" + dealsList.get(position).getCashBonus());
         holder.tvValidity.setText(dealsList.get(position).getStartDate() + "-" + dealsList.get(position).getEndDate());

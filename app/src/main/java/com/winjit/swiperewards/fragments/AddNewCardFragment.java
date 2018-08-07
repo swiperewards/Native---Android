@@ -1,5 +1,6 @@
 package com.winjit.swiperewards.fragments;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -7,10 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.activities.HomeActivity;
 import com.winjit.swiperewards.constants.ISwipe;
+import com.winjit.swiperewards.customviews.MonthYearPickerDialog;
+import com.winjit.swiperewards.customviews.creditcard.CardEditText;
 import com.winjit.swiperewards.entities.WalletCard;
 import com.winjit.swiperewards.helpers.UIHelper;
 import com.winjit.swiperewards.helpers.ValidationHelper;
@@ -20,7 +24,6 @@ import com.winjit.swiperewards.presenters.WalletPresenter;
 
 public class AddNewCardFragment extends BaseFragment implements View.OnClickListener, WalletCardView {
 
-    private TextInputEditText etCardNumber;
     private TextInputEditText etExpiryDetails;
     private TextInputEditText etCvv;
     private TextInputEditText etName;
@@ -28,6 +31,7 @@ public class AddNewCardFragment extends BaseFragment implements View.OnClickList
     private WalletPresenter walletPresenter;
     private String expiryMonth;
     private String expiryYear;
+    private CardEditText tvCardNumber;
 
     public static AddNewCardFragment newInstance() {
         Bundle args = new Bundle();
@@ -52,13 +56,18 @@ public class AddNewCardFragment extends BaseFragment implements View.OnClickList
     }
 
     private void initViews(View mRootView) {
-        etCardNumber = (TextInputEditText) mRootView.findViewById(R.id.et_card_number);
         etExpiryDetails = (TextInputEditText) mRootView.findViewById(R.id.et_expiry_details);
         etCvv = (TextInputEditText) mRootView.findViewById(R.id.et_cvv);
         etName = (TextInputEditText) mRootView.findViewById(R.id.et_name);
+        tvCardNumber = mRootView.findViewById(R.id.tv_card_number);
+
 
         btSubmit = (Button) mRootView.findViewById(R.id.bt_submit);
         btSubmit.setOnClickListener(this);
+
+        etExpiryDetails.setFocusable(false);
+        etExpiryDetails.setClickable(true);
+        etExpiryDetails.setOnClickListener(this);
         setDummyData();
     }
 
@@ -73,12 +82,24 @@ public class AddNewCardFragment extends BaseFragment implements View.OnClickList
                     walletPresenter.addWalletCard(getWalletCardInfo());
                 }
                 break;
+            case R.id.et_expiry_details:
+                MonthYearPickerDialog pd = new MonthYearPickerDialog();
+                pd.setListener(new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int i2) {
+                        expiryMonth = String.format("%02d", month);
+                        expiryYear = String.valueOf(year);
+                        etExpiryDetails.setText(expiryMonth + "-" + expiryYear);
+                    }
+                });
+                pd.show(getFragmentManager(), "MonthYearPickerDialog");
+                break;
         }
     }
 
     private WalletCard getWalletCardInfo() {
         WalletCard walletCard = new WalletCard();
-        walletCard.setCardNumber(etCardNumber.getText().toString());
+        walletCard.setCardNumber(tvCardNumber.getText().toString().replace(" ", ""));
         walletCard.setNameOnCard(etName.getText().toString());
         walletCard.setCvv(etCvv.getText().toString());
         walletCard.setExpiryMonthMM(expiryMonth);
@@ -88,7 +109,7 @@ public class AddNewCardFragment extends BaseFragment implements View.OnClickList
 
     private boolean isValidInputsEntered() {
         ValidationHelper validationHelper = new ValidationHelper();
-        return validationHelper.isValidEditTexts(getActivity(), etName, etCardNumber, etCvv, etExpiryDetails);
+        return validationHelper.isValidEditTexts(getActivity(), etName, tvCardNumber, etCvv, etExpiryDetails);
     }
 
     @Override
@@ -118,7 +139,7 @@ public class AddNewCardFragment extends BaseFragment implements View.OnClickList
 
     private void setDummyData() {
         if (ISwipe.IS_DUMMY_DATA_ENABLED) {
-            etCardNumber.setText("123456789012");
+            tvCardNumber.setText("");
             etName.setText("Test Winjit");
             etCvv.setText("123");
             etExpiryDetails.setText("12-2030");

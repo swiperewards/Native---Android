@@ -59,6 +59,10 @@
         <item name="android:textColor">@android:color/darker_gray</item>
         <item name="android:textSize">12sp</item>
     </style>
+    <style name="AppEditTextInputErrorColorRed" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@android:color/holo_red_dark</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 
     <style name="style_edit_text">
         <item name="android:textColor">@color/color_text</item>
