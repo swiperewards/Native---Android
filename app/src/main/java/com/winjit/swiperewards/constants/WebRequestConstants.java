@@ -24,6 +24,7 @@ public class WebRequestConstants {
     public static final String WS_GET_REDEEM_OPTIONS = URL + "/redeem/getRedeemOptions";
     public static final String WS_RAISE_REDEEM_REQUEST = URL + "/redeem/raiseRedeemRequest";
     public static final String WS_GET_EVENT_HISTORY = URL + "/event/getEventNotifications";
+    public static final String WS_UPLOAD_PROFILE_PIC = URL + "/users/updateProfilePic";
 
 
 

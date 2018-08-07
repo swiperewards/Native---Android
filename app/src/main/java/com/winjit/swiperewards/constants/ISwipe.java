@@ -1,7 +1,7 @@
 package com.winjit.swiperewards.constants;
 
 public interface ISwipe {
-    boolean IS_DUMMY_DATA_ENABLED = false;
+    boolean IS_DUMMY_DATA_ENABLED = true;
     String SESSION_USER = "SESSION_USER";
     String ADAPTER_POSITION = "ADAPTER_POSITION";
     String TAG = "SwipeLog";
@@ -34,9 +34,15 @@ public interface ISwipe {
     int FILE_REQUEST = 1889;
     int LOCATION_PERMISSION = 1;
 
-    int EVENT_TYPE_GENERAL =1;
-    int EVENT_TYPE_REWARD =2;
-    int EVENT_TYPE_TRANSACTION =3;
+    int EVENT_TYPE_GENERAL = 1;
+    int EVENT_TYPE_REWARD = 2;
+    int EVENT_TYPE_TRANSACTION = 3;
 
     String CHEQUE = "Cheque";
+
+    int CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE_WITH_CAMERA = 100;
+    int CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE_WITHOUT_CAMERA = 101;
+    int CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE = 2011;
+    int THUMBNAIL_SIZE = 256;
+
 }

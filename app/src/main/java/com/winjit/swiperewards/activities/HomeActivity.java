@@ -2,8 +2,11 @@ package com.winjit.swiperewards.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.NestedScrollView;
@@ -20,6 +23,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.myhexaville.smartimagepicker.ImagePicker;
+import com.myhexaville.smartimagepicker.OnImagePickedListener;
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.appdata.SingletonAppCache;
 import com.winjit.swiperewards.constants.ISwipe;
@@ -36,7 +41,11 @@ import com.winjit.swiperewards.interfaces.MessageDialogConfirm;
 import com.winjit.swiperewards.mvpviews.InitSwipeView;
 import com.winjit.swiperewards.presenters.InitSwipePresenter;
 
+import java.io.IOException;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class HomeActivity extends BaseActivity implements InitSwipeView, View.OnClickListener {
 
@@ -53,14 +62,12 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     private TextView toolbarTitle;
     private AppCompatSeekBar skLevel;
     private InitSwipePresenter initSwipePresenter;
-    private RelativeLayout bottomSheet;
-    private LinearLayout linCamera;
-    private LinearLayout linGallery;
     private LinearLayout llUserInfo;
     private LinearLayout llCashback;
     private RelativeLayout rlLevelDetails;
     private AppCompatImageView ivChangeProfilePic;
     private RelativeLayout rlProfilePic;
+    private ImagePicker imagePicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +86,6 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         tvLevel = (AppCompatTextView) findViewById(R.id.tv_level);
         tvLevelDesc = (AppCompatTextView) findViewById(R.id.tv_level_desc);
         skLevel = (AppCompatSeekBar) findViewById(R.id.sk_level);
-        bottomSheet = (RelativeLayout) findViewById(R.id.bottom_sheet);
-        linCamera = (LinearLayout) findViewById(R.id.lin_camera);
-        linGallery = (LinearLayout) findViewById(R.id.lin_gallery);
         llUserInfo = (LinearLayout) findViewById(R.id.ll_user_info);
         llCashback = (LinearLayout) findViewById(R.id.ll_cashback);
         rlLevelDetails = (RelativeLayout) findViewById(R.id.rl_level_details);
@@ -111,10 +115,6 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
                 return true;
             }
         });
-        profileImage.setOnClickListener(this);
-        linCamera.setOnClickListener(this);
-        linGallery.setOnClickListener(this);
-        bottomSheet.setOnClickListener(this);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -291,31 +291,68 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_profile_pic:
-            case R.id.bottom_sheet:
-                showBottomSheetMenu();
-                break;
-            case R.id.lin_camera:
-                showBottomSheetMenu();
-                break;
-            case R.id.lin_gallery:
-                showBottomSheetMenu();
+                launchGallery();
                 break;
         }
     }
 
-    private void showBottomSheetMenu() {
-
-        if (bottomSheet.getVisibility() == View.VISIBLE) {
-            bottomSheet.setVisibility(View.GONE);
-        } else {
-            bottomSheet.setVisibility(View.VISIBLE);
-        }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        imagePicker.handleActivityResult(resultCode, requestCode, data);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == ISwipe.CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE_WITH_CAMERA) {
+            if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED &&
+                    grantResults.length > 1 && grantResults[1] == PERMISSION_GRANTED ) {
+                launchGallery();
+            }
+            else {
+                showMessage("Permissions must be granted to set the profile picture!");
+            }
+        }
+
+        if (requestCode == ISwipe.CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE_WITHOUT_CAMERA) {
+            if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED) {
+                launchGallery();
+            } else {
+                showMessage("Permissions must be granted to set the profile picture!");
+            }
+        } else if (requestCode == ISwipe.CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED) {
+                launchGallery();
+            } else {
+                showMessage("Permissions must be granted to set the profile picture!");
+            }
+        }
+    }
+
+
+    private void launchGallery() {
+
+        if (imagePicker == null) {
+            imagePicker = new ImagePicker(this, /* activity non null*/
+                    null, /* fragment nullable*/
+                    new OnImagePickedListener() {
+                        @Override
+                        public void onImagePicked(Uri imageUri) {
+                            profileImage.setImageURI(imageUri);
+                            try {
+                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                                Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(bitmap, ISwipe.THUMBNAIL_SIZE, ISwipe.THUMBNAIL_SIZE);
+                                initSwipePresenter.uploadProfilePic(ThumbImage);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+            imagePicker.setWithImageCrop(1, 1);
+        }
+        imagePicker.choosePicture(true /*show camera intents*/);
+
     }
 
 }
-

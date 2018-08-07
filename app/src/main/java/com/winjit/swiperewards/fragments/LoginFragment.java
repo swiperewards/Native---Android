@@ -23,13 +23,12 @@ import com.winjit.swiperewards.mvpviews.OnBoardingView;
 import com.winjit.swiperewards.presenters.OnBoardingPresenter;
 
 
-public class LoginFragment extends BaseFragment implements View.OnClickListener, OnBoardingView {
+public class LoginFragment extends SocialBaseFragment implements View.OnClickListener, OnBoardingView {
 
     private TextInputEditText etUserEmail;
     private TextInputEditText etPassword;
     private TextView tvForgotPassword;
     private Button btLogin;
-    private AppCompatImageView ivFacebook;
     private AppCompatImageView ivGoogle;
     private Button btRegister;
     private OnBoardingPresenter onBoardingPresenter;
@@ -56,6 +55,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
 
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         initViews(view);
+
         return view;
     }
 
@@ -64,13 +64,13 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         etPassword = (TextInputEditText) mRootView.findViewById(R.id.et_password);
         tvForgotPassword = (TextView) mRootView.findViewById(R.id.forgot_password);
         btLogin = (Button) mRootView.findViewById(R.id.bt_login);
-        ivFacebook = (AppCompatImageView) mRootView.findViewById(R.id.iv_facebook);
+//        ivFacebook = (LoginButton) mRootView.findViewById(R.id.iv_facebook);
         ivGoogle = (AppCompatImageView) mRootView.findViewById(R.id.iv_google);
         btRegister = (Button) mRootView.findViewById(R.id.bt_register);
 
         btLogin.setOnClickListener(this);
         tvForgotPassword.setOnClickListener(this);
-        ivFacebook.setOnClickListener(this);
+//        ivFacebook.setOnClickListener(this);
         ivGoogle.setOnClickListener(this);
         btRegister.setOnClickListener(this);
 
@@ -94,6 +94,10 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
                 break;
             case R.id.bt_register:
                 UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, RegisterFragment.newInstance(), true);
+                break;
+            case R.id.iv_google:
+                initializeGoogle();
+                googleSignIn();
                 break;
         }
     }
@@ -120,8 +124,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
 
     private void setDummyData() {
         if (ISwipe.IS_DUMMY_DATA_ENABLED) {
-            etUserEmail.setText("adityab@winjit.com");
-            etPassword.setText("Qwerty@123");
+            etUserEmail.setText("vb@winjit.com");
+            etPassword.setText("Winjit@123");
         }
     }
 }

@@ -48,7 +48,7 @@ public enum CardType {
             12, 19,
             3, R.string.bt_cvv),
     EMPTY("^$",
-            R.drawable.vc_wallet,
+            R.drawable.bt_ic_unknown,
             12, 19,
             3, R.string.bt_cvv);
 

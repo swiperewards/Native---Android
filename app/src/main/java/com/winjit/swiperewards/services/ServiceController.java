@@ -24,6 +24,8 @@ import com.winjit.swiperewards.helpers.InputRequestHelper;
 import com.winjit.swiperewards.helpers.PreferenceUtils;
 import com.winjit.swiperewards.web.WebRequestManager;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 /**
@@ -192,4 +194,16 @@ public class ServiceController {
                 new InputRequestHelper().prepareWrappedInputRequest(context, map),
                 BaseEvent.class);
     }
+
+    public void uploadProfilePic(Context context, String bitMap, WebRequestManager.WebProcessListener<BaseEvent> webProcessListener) {
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("file", bitMap);
+        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+                WebRequestConstants.WS_UPLOAD_PROFILE_PIC,
+                generateRequestHeader(getSessionToken(context)),
+                new JSONObject(map),
+                BaseEvent.class);
+    }
+
 }
