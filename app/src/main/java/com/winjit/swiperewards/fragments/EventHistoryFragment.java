@@ -1,7 +1,7 @@
 package com.winjit.swiperewards.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,16 +13,17 @@ import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.activities.HomeActivity;
 import com.winjit.swiperewards.adapters.EventHistoryAdapter;
 import com.winjit.swiperewards.constants.ISwipe;
+import com.winjit.swiperewards.entities.EventDetails;
 import com.winjit.swiperewards.interfaces.AdapterResponseInterface;
+import com.winjit.swiperewards.mvpviews.EventHistoryView;
+import com.winjit.swiperewards.presenters.EventHistoryPresenter;
 
 
-public class EventHistoryFragment extends Fragment implements View.OnClickListener, AdapterResponseInterface {
+public class EventHistoryFragment extends BaseFragment implements AdapterResponseInterface,EventHistoryView {
 
     private RecyclerView rvEventHistory;
-    private EventHistoryAdapter eventHistoryAdapter;
+    private EventHistoryPresenter eventHistoryPresenter;
 
-    public EventHistoryFragment() {
-    }
 
     public static EventHistoryFragment newInstance() {
         Bundle args = new Bundle();
@@ -33,10 +34,18 @@ public class EventHistoryFragment extends Fragment implements View.OnClickListen
 
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        eventHistoryPresenter = new EventHistoryPresenter(this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event_history, container, false);
         initViews(view);
+        showProgress(getActivity().getResources().getString(R.string.please_wait));
+        eventHistoryPresenter.getEventHistory();
         return view;
     }
 
@@ -47,15 +56,10 @@ public class EventHistoryFragment extends Fragment implements View.OnClickListen
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvEventHistory.getContext(),
                 linearLayoutManager.getOrientation());
         rvEventHistory.addItemDecoration(dividerItemDecoration);
-        rvEventHistory.setAdapter(new EventHistoryAdapter(getActivity(), this));
+
     }
 
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-        }
-    }
 
     @Override
     public void getAdapterResponse(Bundle bundle) {
@@ -68,5 +72,10 @@ public class EventHistoryFragment extends Fragment implements View.OnClickListen
         if (((HomeActivity) getActivity()) != null) {
             ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_HISTORY);
         }
+    }
+
+    @Override
+    public void onEventHistoryReceived(EventDetails[] eventDetails) {
+        rvEventHistory.setAdapter(new EventHistoryAdapter(getActivity(), this,eventDetails));
     }
 }

@@ -11,13 +11,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.winjit.swiperewards.R;
+import com.winjit.swiperewards.activities.LoginActivity;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.entities.SessionData;
 import com.winjit.swiperewards.entities.UserDetails;
-import com.winjit.swiperewards.mvpviews.OnBoardingView;
-import com.winjit.swiperewards.presenters.OnBoardingPresenter;
 import com.winjit.swiperewards.helpers.UIHelper;
 import com.winjit.swiperewards.helpers.ValidationHelper;
+import com.winjit.swiperewards.mvpviews.OnBoardingView;
+import com.winjit.swiperewards.presenters.OnBoardingPresenter;
 
 
 public class RegisterFragment extends BaseFragment implements View.OnClickListener, OnBoardingView {
@@ -70,7 +71,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         ivFacebook.setOnClickListener(this);
         ivGoogle.setOnClickListener(this);
         tvSignIn.setOnClickListener(this);
-
+        ((LoginActivity) getActivity()).changeHeader(getActivity().getResources().getString(R.string.welcome_register));
         setDummyData();
     }
 
@@ -83,8 +84,11 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                 if (isValidInputsEntered()) {
                     showProgress(getActivity().getResources().getString(R.string.please_wait));
                     onBoardingPresenter.registerUser(getUserDetails());
-                    break;
-                }
+                    }
+                break;
+            case R.id.tv_sign_in:
+                new UIHelper().getInstance().popFragment(getActivity().getSupportFragmentManager());
+                break;
         }
     }
 
@@ -104,6 +108,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         ValidationHelper validationHelper = new ValidationHelper();
         return validationHelper.isValidEditTexts(getActivity(), etFirstName, etLastName, etUserEmail, etPassword, etConfirmPassword) &&
                 validationHelper.isPasswordMatch(getActivity(), etPassword, etConfirmPassword) &&
+                validationHelper.isAcceptablePassword(getActivity(),etPassword) &&
                 validationHelper.isValidEmail(getActivity(), etUserEmail);
 
     }
@@ -114,7 +119,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         Bundle bundle = new Bundle();
         bundle.putBoolean(ISwipe.IS_FROM_SIGN_UP, true);
         successFragment.setArguments(bundle);
-        UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, successFragment, true);
+        UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, successFragment, false);
     }
 
     @Override

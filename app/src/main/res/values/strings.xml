@@ -48,8 +48,9 @@
     <string name="user_name_email">Username/Email</string>
     <string name="password">Password</string>
     <string name="sign_up">Sign Up</string>
-    <string name="sign_in_with_social">Or Sign In with</string>
+    <string name="sign_in_with_social">Or Sign in with</string>
     <string name="welcome">Welcome to Swipe Rewards!!</string>
+    <string name="welcome_register">Register to Swipe Rewards!!</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="connect_with">Or connect with</string>
@@ -89,5 +90,21 @@
     <string name="err_notification">Notifications disabled successfully.</string>
     <string name="enable_location">Enable Location Services</string>
     <string name="enable">Enable</string>
+    <string name="cashback_till_date">Cashback till Date</string>
+    <string name="permission_error">Location permission is must to explore the exciting deals!</string>
+    <string name="address">Address</string>
+    <string name="name_as_per_bank">Name as per bank</string>
+    <string name="err_valid_redeem_mode">Please select valid redeem mode.</string>
+    <string name="err_valid_redeem_option">Please select valid redeem option.</string>
+    <string name="redeem_request_raised">Redeem request has been raised successfully!</string>
+    <string name="app_update">App Update</string>
+    <string name="btn_exit">Exit</string>
+    <string name="update">Update</string>
+    <string name="pick_from_gallery">Pick from Gallery</string>
+    <string name="click_from_camera">Click from Camera</string>
+    <string name="err_password_uppercase">Password must contain at-least one Uppercase character.</string>
+    <string name="err_password_special_character">Password must contain at-least one special character.</string>
+    <string name="err_password_digit">Password must contain at-least one digit.</string>
+    <string name="err_password_pattern">Password must 8 to 14 characters.</string>
 
 </resources>

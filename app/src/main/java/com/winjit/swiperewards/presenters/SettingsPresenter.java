@@ -20,10 +20,10 @@ public class SettingsPresenter {
             new ServiceController().updateNotificationStatus(settingsView.getViewContext(), notificationStatus, new WebRequestManager.WebProcessListener<NotificationStatusEvent>() {
                 @Override
                 public void onWebProcessSuccess(NotificationStatusEvent notificationStatusEvent) {
+                    settingsView.hideProgress();
                     if (notificationStatusEvent.getStatus() == ISwipe.SUCCESS) {
                         settingsView.onNotificationStatusChanged(notificationStatusEvent.getNotificationStatus().isEnableNotification());
                     } else {
-                        settingsView.hideProgress();
                         settingsView.showMessage(ErrorCodesHelper.getErrorStringFromCode(settingsView.getViewContext(), notificationStatusEvent.getStatus()));
                         settingsView.onErrorNotificationState();
                     }
@@ -31,12 +31,14 @@ public class SettingsPresenter {
 
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
+                    settingsView.hideProgress();
                     settingsView.showMessage(ErrorCodesHelper.getErrorStringFromCode(settingsView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
                     settingsView.onErrorNotificationState();
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
+            settingsView.hideProgress();
             settingsView.showMessage(ErrorCodesHelper.getErrorStringFromCode(settingsView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
             settingsView.onErrorNotificationState();
         }

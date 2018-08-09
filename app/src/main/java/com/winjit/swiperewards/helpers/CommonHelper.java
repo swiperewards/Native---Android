@@ -40,7 +40,7 @@ public class CommonHelper {
                 String dialogInterfaceMessage = "Do you want to navigate to this deal location?";
 
                 UIHelper.configureShowConfirmDialog(dialogInterfaceMessage, context,
-                        R.string.yes, R.string.btn_cancel,
+                        R.string.yes, R.string.btn_cancel,R.string.confirm,
                         new MessageDialogConfirm() {
                             @Override
                             public void onPositiveClick() {

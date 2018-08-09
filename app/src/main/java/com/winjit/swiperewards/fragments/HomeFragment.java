@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.GnssStatus;
+import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -68,7 +70,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         initViews(view);
-        addLocationListener();
+        setLocationListener();
         return view;
     }
 
@@ -86,8 +88,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     private void getDealsIfLocationEnabled() {
-        if (PermissionUtils.checkPermissionGranted(getActivity(), "android.permission.ACCESS_COARSE_LOCATION") &&
-                PermissionUtils.checkPermissionGranted(getActivity(), "android.permission.ACCESS_FINE_LOCATION")) {
+        if (PermissionUtils.checkPermissionGranted((AppCompatActivity) getActivity(), "android.permission.ACCESS_COARSE_LOCATION") &&
+                PermissionUtils.checkPermissionGranted((AppCompatActivity) getActivity(), "android.permission.ACCESS_FINE_LOCATION")) {
 
             GPSTracker gpsTracker = new GPSTracker(getActivity());
             boolean isLocationEnabled = gpsTracker.isLocationEnabled(getActivity());
@@ -110,16 +112,70 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
 
-    private void addLocationListener() {
+    private void setLocationListener() {
 
         lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         if (lm != null) {
-            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+            //Checking SDK to ensure runtime permissions.
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
-                lm.addGpsStatusListener(new android.location.GpsStatus.Listener() {
+                //Checking SDK to to set Gps status listener which is deprecated in android N.
+                if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+                    lm.addGpsStatusListener(new GpsStatus.Listener() {
+                        public void onGpsStatusChanged(int event) {
+                            switch (event) {
+                                case GPS_EVENT_STARTED:
+                                    initiateDealsAndUpdateBottomVisibility(true);
+                                    break;
+                                case GPS_EVENT_STOPPED:
+                                    initiateDealsAndUpdateBottomVisibility(false);
+                                    break;
+                            }
+                        }
+                    });
+                }else{
+                    gnsCallBack = new GnssStatus.Callback() {
+                        @Override
+                        public void onStarted() {
+                            super.onStarted();
+                            initiateDealsAndUpdateBottomVisibility(true);
+                        }
+
+                        @Override
+                        public void onStopped() {
+                            super.onStopped();
+                            initiateDealsAndUpdateBottomVisibility(false);
+                        }
+
+                    };
+                    lm.registerGnssStatusCallback(gnsCallBack);
+                    lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 0, new LocationListener() {
+                        @Override
+                        public void onLocationChanged(Location location) {
+
+                        }
+
+                        @Override
+                        public void onStatusChanged(String s, int i, Bundle bundle) {
+                        }
+
+                        @Override
+                        public void onProviderEnabled(String s) {
+                            initiateDealsAndUpdateBottomVisibility(true);
+                        }
+
+                        @Override
+                        public void onProviderDisabled(String s) {
+                            initiateDealsAndUpdateBottomVisibility(false);
+                        }
+                    });
+                }
+            } else {
+                //Setting GPS listener without checking runtime permission for devices below Android M.
+                lm.addGpsStatusListener(new GpsStatus.Listener() {
                     public void onGpsStatusChanged(int event) {
                         switch (event) {
                             case GPS_EVENT_STARTED:
@@ -129,42 +185,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 initiateDealsAndUpdateBottomVisibility(false);
                                 break;
                         }
-                    }
-                });
-            } else {
-                gnsCallBack = new GnssStatus.Callback() {
-                    @Override
-                    public void onStarted() {
-                        super.onStarted();
-                        initiateDealsAndUpdateBottomVisibility(true);
-                    }
-
-                    @Override
-                    public void onStopped() {
-                        super.onStopped();
-                        initiateDealsAndUpdateBottomVisibility(false);
-                    }
-
-                };
-                lm.registerGnssStatusCallback(gnsCallBack);
-                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 0, new LocationListener() {
-                    @Override
-                    public void onLocationChanged(Location location) {
-
-                    }
-
-                    @Override
-                    public void onStatusChanged(String s, int i, Bundle bundle) {
-                    }
-
-                    @Override
-                    public void onProviderEnabled(String s) {
-                        initiateDealsAndUpdateBottomVisibility(true);
-                    }
-
-                    @Override
-                    public void onProviderDisabled(String s) {
-                        initiateDealsAndUpdateBottomVisibility(false);
                     }
                 });
             }
@@ -177,7 +197,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private void requestPermission() {
         String[] strPermission = {"android.permission.ACCESS_COARSE_LOCATION",
                 "android.permission.ACCESS_FINE_LOCATION"};
-        PermissionUtils.requestMultiplePermissions(getActivity(), strPermission);
+        requestPermissions(strPermission,ISwipe.LOCATION_PERMISSION);
     }
 
 
@@ -215,8 +235,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case 1:
-                getDealsIfLocationEnabled();
+            case ISwipe.LOCATION_PERMISSION:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    setLocationListener();
+                    getDealsIfLocationEnabled();
+                }
+                else{
+                    showMessage(getActivity().getResources().getString(R.string.permission_error));
+                }
                 break;
         }
     }
@@ -228,4 +254,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             lm.unregisterGnssStatusCallback(gnsCallBack);
         }
     }
+
+
 }

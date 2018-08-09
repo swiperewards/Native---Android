@@ -5,14 +5,18 @@ import android.text.TextUtils;
 
 import com.android.volley.Request;
 import com.winjit.swiperewards.SwipeRewardsApp;
+import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.constants.WebRequestConstants;
 import com.winjit.swiperewards.entities.UserDetails;
 import com.winjit.swiperewards.entities.WalletCard;
 import com.winjit.swiperewards.events.BaseEvent;
 import com.winjit.swiperewards.events.ChangePasswordEvent;
 import com.winjit.swiperewards.events.GetDealsEvent;
+import com.winjit.swiperewards.events.GetEventHistoryEvent;
+import com.winjit.swiperewards.events.GetRedeemModesEvent;
 import com.winjit.swiperewards.events.GetTicketTypeEvent;
 import com.winjit.swiperewards.events.GetWalletCardsEvent;
+import com.winjit.swiperewards.events.InitSwipeEvent;
 import com.winjit.swiperewards.events.LoginEvent;
 import com.winjit.swiperewards.events.NotificationStatusEvent;
 import com.winjit.swiperewards.events.RegisterUserEvent;
@@ -104,7 +108,7 @@ public class ServiceController {
     }
 
 
-    public void deleteCard(Context context, long cardId,  WebRequestManager.WebProcessListener<BaseEvent> webProcessListener) {
+    public void deleteCard(Context context, long cardId, WebRequestManager.WebProcessListener<BaseEvent> webProcessListener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("cardId", cardId);
 
@@ -114,7 +118,6 @@ public class ServiceController {
                 new InputRequestHelper().prepareWrappedInputRequest(context, map),
                 BaseEvent.class);
     }
-
 
 
     public void getTicketTypes(Context context, WebRequestManager.WebProcessListener<GetTicketTypeEvent> webProcessListener) {
@@ -142,7 +145,7 @@ public class ServiceController {
 
     public void updateNotificationStatus(Context context, boolean isEnabled, WebRequestManager.WebProcessListener<NotificationStatusEvent> webProcessListener) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("enableNotification",isEnabled);
+        map.put("enableNotification", isEnabled);
 
         new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_SET_NOTIFICATION_STATUS,
@@ -152,4 +155,41 @@ public class ServiceController {
     }
 
 
+    public void initialiseSwipeRewards(Context context, int appVersionCode, WebRequestManager.WebProcessListener<InitSwipeEvent> webProcessListener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("appVersionCode", appVersionCode);
+        map.put("platform", ISwipe.PLATFORM);
+
+        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+                WebRequestConstants.WS_INIT_SWIPE,
+                generateRequestHeader(getSessionToken(context)),
+                new InputRequestHelper().prepareWrappedInputRequest(context, map),
+                InitSwipeEvent.class);
+    }
+
+    public void getRedeemModes(Context context, WebRequestManager.WebProcessListener<GetRedeemModesEvent> webProcessListener) {
+        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+                WebRequestConstants.WS_GET_REDEEM_OPTIONS,
+                generateRequestHeader(getSessionToken(context)),
+                new InputRequestHelper().prepareWrappedInputRequest(context, null),
+                GetRedeemModesEvent.class);
+
+    }
+
+    public void getEventHistory(Context context, WebRequestManager.WebProcessListener<GetEventHistoryEvent> webProcessListener) {
+        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+                WebRequestConstants.WS_GET_EVENT_HISTORY,
+                generateRequestHeader(getSessionToken(context)),
+                new InputRequestHelper().prepareWrappedInputRequest(context, null),
+                GetEventHistoryEvent.class);
+
+    }
+
+    public void raiseRedeemRequest(Context context, HashMap<String, Object> map, WebRequestManager.WebProcessListener<BaseEvent> webProcessListener) {
+        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+                WebRequestConstants.WS_RAISE_REDEEM_REQUEST,
+                generateRequestHeader(getSessionToken(context)),
+                new InputRequestHelper().prepareWrappedInputRequest(context, map),
+                BaseEvent.class);
+    }
 }

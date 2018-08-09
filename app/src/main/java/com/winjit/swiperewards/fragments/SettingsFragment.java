@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.SwitchCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.CompoundButton;
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.activities.HomeActivity;
 import com.winjit.swiperewards.activities.LoginActivity;
+import com.winjit.swiperewards.appdata.SingletonAppCache;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.helpers.UIHelper;
 import com.winjit.swiperewards.interfaces.MessageDialogConfirm;
@@ -65,6 +67,9 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         tvTermsOfUse.setOnClickListener(this);
         tvSignOut.setOnClickListener(this);
 
+        if (SingletonAppCache.getInstance().getUserProfile() != null) {
+            swNotification.setChecked(SingletonAppCache.getInstance().getUserProfile().getNotificationEnabled());
+        }
         swNotification.setOnCheckedChangeListener(this);
     }
 
@@ -72,7 +77,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         String dialogInterfaceMessage = "Are you sure you want to sign out?";
 
         UIHelper.configureShowConfirmDialog(dialogInterfaceMessage, getActivity(),
-                R.string.yes, R.string.btn_cancel,
+                R.string.yes, R.string.btn_cancel, R.string.confirm,
                 new MessageDialogConfirm() {
                     @Override
                     public void onPositiveClick() {
@@ -101,22 +106,37 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, ContactUsFragment.newInstance(), true);
                 break;
             case R.id.tv_privacy:
+                if (SingletonAppCache.getInstance().getAppConfig() == null ||
+                        TextUtils.isEmpty(SingletonAppCache.getInstance().getAppConfig().getPrivacySecurityUrl())) {
+                    showMessage(getActivity().getResources().getString(R.string.err_generic));
+                }
+
+                String privacySecurityUrl = SingletonAppCache.getInstance().getAppConfig().getPrivacySecurityUrl();
+
+
                 if (((HomeActivity) getActivity()) != null) {
                     ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_PRIVACY_SECURITY);
                 }
                 WebViewFragment webViewFragment = WebViewFragment.newInstance();
                 Bundle bundle = new Bundle();
-                bundle.putString(ISwipe.WEB_URL, ISwipe.PRIVACY_SECURITY_URL);
+                bundle.putString(ISwipe.WEB_URL, privacySecurityUrl);
                 webViewFragment.setArguments(bundle);
                 UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, webViewFragment, true);
                 break;
             case R.id.tv_terms_of_use:
+
+                if (SingletonAppCache.getInstance().getAppConfig() == null ||
+                        TextUtils.isEmpty(SingletonAppCache.getInstance().getAppConfig().getTermsOfUseUrl())) {
+                    showMessage(getActivity().getResources().getString(R.string.err_generic));
+                }
+
+                String termsOfUseUrl = SingletonAppCache.getInstance().getAppConfig().getTermsOfUseUrl();
                 if (((HomeActivity) getActivity()) != null) {
                     ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_TERMS_OF_USE);
                 }
                 WebViewFragment webViewTermsFragment = WebViewFragment.newInstance();
                 Bundle termsBundle = new Bundle();
-                termsBundle.putString(ISwipe.WEB_URL, ISwipe.TERMS_OF_USE_URL);
+                termsBundle.putString(ISwipe.WEB_URL, termsOfUseUrl);
                 webViewTermsFragment.setArguments(termsBundle);
                 UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, webViewTermsFragment, true);
                 break;
@@ -136,8 +156,10 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void onNotificationStatusChanged(boolean updatedNotificationStatus) {
-        if (swNotification.isEnabled()) {
+        if (swNotification.isChecked()) {
             showMessage(getActivity().getResources().getString(R.string.notification_enabled));
+        } else {
+            showMessage(getActivity().getResources().getString(R.string.notification_disabled));
         }
     }
 
@@ -150,6 +172,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isEnabled) {
+        showProgress(getActivity().getResources().getString(R.string.please_wait));
         settingsPresenter.updateNotificationStatus(isEnabled);
     }
 }

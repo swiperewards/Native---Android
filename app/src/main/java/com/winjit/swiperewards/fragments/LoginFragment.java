@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.activities.HomeActivity;
+import com.winjit.swiperewards.activities.LoginActivity;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.entities.SessionData;
 import com.winjit.swiperewards.helpers.PreferenceUtils;
@@ -73,6 +74,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         ivGoogle.setOnClickListener(this);
         btRegister.setOnClickListener(this);
 
+        ((LoginActivity) getActivity()).changeHeader(getActivity().getResources().getString(R.string.welcome));
         setDummyData();
     }
 
@@ -118,8 +120,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
 
     private void setDummyData() {
         if (ISwipe.IS_DUMMY_DATA_ENABLED) {
-            etUserEmail.setText("vishalb@winjit.com");
-            etPassword.setText("winjit@123");
+            etUserEmail.setText("adityab@winjit.com");
+            etPassword.setText("Qwerty@123");
         }
     }
 }

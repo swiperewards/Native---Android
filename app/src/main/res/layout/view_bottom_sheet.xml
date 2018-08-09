@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/bottom_sheet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:background="@color/trans_black"
+
+                >
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/grey_100"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:padding="@dimen/margin_tiny"
+            android:weightSum="5"
+            >
+
+
+        <LinearLayout
+                android:id="@+id/lin_camera"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_weight="2"
+                android:gravity="right"
+                android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:tint="@color/colorPrimaryDark"
+                    app:srcCompat="@drawable/vc_camera"/>
+            <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:text="@string/click_from_camera"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+                android:id="@+id/lin_gallery"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:tint="@color/colorPrimaryDark"
+                    app:srcCompat="@drawable/vc_gallery"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:text="@string/pick_from_gallery"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -186,37 +186,48 @@ public class ValidationHelper {
     public static final int MIN_PASSWORD_LENGTH = 8;
     public static final int MAX_PASSWORD_LENGTH = 14;
 
-    public boolean isAcceptablePassword(String password) {
+    public boolean isAcceptablePassword(Context context, EditText editText) {
+        String password = editText.getText().toString();
+
         int len = password.length();
         int validationCount = 0;
         if (TextUtils.isEmpty(password) || password.contains(" ") || len < MIN_PASSWORD_LENGTH || len > MAX_PASSWORD_LENGTH) {
+            editText.setError(context.getString(R.string.err_password_pattern));
             return false;
         }
 
         boolean hasUppercase = !password.equals(password.toLowerCase());
-        boolean hasLowercase = !password.equals(password.toUpperCase());
+//        boolean hasLowercase = !password.equals(password.toUpperCase());
         boolean hasSpecial = !password.matches("[A-Za-z0-9 ]*");//Checks at least one char is not alpha numeric
         boolean hasDigit = password.matches(".*\\d.*");
 
-        if (hasUppercase)
+        if (hasUppercase) {
             validationCount++;
-        if (hasLowercase)
+        } else {
+            editText.setError(context.getString(R.string.err_password_uppercase));
+        }
+//        if (hasLowercase)
+//            validationCount++;
+        if (hasSpecial) {
             validationCount++;
-        if (hasSpecial)
+        } else {
+            editText.setError(context.getString(R.string.err_password_special_character));
+        }
+        if (hasDigit) {
             validationCount++;
-        if (hasDigit)
-            validationCount++;
+        } else {
+            editText.setError(context.getString(R.string.err_password_digit));
+        }
 
         if (validationCount > 2)
             return true;
-
         return false;
+
     }
 
     public boolean isPasswordMatch(Context context, EditText editPassword, EditText editConfirmPassword) {
 
         if (editConfirmPassword.getText().toString().equals(editPassword.getText().toString())) {
-
             return true;
         }
         Toast.makeText(context, "Password and confirm password should be same!", Toast.LENGTH_SHORT).show();

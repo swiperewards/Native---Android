@@ -1,32 +1,59 @@
 package com.winjit.swiperewards.activities;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.AppCompatSeekBar;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.winjit.swiperewards.R;
+import com.winjit.swiperewards.appdata.SingletonAppCache;
 import com.winjit.swiperewards.constants.ISwipe;
+import com.winjit.swiperewards.entities.AppConfig;
+import com.winjit.swiperewards.entities.UserProfile;
+import com.winjit.swiperewards.events.InitSwipeEvent;
 import com.winjit.swiperewards.fragments.EventHistoryFragment;
 import com.winjit.swiperewards.fragments.HomeFragment;
 import com.winjit.swiperewards.fragments.RedeemFragment;
 import com.winjit.swiperewards.fragments.SettingsFragment;
 import com.winjit.swiperewards.fragments.WalletFragment;
 import com.winjit.swiperewards.helpers.UIHelper;
+import com.winjit.swiperewards.interfaces.MessageDialogConfirm;
+import com.winjit.swiperewards.mvpviews.InitSwipeView;
+import com.winjit.swiperewards.presenters.InitSwipePresenter;
 
-public class HomeActivity extends BaseActivity {
+import de.hdodenhof.circleimageview.CircleImageView;
 
+public class HomeActivity extends BaseActivity implements InitSwipeView, View.OnClickListener {
+
+
+    private NestedScrollView svParent;
+    private AppCompatTextView tvUserLocation;
+    private CircleImageView profileImage;
+    private AppCompatTextView tvUserName;
+    private AppCompatTextView tvCashBack;
+    private AppCompatTextView tvLevel;
+    private AppCompatTextView tvLevelDesc;
     private LinearLayout llTop;
     private BottomNavigationViewEx navigation;
     private TextView toolbarTitle;
     private AppCompatSeekBar skLevel;
+    private InitSwipePresenter initSwipePresenter;
+    private RelativeLayout bottomSheet;
+    private LinearLayout linCamera, linGallery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +61,35 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
         llTop = findViewById(R.id.ll_top);
         skLevel = findViewById(R.id.sk_level);
+
+        svParent = (NestedScrollView) findViewById(R.id.sv_parent);
+        llTop = (LinearLayout) findViewById(R.id.ll_top);
+        tvUserLocation = (AppCompatTextView) findViewById(R.id.tv_user_location);
+        profileImage = (CircleImageView) findViewById(R.id.profile_image);
+        tvUserName = (AppCompatTextView) findViewById(R.id.tv_user_name);
+        tvCashBack = (AppCompatTextView) findViewById(R.id.tv_cashback);
+        tvLevel = (AppCompatTextView) findViewById(R.id.tv_level);
+        tvLevelDesc = (AppCompatTextView) findViewById(R.id.tv_level_desc);
+        skLevel = (AppCompatSeekBar) findViewById(R.id.sk_level);
+        bottomSheet = (RelativeLayout) findViewById(R.id.bottom_sheet);
+        linCamera = (LinearLayout) findViewById(R.id.lin_camera);
+        linGallery = (LinearLayout) findViewById(R.id.lin_gallery);
+
+
+
         navigation = (BottomNavigationViewEx) findViewById(R.id.bottom_navigation);
         initToolBar();
         setListeners();
         navigation.enableAnimation(false);
         navigation.enableShiftingMode(false);
         navigation.enableItemShiftingMode(false);
-        setDefaultHomeIndex();
+        initSwipe();
+    }
 
+    private void initSwipe() {
+        initSwipePresenter = new InitSwipePresenter(this);
+        showProgress(getResources().getString(R.string.please_wait));
+        initSwipePresenter.initialiseSwipeRewards(1);
     }
 
 
@@ -52,8 +100,10 @@ public class HomeActivity extends BaseActivity {
                 return true;
             }
         });
-
-
+        profileImage.setOnClickListener(this);
+        linCamera.setOnClickListener(this);
+        linGallery.setOnClickListener(this);
+        bottomSheet.setOnClickListener(this);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -82,6 +132,7 @@ public class HomeActivity extends BaseActivity {
 
 
         });
+
     }
 
     private void initToolBar() {
@@ -122,6 +173,113 @@ public class HomeActivity extends BaseActivity {
     }
 
 
+    @Override
+    public void onSwipeInitialized(InitSwipeEvent initSwipeEvent) {
+//        if (!checkIfForcedUpdate(initSwipeEvent.getInitSwipe().getAppConfig()))
+        {
+            SingletonAppCache.getInstance().setUserProfile(initSwipeEvent.getInitSwipe().getUserProfile());
+            SingletonAppCache.getInstance().setAppConfig(initSwipeEvent.getInitSwipe().getAppConfig());
+            setUserData(initSwipeEvent.getInitSwipe().getUserProfile());
+            setDefaultHomeIndex();
+        }
+
+    }
+
+    private boolean checkIfForcedUpdate(AppConfig appConfig) {
+        if (appConfig.getForcedUpdate()) {
+            String dialogInterfaceMessage = "Please update an app to continue exploring";
+
+            UIHelper.configureShowConfirmDialog(dialogInterfaceMessage, this,
+                    R.string.update, R.string.btn_exit, R.string.app_update,
+                    new MessageDialogConfirm() {
+                        @Override
+                        public void onPositiveClick() {
+                            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                            try {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                            } catch (android.content.ActivityNotFoundException anfe) {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                            }
+                        }
+
+                        @Override
+                        public void onNegativeClick() {
+                            android.os.Process.killProcess(android.os.Process.myPid());
+                            return;
+                        }
+                    });
+
+            return true;
+        }
+        return false;
+    }
+
+    private void setUserData(UserProfile userProfile) {
+        if (!TextUtils.isEmpty(userProfile.getCity())) {
+            tvUserLocation.setText(userProfile.getCity());
+        }
+
+//        if(!TextUtils.isEmpty(userProfile.getCashbak())){
+//            tvCashBack.setText(userProfile.getCashbak());
+//        }
+
+        if (!TextUtils.isEmpty(userProfile.getFullName())) {
+            tvUserName.setText(userProfile.getFullName());
+        }
+
+        if (userProfile.getUserLevel() != null) {
+            tvLevel.setText("Level " + userProfile.getUserLevel());
+            skLevel.setProgress(userProfile.getUserLevel());
+        }
+
+        if (userProfile.getLevelDescription() != null) {
+            tvLevelDesc.setText(userProfile.getLevelDescription());
+        }
+
+        if (!TextUtils.isEmpty(userProfile.getProfilePicUrl())) {
+            UIHelper.getInstance().loadImageOnline(this, userProfile.getProfilePicUrl().replace(" ", "%20"), profileImage, R.mipmap.ic_launcher, R.mipmap.ic_launcher);
+        }
+    }
+
+    @Override
+    public Context getViewContext() {
+        return this;
+    }
+
+    @Override
+    public void showMessage(String message) {
+        showToast(this, message);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.profile_image:
+            case R.id.bottom_sheet:
+                showBottomSheetMenu();
+                break;
+            case R.id.lin_camera:
+                showBottomSheetMenu();
+                break;
+            case R.id.lin_gallery:
+                showBottomSheetMenu();
+                break;
+        }
+    }
+
+    private void showBottomSheetMenu() {
+
+        if (bottomSheet.getVisibility()==View.VISIBLE) {
+            bottomSheet.setVisibility(View.GONE);
+        } else {
+            bottomSheet.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 
 }
 
