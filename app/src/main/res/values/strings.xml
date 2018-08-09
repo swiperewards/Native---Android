@@ -117,4 +117,9 @@
     <string name="bt_cvn">CVN</string>
     <string name="ok">Ok</string>
     <string name="err_profile_pic">Error while uploading profile pic.</string>
+
+
+    <string name="facebook_app_id">2124774664450394</string>
+    <string name="fb_login_protocol_scheme">fb2124774664450394</string>
+
 </resources>

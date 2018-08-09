@@ -115,8 +115,9 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
                 return true;
             }
         });
-        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
+
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 setTopLayoutVisibility(item.getItemId());
@@ -158,6 +159,15 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     public void setDefaultHomeIndex() {
         View view = navigation.findViewById(R.id.navigation_home);
         view.performClick();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (navigation.getCurrentItem() != 0 && getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            setDefaultHomeIndex();
+        } else {
+            super.onBackPressed();
+        }
     }
 
 
@@ -255,26 +265,28 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             tvUserLocation.setText(userProfile.getCity());
         }
 
-//        if(!TextUtils.isEmpty(userProfile.getCashbak())){
-//            tvCashBack.setText(userProfile.getCashbak());
-//        }
+        tvCashBack.setText("$" + userProfile.getWalletBalance());
 
         if (!TextUtils.isEmpty(userProfile.getFullName())) {
             tvUserName.setText(userProfile.getFullName());
         }
 
-        if (userProfile.getUserLevel() != null) {
-            tvLevel.setText("Level " + userProfile.getUserLevel());
-            skLevel.setProgress(userProfile.getUserLevel());
+        if (userProfile.getLevelDetails() != null) && userProfile.getLevelDetails().getUserLevel() != 0){
+            tvLevel.setText("Level " + userProfile.getLevelDetails().getUserLevel());
+            skLevel.setMax(userProfile.getLevelDetails().getLevelMax() - userProfile.getLevelDetails().getLevelMin());
+            skLevel.setProgress(userProfile.getLevelDetails().getLevelMax() - userProfile.getLevelDetails().getUserXP());
+            tvLevelDesc.setText(userProfile.getLevelDetails().getUserXP() + "/" + userProfile.getLevelDetails().getLevelMax());
         }
-
-        if (userProfile.getLevelDescription() != null) {
-            tvLevelDesc.setText(userProfile.getLevelDescription());
+        else {
+            tvLevelDesc.setVisibility(View.GONE);
+            tvLevel.setVisibility(View.GONE);
+            skLevel.setVisibility(View.GONE);
         }
 
         if (!TextUtils.isEmpty(userProfile.getProfilePicUrl())) {
-            UIHelper.getInstance().loadImageOnline(this, userProfile.getProfilePicUrl().replace(" ", "%20"), profileImage, R.mipmap.ic_launcher, R.mipmap.ic_launcher);
+            UIHelper.getInstance().loadImageOnline(this, userProfile.getProfilePicUrl().replace(" ", "%20"), profileImage, R.mipmap.ic_user_icon, R.mipmap.ic_user_icon);
         }
+
     }
 
     @Override
@@ -307,10 +319,9 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == ISwipe.CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE_WITH_CAMERA) {
             if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED &&
-                    grantResults.length > 1 && grantResults[1] == PERMISSION_GRANTED ) {
+                    grantResults.length > 1 && grantResults[1] == PERMISSION_GRANTED) {
                 launchGallery();
-            }
-            else {
+            } else {
                 showMessage("Permissions must be granted to set the profile picture!");
             }
         }

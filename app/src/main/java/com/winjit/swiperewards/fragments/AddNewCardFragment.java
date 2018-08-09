@@ -4,6 +4,9 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
+import android.text.InputFilter;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import android.widget.DatePicker;
 
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.activities.HomeActivity;
+import com.winjit.swiperewards.constants.CardType;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.customviews.MonthYearPickerDialog;
 import com.winjit.swiperewards.customviews.creditcard.CardEditText;
@@ -32,6 +36,7 @@ public class AddNewCardFragment extends BaseFragment implements View.OnClickList
     private String expiryMonth;
     private String expiryYear;
     private CardEditText tvCardNumber;
+    private TextInputLayout tilCvv;
 
     public static AddNewCardFragment newInstance() {
         Bundle args = new Bundle();
@@ -59,16 +64,47 @@ public class AddNewCardFragment extends BaseFragment implements View.OnClickList
         etExpiryDetails = (TextInputEditText) mRootView.findViewById(R.id.et_expiry_details);
         etCvv = (TextInputEditText) mRootView.findViewById(R.id.et_cvv);
         etName = (TextInputEditText) mRootView.findViewById(R.id.et_name);
+        tilCvv = (TextInputLayout) mRootView.findViewById(R.id.til_cvv);
+        tilCvv.setHintAnimationEnabled(true);
+
         tvCardNumber = mRootView.findViewById(R.id.tv_card_number);
 
 
         btSubmit = (Button) mRootView.findViewById(R.id.bt_submit);
+
+        setListeners();
+        setDummyData();
+    }
+
+    private void setListeners() {
+
         btSubmit.setOnClickListener(this);
 
         etExpiryDetails.setFocusable(false);
         etExpiryDetails.setClickable(true);
         etExpiryDetails.setOnClickListener(this);
-        setDummyData();
+
+
+        tvCardNumber.setOnCardTypeChangedListener(new CardEditText.OnCardTypeChangedListener() {
+            @Override
+            public void onCardTypeChanged(CardType cardType) {
+                if (cardType != null) {
+                    etCvv.setText("");
+                    etCvv.setFilters(new InputFilter[]{new InputFilter.LengthFilter(cardType.getSecurityCodeLength())});
+                    String hint = getActivity().getResources().getString(cardType.getSecurityCodeName());
+                    tilCvv.setHint(hint);
+                }
+            }
+        });
+        tvCardNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus && tvCardNumber.isValid() && (TextUtils.isEmpty(expiryMonth) || TextUtils.isEmpty((expiryYear)))) {
+                    launchMonthYearCalendar();
+                }
+            }
+        });
+
     }
 
 
@@ -83,18 +119,22 @@ public class AddNewCardFragment extends BaseFragment implements View.OnClickList
                 }
                 break;
             case R.id.et_expiry_details:
-                MonthYearPickerDialog pd = new MonthYearPickerDialog();
-                pd.setListener(new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int i2) {
-                        expiryMonth = String.format("%02d", month);
-                        expiryYear = String.valueOf(year);
-                        etExpiryDetails.setText(expiryMonth + "-" + expiryYear);
-                    }
-                });
-                pd.show(getFragmentManager(), "MonthYearPickerDialog");
+                launchMonthYearCalendar();
                 break;
         }
+    }
+
+    private void launchMonthYearCalendar() {
+        MonthYearPickerDialog pd = new MonthYearPickerDialog();
+        pd.setListener(new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int i2) {
+                expiryMonth = String.format("%02d", month);
+                expiryYear = String.valueOf(year);
+                etExpiryDetails.setText(expiryMonth + "-" + expiryYear);
+            }
+        });
+        pd.show(getFragmentManager(), "MonthYearPickerDialog");
     }
 
     private WalletCard getWalletCardInfo() {
@@ -139,12 +179,12 @@ public class AddNewCardFragment extends BaseFragment implements View.OnClickList
 
     private void setDummyData() {
         if (ISwipe.IS_DUMMY_DATA_ENABLED) {
-            tvCardNumber.setText("");
-            etName.setText("Test Winjit");
-            etCvv.setText("123");
-            etExpiryDetails.setText("12-2030");
-            expiryMonth = "12";
-            expiryYear = "2030";
+//            tvCardNumber.setText("");
+//            etName.setText("Test Winjit");
+//            etCvv.setText("123");
+//            etExpiryDetails.setText("12-2030");
+//            expiryMonth = "12";
+//            expiryYear = "2030";
         }
     }
 }

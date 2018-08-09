@@ -5,9 +5,9 @@ import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.entities.UserDetails;
 import com.winjit.swiperewards.events.LoginEvent;
 import com.winjit.swiperewards.events.RegisterUserEvent;
+import com.winjit.swiperewards.helpers.ErrorCodesHelper;
 import com.winjit.swiperewards.mvpviews.OnBoardingView;
 import com.winjit.swiperewards.services.ServiceController;
-import com.winjit.swiperewards.helpers.ErrorCodesHelper;
 import com.winjit.swiperewards.web.WebRequestManager;
 
 public class OnBoardingPresenter {
@@ -18,13 +18,18 @@ public class OnBoardingPresenter {
     }
 
     public void registerUser(UserDetails userDetails) {
+        final boolean isSocialLogin = userDetails.isSocialLogin();
         try {
             new ServiceController().registerUser(onBoardingView.getViewContext(), userDetails, new WebRequestManager.WebProcessListener<RegisterUserEvent>() {
                 @Override
                 public void onWebProcessSuccess(RegisterUserEvent registerUserEvent) {
                     if (registerUserEvent.getSessionData() != null) {
                         onBoardingView.hideProgress();
-                        onBoardingView.onSuccessfulRegistration(registerUserEvent.getSessionData());
+                        if (!isSocialLogin) {
+                            onBoardingView.onSuccessfulRegistration(registerUserEvent.getSessionData());
+                        } else {
+                            onBoardingView.onSuccessfulLogin(registerUserEvent.getSessionData());
+                        }
                     } else if (registerUserEvent.getStatus() != ISwipe.SUCCESS) {
                         onBoardingView.hideProgress();
                         onBoardingView.showMessage(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), registerUserEvent.getStatus()));
@@ -71,4 +76,6 @@ public class OnBoardingPresenter {
             onBoardingView.showMessage(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
         }
     }
+
+
 }

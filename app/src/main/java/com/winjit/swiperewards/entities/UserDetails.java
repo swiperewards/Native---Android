@@ -51,6 +51,19 @@ public class UserDetails {
     private boolean isSocialLogin;
 
 
+    @SerializedName("socialToken")
+    @Expose
+    private String socialToken;
+
+
+    @SerializedName("profilePicUrl")
+    @Expose
+    private String profilePicUrl;
+
+
+
+
+
     @SerializedName("referredBy")
     @Expose
     private String referredBy;
@@ -133,5 +146,21 @@ public class UserDetails {
 
     public void setReferredBy(String referredBy) {
         this.referredBy = referredBy;
+    }
+
+    public String getSocialToken() {
+        return socialToken;
+    }
+
+    public void setSocialToken(String socialToken) {
+        this.socialToken = socialToken;
+    }
+
+    public String getProfilePicUrl() {
+        return profilePicUrl;
+    }
+
+    public void setProfilePicUrl(String profilePicUrl) {
+        this.profilePicUrl = profilePicUrl;
     }
 }

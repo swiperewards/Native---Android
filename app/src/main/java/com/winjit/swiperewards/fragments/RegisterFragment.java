@@ -10,18 +10,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.facebook.login.widget.LoginButton;
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.activities.LoginActivity;
 import com.winjit.swiperewards.constants.ISwipe;
-import com.winjit.swiperewards.entities.SessionData;
 import com.winjit.swiperewards.entities.UserDetails;
 import com.winjit.swiperewards.helpers.UIHelper;
 import com.winjit.swiperewards.helpers.ValidationHelper;
-import com.winjit.swiperewards.mvpviews.OnBoardingView;
-import com.winjit.swiperewards.presenters.OnBoardingPresenter;
 
 
-public class RegisterFragment extends BaseFragment implements View.OnClickListener, OnBoardingView {
+public class RegisterFragment extends SocialBaseFragment implements View.OnClickListener {
 
     private TextInputEditText etFirstName;
     private TextInputEditText etLastName;
@@ -32,7 +30,6 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     private AppCompatImageView ivFacebook;
     private AppCompatImageView ivGoogle;
     private TextView tvSignIn;
-    private OnBoardingPresenter onBoardingPresenter;
 
 
     public static RegisterFragment newInstance() {
@@ -45,7 +42,6 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        onBoardingPresenter = new OnBoardingPresenter(this);
     }
 
     @Override
@@ -66,11 +62,14 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         ivFacebook = (AppCompatImageView) mRootView.findViewById(R.id.iv_facebook);
         ivGoogle = (AppCompatImageView) mRootView.findViewById(R.id.iv_google);
         tvSignIn = (TextView) mRootView.findViewById(R.id.tv_sign_in);
+        fbLoginButton = (LoginButton) mRootView.findViewById(R.id.fb_login_button);
 
         btSignUp.setOnClickListener(this);
         ivFacebook.setOnClickListener(this);
         ivGoogle.setOnClickListener(this);
         tvSignIn.setOnClickListener(this);
+        fbLoginButton.setOnClickListener(this);
+
         ((LoginActivity) getActivity()).changeHeader(getActivity().getResources().getString(R.string.welcome_register));
         setDummyData();
     }
@@ -84,17 +83,23 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                 if (isValidInputsEntered()) {
                     showProgress(getActivity().getResources().getString(R.string.please_wait));
                     onBoardingPresenter.registerUser(getUserDetails());
-                    }
+                }
                 break;
             case R.id.tv_sign_in:
                 new UIHelper().getInstance().popFragment(getActivity().getSupportFragmentManager());
+                break;
+            case R.id.iv_facebook:
+                fbLoginButton.performClick();
+                break;
+            case R.id.fb_login_button:
+                initiateFacebookLogin();
                 break;
         }
     }
 
     private UserDetails getUserDetails() {
         UserDetails userDetails = new UserDetails();
-        userDetails.setFullName(etFirstName.getText().toString() + " "+etLastName.getText().toString());
+        userDetails.setFullName(etFirstName.getText().toString() + " " + etLastName.getText().toString());
         userDetails.setEmailId(etUserEmail.getText().toString());
         userDetails.setLatitude("");
         userDetails.setLongitude("");
@@ -108,24 +113,11 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         ValidationHelper validationHelper = new ValidationHelper();
         return validationHelper.isValidEditTexts(getActivity(), etFirstName, etLastName, etUserEmail, etPassword, etConfirmPassword) &&
                 validationHelper.isPasswordMatch(getActivity(), etPassword, etConfirmPassword) &&
-                validationHelper.isAcceptablePassword(getActivity(),etPassword) &&
+                validationHelper.isAcceptablePassword(getActivity(), etPassword) &&
                 validationHelper.isValidEmail(getActivity(), etUserEmail);
 
     }
 
-    @Override
-    public void onSuccessfulRegistration(SessionData sessionData) {
-        SuccessFragment successFragment = SuccessFragment.newInstance();
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(ISwipe.IS_FROM_SIGN_UP, true);
-        successFragment.setArguments(bundle);
-        UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, successFragment, false);
-    }
-
-    @Override
-    public void onSuccessfulLogin(SessionData sessionData) {
-
-    }
 
     private void setDummyData() {
         if (ISwipe.IS_DUMMY_DATA_ENABLED) {

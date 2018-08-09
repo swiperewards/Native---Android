@@ -1,4 +1,4 @@
-package com.winjit.swiperewards.constants;
+                                 package com.winjit.swiperewards.constants;
 
 import android.text.TextUtils;
 

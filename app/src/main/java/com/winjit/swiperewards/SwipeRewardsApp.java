@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.facebook.FacebookSdk;
 import com.winjit.swiperewards.constants.ISwipe;
 
 
@@ -27,7 +28,7 @@ public class SwipeRewardsApp extends Application {
         super.onCreate();
 //        setCustomFont();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-
+        FacebookSdk.sdkInitialize(getApplicationContext());
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 

@@ -83,7 +83,7 @@ public class ServiceController {
     public void changePassword(Context context, String oldPassword, String newPassword, WebRequestManager.WebProcessListener<ChangePasswordEvent> webProcessListener) {
         HashMap<String, String> map = new HashMap<>();
         map.put("oldPassword", oldPassword);
-        map.put("newPassword", newPassword);
+        map.put("password", newPassword);
 
         new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_CHANGE_PASSWORD,

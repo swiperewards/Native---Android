@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.GnssStatus;
-import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -40,9 +39,6 @@ import com.winjit.swiperewards.presenters.DealsPresenter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import static android.location.GpsStatus.GPS_EVENT_STARTED;
-import static android.location.GpsStatus.GPS_EVENT_STOPPED;
 
 
 public class HomeFragment extends BaseFragment implements View.OnClickListener, AdapterResponseInterface, DealsView {
@@ -175,18 +171,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 }
             } else {
                 //Setting GPS listener without checking runtime permission for devices below Android M.
-                lm.addGpsStatusListener(new GpsStatus.Listener() {
-                    public void onGpsStatusChanged(int event) {
-                        switch (event) {
-                            case GPS_EVENT_STARTED:
-                                initiateDealsAndUpdateBottomVisibility(true);
-                                break;
-                            case GPS_EVENT_STOPPED:
-                                initiateDealsAndUpdateBottomVisibility(false);
-                                break;
-                        }
-                    }
-                });
+//                lm.addGpsStatusListener(new GpsStatus.Listener() {
+//                    public void onGpsStatusChanged(int event) {
+//                        switch (event) {
+//                            case GPS_EVENT_STARTED:
+//                                initiateDealsAndUpdateBottomVisibility(true);
+//                                break;
+//                            case GPS_EVENT_STOPPED:
+//                                initiateDealsAndUpdateBottomVisibility(false);
+//                                break;
+//                        }
+//                    }
+//                });
                 requestLocUpdates(lm);
             }
 
