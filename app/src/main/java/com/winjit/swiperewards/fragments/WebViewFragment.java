@@ -1,6 +1,5 @@
 package com.winjit.swiperewards.fragments;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -14,6 +13,7 @@ import android.webkit.WebViewClient;
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.activities.HomeActivity;
 import com.winjit.swiperewards.constants.ISwipe;
+import com.winjit.swiperewards.helpers.NetworkUtil;
 
 
 public class WebViewFragment extends BaseFragment {
@@ -37,6 +37,10 @@ public class WebViewFragment extends BaseFragment {
             url = getArguments().getString(ISwipe.WEB_URL);
         }
         ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
+
+        if(!NetworkUtil.getInstance().isConnectedToInternet(getActivity())){
+            showMessage(getActivity().getResources().getString(R.string.err_network));
+        }
     }
 
     @Override
@@ -54,20 +58,15 @@ public class WebViewFragment extends BaseFragment {
         // Force links and redirects to open in the WebView instead of in a browser
         mWebView.setWebViewClient(new WebViewClient());
 
-
+        showProgress("Loading 0%");
         mWebView.setWebChromeClient(new WebChromeClient() {
-            private ProgressDialog mProgress;
-
             @Override
             public void onProgressChanged(WebView view, int progress) {
-                if (mProgress == null) {
-                    mProgress = new ProgressDialog(getActivity());
-                    mProgress.show();
+                if (getLoader() != null) {
+                    getLoader().getLoadingTextView().setText("Loading " + String.valueOf(progress) + "%");
                 }
-                mProgress.setMessage("Loading " + String.valueOf(progress) + "%");
                 if (progress == 100) {
-                    mProgress.dismiss();
-                    mProgress = null;
+                    hideProgress();
                 }
             }
 

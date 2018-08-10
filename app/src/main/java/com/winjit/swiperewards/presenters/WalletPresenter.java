@@ -33,7 +33,11 @@ public class WalletPresenter {
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
                     walletCardView.hideProgress();
-                    walletCardView.showMessage(ErrorCodesHelper.getErrorStringFromCode(walletCardView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    if (error.getMessage() == null) {
+                        walletCardView.showMessage(ErrorCodesHelper.getErrorStringFromCode(walletCardView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    } else {
+                        walletCardView.showMessage(error.getMessage());
+                    }
                 }
             });
         } catch (Exception e) {
@@ -44,14 +48,13 @@ public class WalletPresenter {
     }
 
 
-
     public void getWalletCards() {
         try {
-            new ServiceController().getWalletCards(walletCardView.getViewContext(),  new WebRequestManager.WebProcessListener<GetWalletCardsEvent>() {
+            new ServiceController().getWalletCards(walletCardView.getViewContext(), new WebRequestManager.WebProcessListener<GetWalletCardsEvent>() {
                 @Override
                 public void onWebProcessSuccess(GetWalletCardsEvent getWalletCardsEvent) {
                     walletCardView.hideProgress();
-                    if (getWalletCardsEvent.getStatus() == ISwipe.SUCCESS && getWalletCardsEvent.getWalletCards()!=null) {
+                    if (getWalletCardsEvent.getStatus() == ISwipe.SUCCESS && getWalletCardsEvent.getWalletCards() != null) {
                         walletCardView.onWalletCardListReceived(getWalletCardsEvent.getWalletCards());
                     } else {
                         walletCardView.showMessage(ErrorCodesHelper.getErrorStringFromCode(walletCardView.getViewContext(), getWalletCardsEvent.getStatus()));
@@ -61,7 +64,11 @@ public class WalletPresenter {
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
                     walletCardView.hideProgress();
-                    walletCardView.showMessage(ErrorCodesHelper.getErrorStringFromCode(walletCardView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    if (error.getMessage() == null) {
+                        walletCardView.showMessage(ErrorCodesHelper.getErrorStringFromCode(walletCardView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    } else {
+                        walletCardView.showMessage(error.getMessage());
+                    }
                 }
             });
         } catch (Exception e) {
@@ -88,7 +95,11 @@ public class WalletPresenter {
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
                     walletCardView.hideProgress();
-                    walletCardView.showMessage(ErrorCodesHelper.getErrorStringFromCode(walletCardView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    if (error.getMessage() == null) {
+                        walletCardView.showMessage(ErrorCodesHelper.getErrorStringFromCode(walletCardView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    } else {
+                        walletCardView.showMessage(error.getMessage());
+                    }
                 }
             });
         } catch (Exception e) {

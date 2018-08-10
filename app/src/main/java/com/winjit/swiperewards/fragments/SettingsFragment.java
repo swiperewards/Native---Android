@@ -106,7 +106,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, ContactUsFragment.newInstance(), true);
                 break;
             case R.id.tv_privacy:
-                if (SingletonAppCache.getInstance().getAppConfig() == null ||
+                if (SingletonAppCache.getInstance().getAppConfig() == null || SingletonAppCache.getInstance().getAppConfig().getPrivacySecurityUrl() == null ||
                         TextUtils.isEmpty(SingletonAppCache.getInstance().getAppConfig().getPrivacySecurityUrl())) {
                     showMessage(getActivity().getResources().getString(R.string.err_generic));
                 }
@@ -126,6 +126,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             case R.id.tv_terms_of_use:
 
                 if (SingletonAppCache.getInstance().getAppConfig() == null ||
+                        SingletonAppCache.getInstance().getAppConfig().getPrivacySecurityUrl() == null ||
                         TextUtils.isEmpty(SingletonAppCache.getInstance().getAppConfig().getTermsOfUseUrl())) {
                     showMessage(getActivity().getResources().getString(R.string.err_generic));
                 }

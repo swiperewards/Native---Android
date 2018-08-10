@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
+import com.leo.simplearcloader.SimpleArcDialog;
 import com.winjit.swiperewards.activities.UniversalBaseActivity;
 import com.winjit.swiperewards.helpers.UIHelper;
 import com.winjit.swiperewards.mvpviews.BaseMVPView;
@@ -43,6 +44,12 @@ public class BaseFragment extends Fragment implements BaseMVPView {
 
     public void showLongToast(String message) {
         ((UniversalBaseActivity) getActivity()).showLongToast(getActivity(), message);
+    }
+
+
+    public SimpleArcDialog getLoader() {
+        return ((UniversalBaseActivity) getActivity()).getLoader();
+
     }
 
     @Override

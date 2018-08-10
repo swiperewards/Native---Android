@@ -8,4 +8,5 @@ public interface PasswordView extends BaseMVPView {
     void onPasswordChangedSuccessfully();
 
     void onPasswordLinkSentSuccessfully();
+
 }

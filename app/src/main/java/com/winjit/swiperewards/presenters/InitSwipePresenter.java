@@ -35,7 +35,11 @@ public class InitSwipePresenter {
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
                     initSwipeView.hideProgress();
-                    initSwipeView.showMessage(ErrorCodesHelper.getErrorStringFromCode(initSwipeView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    if (error.getMessage() == null) {
+                        initSwipeView.showMessage(ErrorCodesHelper.getErrorStringFromCode(initSwipeView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    } else {
+                        initSwipeView.showMessage(error.getMessage());
+                    }
                 }
             });
         } catch (Exception e) {
@@ -46,11 +50,9 @@ public class InitSwipePresenter {
     }
 
 
-
-
     public void uploadProfilePic(Bitmap profilePic) {
         try {
-            new ServiceController().uploadProfilePic(initSwipeView.getViewContext(), new UIHelper().BitMapToString(profilePic),new WebRequestManager.WebProcessListener<BaseEvent>() {
+            new ServiceController().uploadProfilePic(initSwipeView.getViewContext(), new UIHelper().BitMapToString(profilePic), new WebRequestManager.WebProcessListener<BaseEvent>() {
                 @Override
                 public void onWebProcessSuccess(BaseEvent baseEvent) {
                     initSwipeView.hideProgress();
@@ -65,7 +67,11 @@ public class InitSwipePresenter {
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
                     initSwipeView.hideProgress();
-                    initSwipeView.showMessage(ErrorCodesHelper.getErrorStringFromCode(initSwipeView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    if (error.getMessage() == null) {
+                        initSwipeView.showMessage(ErrorCodesHelper.getErrorStringFromCode(initSwipeView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    } else {
+                        initSwipeView.showMessage(error.getMessage());
+                    }
                 }
             });
         } catch (Exception e) {

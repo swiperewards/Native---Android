@@ -32,7 +32,11 @@ public class TicketPresenter {
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
                     ticketView.hideProgress();
-                    ticketView.showMessage(ErrorCodesHelper.getErrorStringFromCode(ticketView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    if (error.getMessage() == null) {
+                        ticketView.showMessage(ErrorCodesHelper.getErrorStringFromCode(ticketView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    } else {
+                        ticketView.showMessage(error.getMessage());
+                    }
                 }
             });
         } catch (Exception e) {
@@ -45,7 +49,7 @@ public class TicketPresenter {
 
     public void generateTicketRequest(int ticketTypeId, String userCategory, String feedback) {
         try {
-            new ServiceController().generateTicket(ticketView.getViewContext(),ticketTypeId,userCategory,feedback, new WebRequestManager.WebProcessListener<BaseEvent>() {
+            new ServiceController().generateTicket(ticketView.getViewContext(), ticketTypeId, userCategory, feedback, new WebRequestManager.WebProcessListener<BaseEvent>() {
                 @Override
                 public void onWebProcessSuccess(BaseEvent baseEvent) {
                     ticketView.hideProgress();
@@ -59,7 +63,11 @@ public class TicketPresenter {
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
                     ticketView.hideProgress();
-                    ticketView.showMessage(ErrorCodesHelper.getErrorStringFromCode(ticketView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    if (error.getMessage() == null) {
+                        ticketView.showMessage(ErrorCodesHelper.getErrorStringFromCode(ticketView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    } else {
+                        ticketView.showMessage(error.getMessage());
+                    }
                 }
             });
         } catch (Exception e) {

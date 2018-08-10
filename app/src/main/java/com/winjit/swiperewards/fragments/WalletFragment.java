@@ -74,6 +74,7 @@ public class WalletFragment extends BaseFragment implements View.OnClickListener
                 new MessageDialogConfirm() {
                     @Override
                     public void onPositiveClick() {
+                        showProgress(getActivity().getResources().getString(R.string.please_wait));
                         walletPresenter.deleteCard(cardID);
                     }
 

@@ -19,8 +19,6 @@ public class SuccessFragment extends Fragment implements View.OnClickListener {
     private Button btContinue;
     private boolean isFromSignUpScreen;
 
-    public SuccessFragment() {
-    }
 
     public static SuccessFragment newInstance() {
         Bundle args = new Bundle();
@@ -66,6 +64,9 @@ public class SuccessFragment extends Fragment implements View.OnClickListener {
             case R.id.bt_continue:
                 if (isFromSignUpScreen) {
                     UIHelper.getInstance().popFragment(getActivity().getSupportFragmentManager());
+                }else{
+                    UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, SetNewPasswordFragment.newInstance(), false);
+
                 }
                 break;
         }

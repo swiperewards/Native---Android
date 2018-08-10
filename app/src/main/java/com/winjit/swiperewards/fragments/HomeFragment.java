@@ -143,7 +143,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         if (isLocationEnabled) {
             rlLocation.setVisibility(View.GONE);
             if (rvDeals == null || rvDeals.getAdapter() == null || rvDeals.getAdapter().getItemCount() == 0) {
-                showProgress(getActivity().getResources().getString(R.string.please_wait));
+                if (getActivity() != null)
+                    showProgress(getActivity().getResources().getString(R.string.please_wait));
                 dealsPresenter.getDeals(ISwipe.DUMMY_CITY);
             }
         } else {

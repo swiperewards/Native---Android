@@ -113,7 +113,7 @@ public class AddNewCardFragment extends BaseFragment implements View.OnClickList
         UIHelper.getInstance().hideKeyboard(getActivity());
         switch (v.getId()) {
             case R.id.bt_submit:
-                if (isValidInputsEntered()) {
+                if (isValidInputsEntered() && tvCardNumber.isValid()) {
                     showProgress(getActivity().getResources().getString(R.string.please_wait));
                     walletPresenter.addWalletCard(getWalletCardInfo());
                 }

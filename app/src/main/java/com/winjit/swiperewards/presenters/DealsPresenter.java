@@ -17,7 +17,7 @@ public class DealsPresenter {
 
     public void getDeals(String location) {
         try {
-            new ServiceController().getDeals(dealsView.getViewContext(), location,new WebRequestManager.WebProcessListener<GetDealsEvent>() {
+            new ServiceController().getDeals(dealsView.getViewContext(), location, new WebRequestManager.WebProcessListener<GetDealsEvent>() {
                 @Override
                 public void onWebProcessSuccess(GetDealsEvent getDealsEvent) {
                     if (getDealsEvent.getDeals() != null) {
@@ -32,7 +32,11 @@ public class DealsPresenter {
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
                     dealsView.hideProgress();
-                    dealsView.showMessage(ErrorCodesHelper.getErrorStringFromCode(dealsView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    if (error.getMessage() == null) {
+                        dealsView.showMessage(ErrorCodesHelper.getErrorStringFromCode(dealsView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    } else {
+                        dealsView.showMessage(error.getMessage());
+                    }
                 }
             });
         } catch (Exception e) {

@@ -34,7 +34,11 @@ public class RedeemPresenter {
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
                     redeemView.hideProgress();
-                    redeemView.showMessage(ErrorCodesHelper.getErrorStringFromCode(redeemView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    if (error.getMessage() == null) {
+                        redeemView.showMessage(ErrorCodesHelper.getErrorStringFromCode(redeemView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    } else {
+                        redeemView.showMessage(error.getMessage());
+                    }
                 }
             });
         } catch (Exception e) {
@@ -47,7 +51,7 @@ public class RedeemPresenter {
 
     public void raiseRedeemRequest(HashMap<String, Object> map) {
         try {
-            new ServiceController().raiseRedeemRequest(redeemView.getViewContext(),map, new WebRequestManager.WebProcessListener<BaseEvent>() {
+            new ServiceController().raiseRedeemRequest(redeemView.getViewContext(), map, new WebRequestManager.WebProcessListener<BaseEvent>() {
                 @Override
                 public void onWebProcessSuccess(BaseEvent baseEvent) {
                     redeemView.hideProgress();
@@ -61,7 +65,11 @@ public class RedeemPresenter {
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
                     redeemView.hideProgress();
-                    redeemView.showMessage(ErrorCodesHelper.getErrorStringFromCode(redeemView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    if (error.getMessage() == null) {
+                        redeemView.showMessage(ErrorCodesHelper.getErrorStringFromCode(redeemView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    } else {
+                        redeemView.showMessage(error.getMessage());
+                    }
                 }
             });
         } catch (Exception e) {

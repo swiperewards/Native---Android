@@ -56,7 +56,7 @@
     <string name="connect_with">Or connect with</string>
     <string name="already_member">Already a Member?</string>
     <string name="verify_email">Thank You!\nPlease check your email to activate your account.</string>
-    <string name="password_sent">A new password has been sent to your registered e-mail address.</string>
+    <string name="password_sent">A passcode has been sent to your registered e-mail address.</string>
     <string name="title_activity_home">Swipe Rewards</string>
     <string name="title_home">Home</string>
     <string name="title_wallet">Wallet</string>
@@ -121,5 +121,6 @@
 
     <string name="facebook_app_id">2124774664450394</string>
     <string name="fb_login_protocol_scheme">fb2124774664450394</string>
+    <string name="erro_invalid_token">Please enter valid token received via mail.</string>
 
 </resources>

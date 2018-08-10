@@ -32,8 +32,12 @@ public class SettingsPresenter {
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
                     settingsView.hideProgress();
-                    settingsView.showMessage(ErrorCodesHelper.getErrorStringFromCode(settingsView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
                     settingsView.onErrorNotificationState();
+                    if (error.getMessage() == null) {
+                        settingsView.showMessage(ErrorCodesHelper.getErrorStringFromCode(settingsView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    } else {
+                        settingsView.showMessage(error.getMessage());
+                    }
                 }
             });
         } catch (Exception e) {

@@ -50,9 +50,15 @@ public class UniversalBaseActivity extends AppCompatActivity {
         }
     }
 
+
+
     public void hideProgress() {
         if (pgLoader != null && pgLoader.isShowing())
             pgLoader.dismiss();
+    }
+
+    public SimpleArcDialog getLoader() {
+        return pgLoader;
     }
 
     /**

@@ -39,7 +39,11 @@ public class OnBoardingPresenter {
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
                     onBoardingView.hideProgress();
-                    onBoardingView.showMessage(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    if (error.getMessage() == null) {
+                        onBoardingView.showMessage(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    } else {
+                        onBoardingView.showMessage(error.getMessage());
+                    }
                 }
             });
         } catch (Exception e) {
@@ -67,7 +71,11 @@ public class OnBoardingPresenter {
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
                     onBoardingView.hideProgress();
-                    onBoardingView.showMessage(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    if (error.getMessage() == null) {
+                        onBoardingView.showMessage(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    } else {
+                        onBoardingView.showMessage(error.getMessage());
+                    }
                 }
             });
         } catch (Exception e) {

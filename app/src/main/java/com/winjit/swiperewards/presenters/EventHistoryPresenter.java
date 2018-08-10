@@ -17,7 +17,7 @@ public class EventHistoryPresenter {
 
     public void getEventHistory() {
         try {
-            new ServiceController().getEventHistory(eventHistoryView.getViewContext(),new WebRequestManager.WebProcessListener<GetEventHistoryEvent>() {
+            new ServiceController().getEventHistory(eventHistoryView.getViewContext(), new WebRequestManager.WebProcessListener<GetEventHistoryEvent>() {
                 @Override
                 public void onWebProcessSuccess(GetEventHistoryEvent getDealsEvent) {
                     if (getDealsEvent.getEventDetails() != null) {
@@ -32,7 +32,11 @@ public class EventHistoryPresenter {
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
                     eventHistoryView.hideProgress();
-                    eventHistoryView.showMessage(ErrorCodesHelper.getErrorStringFromCode(eventHistoryView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    if (error.getMessage() == null) {
+                        eventHistoryView.showMessage(ErrorCodesHelper.getErrorStringFromCode(eventHistoryView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                    } else {
+                        eventHistoryView.showMessage(error.getMessage());
+                    }
                 }
             });
         } catch (Exception e) {

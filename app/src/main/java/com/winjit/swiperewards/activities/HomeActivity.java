@@ -223,10 +223,14 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     @Override
     public void onSwipeInitialized(InitSwipeEvent initSwipeEvent) {
         if (!checkIfForcedUpdate(initSwipeEvent.getInitSwipe().getAppConfig())) {
-            SingletonAppCache.getInstance().setUserProfile(initSwipeEvent.getInitSwipe().getUserProfile());
-            SingletonAppCache.getInstance().setAppConfig(initSwipeEvent.getInitSwipe().getAppConfig());
-            setUserData(initSwipeEvent.getInitSwipe().getUserProfile());
-            setDefaultHomeIndex();
+            if(initSwipeEvent.getInitSwipe().getUserProfile()!=null) {
+                SingletonAppCache.getInstance().setUserProfile(initSwipeEvent.getInitSwipe().getUserProfile());
+                SingletonAppCache.getInstance().setAppConfig(initSwipeEvent.getInitSwipe().getAppConfig());
+                setUserData(initSwipeEvent.getInitSwipe().getUserProfile());
+                setDefaultHomeIndex();
+            }else{
+                showMessage(getResources().getString(R.string.err_generic));
+            }
         }
 
     }
@@ -271,7 +275,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             tvUserName.setText(userProfile.getFullName());
         }
 
-        if (userProfile.getLevelDetails() != null) && userProfile.getLevelDetails().getUserLevel() != 0){
+        if (userProfile.getLevelDetails() != null && userProfile.getLevelDetails().getUserLevel() != 0){
             tvLevel.setText("Level " + userProfile.getLevelDetails().getUserLevel());
             skLevel.setMax(userProfile.getLevelDetails().getLevelMax() - userProfile.getLevelDetails().getLevelMin());
             skLevel.setProgress(userProfile.getLevelDetails().getLevelMax() - userProfile.getLevelDetails().getUserXP());
@@ -353,8 +357,8 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
                             profileImage.setImageURI(imageUri);
                             try {
                                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                                Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(bitmap, ISwipe.THUMBNAIL_SIZE, ISwipe.THUMBNAIL_SIZE);
-                                initSwipePresenter.uploadProfilePic(ThumbImage);
+                                Bitmap thumbImage = ThumbnailUtils.extractThumbnail(bitmap, ISwipe.THUMBNAIL_SIZE, ISwipe.THUMBNAIL_SIZE);
+                                initSwipePresenter.uploadProfilePic(thumbImage);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
