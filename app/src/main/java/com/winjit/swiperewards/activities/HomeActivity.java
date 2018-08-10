@@ -270,34 +270,37 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     }
 
     private void setUserData(UserProfile userProfile) {
-        if (!TextUtils.isEmpty(userProfile.getCity())) {
-            tvUserLocation.setText(userProfile.getCity());
+        try {
+            if (!TextUtils.isEmpty(userProfile.getCity())) {
+                tvUserLocation.setText(userProfile.getCity());
+            }
+
+            tvCashBack.setText("$" + userProfile.getWalletBalance());
+
+            if (!TextUtils.isEmpty(userProfile.getFullName())) {
+                tvUserName.setText(userProfile.getFullName());
+            }
+
+            if (userProfile.getLevelDetails() != null && userProfile.getLevelDetails().getUserLevel() != 0) {
+                tvLevel.setText("Level " + userProfile.getLevelDetails().getUserLevel());
+                skLevel.setMax(userProfile.getLevelDetails().getLevelMax() - userProfile.getLevelDetails().getLevelMin());
+                skLevel.setProgress(userProfile.getLevelDetails().getUserXP() - userProfile.getLevelDetails().getLevelMin());
+                tvLevelDesc.setText(userProfile.getLevelDetails().getUserXP() + "/" + userProfile.getLevelDetails().getLevelMax());
+            } else {
+                int topPadding = rlLevelDetails.getHeight();
+                tvLevelDesc.setVisibility(View.GONE);
+                tvLevel.setVisibility(View.GONE);
+                skLevel.setVisibility(View.GONE);
+                rlProfilePic.setPadding(0, topPadding, 0, 0);
+
+            }
+
+            if (!TextUtils.isEmpty(userProfile.getProfilePicUrl())) {
+                UIHelper.getInstance().loadImageOnline(this, userProfile.getProfilePicUrl().replace(" ", "%20"), profileImage, R.mipmap.ic_user_icon, R.mipmap.ic_user_icon);
+            }
+        }catch (Exception e){
+
         }
-
-        tvCashBack.setText("$" + userProfile.getWalletBalance());
-
-        if (!TextUtils.isEmpty(userProfile.getFullName())) {
-            tvUserName.setText(userProfile.getFullName());
-        }
-
-        if (userProfile.getLevelDetails() != null && userProfile.getLevelDetails().getUserLevel() != 0) {
-            tvLevel.setText("Level " + userProfile.getLevelDetails().getUserLevel());
-            skLevel.setMax(userProfile.getLevelDetails().getLevelMax() - userProfile.getLevelDetails().getLevelMin());
-            skLevel.setProgress(userProfile.getLevelDetails().getLevelMax() - userProfile.getLevelDetails().getUserXP());
-            tvLevelDesc.setText(userProfile.getLevelDetails().getUserXP() + "/" + userProfile.getLevelDetails().getLevelMax());
-        } else {
-            int topPadding = rlLevelDetails.getHeight();
-            tvLevelDesc.setVisibility(View.GONE);
-            tvLevel.setVisibility(View.GONE);
-            skLevel.setVisibility(View.GONE);
-            rlProfilePic.setPadding(0, topPadding, 0, 0);
-
-        }
-
-        if (!TextUtils.isEmpty(userProfile.getProfilePicUrl())) {
-            UIHelper.getInstance().loadImageOnline(this, userProfile.getProfilePicUrl().replace(" ", "%20"), profileImage, R.mipmap.ic_user_icon, R.mipmap.ic_user_icon);
-        }
-
     }
 
     @Override

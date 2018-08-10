@@ -118,9 +118,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private void filter(String text) {
         ArrayList<Deals> filteredDealList = new ArrayList();
         for (Deals d : dealsArrayList) {
-            //or use .equal(text) with you want equal match
-            //use .toLowerCase() for better matches
-            if (d.getLocation().contains(text) || d.getShortDescription().contains(text)) {
+            if (d.getLocation().toLowerCase().contains(text.toLowerCase()) ||
+                    d.getShortDescription().toLowerCase().contains(text.toLowerCase())) {
                 filteredDealList.add(d);
             }
         }
