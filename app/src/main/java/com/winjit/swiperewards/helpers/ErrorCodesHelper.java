@@ -41,7 +41,7 @@ public class ErrorCodesHelper {
                     return context.getResources().getString(R.string.err_generic);
             }
         }
-        return "Unable to process the request.";
+        return "Something wen’t wrong, We are facing some challenges with connecting to the server. Kindly ensure you have a proper internet connection.";
     }
 
 }

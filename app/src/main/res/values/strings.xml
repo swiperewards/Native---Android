@@ -14,8 +14,8 @@
     <string name="error_validation_mobile">Mobile number is invalid.</string>
 
 
-    <string name="err_generic" translatable="true">Unable to process the request.</string>
-    <string name="err_network">Check your network and try again.</string>
+    <string name="err_generic" translatable="true">Something wen’t wrong, We are facing some challenges with connecting to the server. Kindly ensure you have a proper internet connection.</string>
+    <string name="err_network">Please check your internet connection</string>
 
     //FB Google
     <string name="label_google_sign_in">Firebase + Google Sign In</string>
