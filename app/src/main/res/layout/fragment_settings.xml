@@ -40,15 +40,14 @@
                     android:id="@+id/sw_notification"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:layout_alignParentRight="true"
                     android:layout_gravity="center_vertical"
-                    android:layout_alignParentRight="true"/>
+                    android:gravity="center_vertical"/>
         </RelativeLayout>
 
         <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator"
-                android:layout_marginBottom="@dimen/margin_very_small"
                 android:layout_marginTop="@dimen/margin_very_small"
                 android:background="@color/color_separator"/>
 
@@ -64,6 +63,8 @@
                 android:drawableLeft="@drawable/wrapper_password"
                 android:drawablePadding="@dimen/margin_very_small"
                 android:gravity="center_vertical"
+                android:paddingBottom="@dimen/margin_very_small"
+                android:paddingTop="@dimen/margin_very_small"
                 android:text="Change Password"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/color_text"/>
@@ -71,8 +72,6 @@
         <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator"
-                android:layout_marginBottom="@dimen/margin_very_small"
-                android:layout_marginTop="@dimen/margin_very_small"
                 android:background="@color/color_separator"/>
 
 
@@ -87,6 +86,8 @@
                 android:drawableLeft="@drawable/wrapper_conact_us"
                 android:drawablePadding="@dimen/margin_very_small"
                 android:gravity="center_vertical"
+                android:paddingBottom="@dimen/margin_very_small"
+                android:paddingTop="@dimen/margin_very_small"
                 android:text="Contact Us"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/color_text"/>
@@ -94,8 +95,6 @@
         <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator"
-                android:layout_marginBottom="@dimen/margin_very_small"
-                android:layout_marginTop="@dimen/margin_very_small"
                 android:background="@color/color_separator"/>
 
 
@@ -110,6 +109,8 @@
                 android:drawableLeft="@drawable/wrapper_privacy"
                 android:drawablePadding="@dimen/margin_very_small"
                 android:gravity="center_vertical"
+                android:paddingBottom="@dimen/margin_very_small"
+                android:paddingTop="@dimen/margin_very_small"
                 android:text="@string/privacy"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/color_text"/>
@@ -117,8 +118,6 @@
         <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator"
-                android:layout_marginBottom="@dimen/margin_very_small"
-                android:layout_marginTop="@dimen/margin_very_small"
                 android:background="@color/color_separator"/>
 
 
@@ -133,6 +132,8 @@
                 android:drawableLeft="@drawable/wrapper_terms"
                 android:drawablePadding="@dimen/margin_very_small"
                 android:gravity="center_vertical"
+                android:paddingBottom="@dimen/margin_very_small"
+                android:paddingTop="@dimen/margin_very_small"
                 android:text="Terms of Use"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/color_text"/>
@@ -140,8 +141,6 @@
         <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator"
-                android:layout_marginBottom="@dimen/margin_very_small"
-                android:layout_marginTop="@dimen/margin_very_small"
                 android:background="@color/color_separator"/>
 
         <android.support.v7.widget.AppCompatTextView
@@ -155,6 +154,8 @@
                 android:drawableLeft="@drawable/wrapper_sign_out"
                 android:drawablePadding="@dimen/margin_very_small"
                 android:gravity="center_vertical"
+                android:paddingBottom="@dimen/margin_very_small"
+                android:paddingTop="@dimen/margin_very_small"
                 android:text="Sign Out"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/color_text"/>
@@ -163,7 +164,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator"
                 android:layout_marginBottom="@dimen/margin_very_small"
-                android:layout_marginTop="@dimen/margin_very_small"
                 android:background="@color/color_separator"/>
 
 

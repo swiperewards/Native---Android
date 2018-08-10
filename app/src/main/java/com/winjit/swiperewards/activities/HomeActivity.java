@@ -58,6 +58,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     private AppCompatTextView tvLevel;
     private AppCompatTextView tvLevelDesc;
     private LinearLayout llTop;
+    private LinearLayout llProfilePic;
     private BottomNavigationViewEx navigation;
     private TextView toolbarTitle;
     private AppCompatSeekBar skLevel;
@@ -88,6 +89,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         skLevel = (AppCompatSeekBar) findViewById(R.id.sk_level);
         llUserInfo = (LinearLayout) findViewById(R.id.ll_user_info);
         llCashback = (LinearLayout) findViewById(R.id.ll_cashback);
+        llProfilePic = (LinearLayout) findViewById(R.id.ll_profile_pic);
         rlLevelDetails = (RelativeLayout) findViewById(R.id.rl_level_details);
         rlProfilePic = (RelativeLayout) findViewById(R.id.rl_profile_pic);
 
@@ -192,12 +194,14 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
 
         switch (itemId) {
             case R.id.navigation_Settings:
-                llUserInfo.setVisibility(View.INVISIBLE);
-                llCashback.setVisibility(View.INVISIBLE);
+                int topPadding = rlLevelDetails.getHeight();
+                llUserInfo.setVisibility(View.GONE);
+                llCashback.setVisibility(View.GONE);
                 rlLevelDetails.setVisibility(View.GONE);
                 ivChangeProfilePic.setVisibility(View.VISIBLE);
                 rlProfilePic.setOnClickListener(this);
-                tvUserName.setPadding(4, 4, 4, 25);
+                llProfilePic.setPadding(0, topPadding, 0, 0);
+//                tvUserName.setPadding(4, 4, 4, 25);
                 break;
             case R.id.navigation_home:
             case R.id.navigation_wallet:
@@ -208,7 +212,8 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
                 rlLevelDetails.setVisibility(View.VISIBLE);
                 ivChangeProfilePic.setVisibility(View.INVISIBLE);
                 rlProfilePic.setOnClickListener(null);
-                tvUserName.setPadding(4, 4, 4, 4);
+//                tvUserName.setPadding(4, 4, 4, 4);
+                llProfilePic.setPadding(0, 0, 0, 0);
                 break;
         }
     }
@@ -223,12 +228,12 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     @Override
     public void onSwipeInitialized(InitSwipeEvent initSwipeEvent) {
         if (!checkIfForcedUpdate(initSwipeEvent.getInitSwipe().getAppConfig())) {
-            if(initSwipeEvent.getInitSwipe().getUserProfile()!=null) {
+            if (initSwipeEvent.getInitSwipe().getUserProfile() != null) {
                 SingletonAppCache.getInstance().setUserProfile(initSwipeEvent.getInitSwipe().getUserProfile());
                 SingletonAppCache.getInstance().setAppConfig(initSwipeEvent.getInitSwipe().getAppConfig());
                 setUserData(initSwipeEvent.getInitSwipe().getUserProfile());
                 setDefaultHomeIndex();
-            }else{
+            } else {
                 showMessage(getResources().getString(R.string.err_generic));
             }
         }
@@ -275,16 +280,18 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             tvUserName.setText(userProfile.getFullName());
         }
 
-        if (userProfile.getLevelDetails() != null && userProfile.getLevelDetails().getUserLevel() != 0){
+        if (userProfile.getLevelDetails() != null && userProfile.getLevelDetails().getUserLevel() != 0) {
             tvLevel.setText("Level " + userProfile.getLevelDetails().getUserLevel());
             skLevel.setMax(userProfile.getLevelDetails().getLevelMax() - userProfile.getLevelDetails().getLevelMin());
             skLevel.setProgress(userProfile.getLevelDetails().getLevelMax() - userProfile.getLevelDetails().getUserXP());
             tvLevelDesc.setText(userProfile.getLevelDetails().getUserXP() + "/" + userProfile.getLevelDetails().getLevelMax());
-        }
-        else {
+        } else {
+            int topPadding = rlLevelDetails.getHeight();
             tvLevelDesc.setVisibility(View.GONE);
             tvLevel.setVisibility(View.GONE);
             skLevel.setVisibility(View.GONE);
+            rlProfilePic.setPadding(0, topPadding, 0, 0);
+
         }
 
         if (!TextUtils.isEmpty(userProfile.getProfilePicUrl())) {

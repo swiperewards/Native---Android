@@ -107,7 +107,7 @@ public class LoginFragment extends SocialBaseFragment implements View.OnClickLis
 //        if (ISwipe.IS_DUMMY_DATA_ENABLED)
         {
             etUserEmail.setText("vishalb@winjit.com");
-            etPassword.setText("Winjit@321");
+            etPassword.setText("Qwerty@123");
         }
     }
 }
