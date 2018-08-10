@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.entities.Deals;
+import com.winjit.swiperewards.helpers.UIHelper;
 import com.winjit.swiperewards.interfaces.AdapterResponseInterface;
 
 import java.util.ArrayList;
@@ -36,9 +38,14 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.AccountDetai
         return new AccountDetailViewHolder(view);
     }
 
+    public void updateList(ArrayList<Deals> list){
+        dealsList = list;
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(AccountDetailViewHolder holder, final int position) {
-        holder.tvStoreName.setText(dealsList.get(position).getMerchantId());
+        holder.tvStoreName.setText(dealsList.get(position).getShortDescription());
         holder.tvLocationName.setText(dealsList.get(position).getLocation());
         holder.tvCashBack.setText("" + dealsList.get(position).getCashBonus());
         holder.tvValidity.setText(dealsList.get(position).getStartDate() + "-" + dealsList.get(position).getEndDate());
@@ -51,6 +58,10 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.AccountDetai
                 adapterResponseInterface.getAdapterResponse(bundle);
             }
         });
+
+        if (!TextUtils.isEmpty(dealsList.get(position).getIcon())) {
+            UIHelper.getInstance().loadImageOnline(context, dealsList.get(position).getIcon().replace(" ", "%20"), holder.ivIcon, R.mipmap.ic_launcher, R.mipmap.ic_launcher);
+        }
     }
 
     @Override

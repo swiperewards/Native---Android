@@ -106,5 +106,20 @@
     <string name="err_password_special_character">Password must contain at-least one special character.</string>
     <string name="err_password_digit">Password must contain at-least one digit.</string>
     <string name="err_password_pattern">Password must 8 to 14 characters.</string>
+    <string name="send">Send</string>
+    <string name="name_on_card">Name on Card</string>
+    <string name="bt_card_number_required">Card number is required</string>
+    <string name="bt_card_number_invalid">Card number is invalid</string>
+
+    <string name="bt_cvv">CVV</string>
+    <string name="bt_cvc">CVC</string>
+    <string name="bt_cid">CID</string>
+    <string name="bt_cvn">CVN</string>
+    <string name="ok">Ok</string>
+    <string name="err_profile_pic">Error while uploading profile pic.</string>
+
+
+    <string name="facebook_app_id">2124774664450394</string>
+    <string name="fb_login_protocol_scheme">fb2124774664450394</string>
 
 </resources>

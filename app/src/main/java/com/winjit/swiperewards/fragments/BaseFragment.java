@@ -6,8 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import com.winjit.swiperewards.activities.UniversalBaseActivity;
-import com.winjit.swiperewards.mvpviews.BaseMVPView;
 import com.winjit.swiperewards.helpers.UIHelper;
+import com.winjit.swiperewards.mvpviews.BaseMVPView;
 
 
 public class BaseFragment extends Fragment implements BaseMVPView {
@@ -30,7 +30,9 @@ public class BaseFragment extends Fragment implements BaseMVPView {
 
     @Override
     public void hideProgress() {
-        ((UniversalBaseActivity) getActivity()).hideProgress();
+        if (((UniversalBaseActivity) getActivity()) != null) {
+            ((UniversalBaseActivity) getActivity()).hideProgress();
+        }
     }
 
     @Override

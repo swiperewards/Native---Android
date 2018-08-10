@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.GnssStatus;
-import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -15,9 +14,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,9 +40,6 @@ import com.winjit.swiperewards.presenters.DealsPresenter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static android.location.GpsStatus.GPS_EVENT_STARTED;
-import static android.location.GpsStatus.GPS_EVENT_STOPPED;
-
 
 public class HomeFragment extends BaseFragment implements View.OnClickListener, AdapterResponseInterface, DealsView {
 
@@ -50,6 +49,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private AppCompatTextView tvEnableLocation;
     private LocationManager lm = null;
     private GnssStatus.Callback gnsCallBack;
+    private AppCompatEditText etSearchDeals;
+    private ArrayList<Deals> dealsArrayList;
+    private DealsAdapter dealAdapter;
 
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
@@ -81,16 +83,54 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         rvDeals.setLayoutManager(linearLayoutManager);
 
         rlLocation = mRootView.findViewById(R.id.rl_location);
+        etSearchDeals = mRootView.findViewById(R.id.et_search_deals);
         tvEnableLocation = mRootView.findViewById(R.id.tv_enable_location);
         tvEnableLocation.setOnClickListener(this);
 
         getDealsIfLocationEnabled();
+        setFilterListenerForLocation();
     }
+
+    private void setFilterListenerForLocation() {
+        etSearchDeals.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable inputString) {
+                if (dealsArrayList != null && dealsArrayList.size() > 0) {
+                    if (inputString.length() >= 3) {
+                        filter(inputString.toString());
+                    } else if (inputString.length() == 0) {
+                        dealAdapter.updateList(dealsArrayList);
+                    }
+                }
+            }
+        });
+    }
+
+
+    private void filter(String text) {
+        ArrayList<Deals> filteredDealList = new ArrayList();
+        for (Deals d : dealsArrayList) {
+            //or use .equal(text) with you want equal match
+            //use .toLowerCase() for better matches
+            if (d.getLocation().contains(text) || d.getShortDescription().contains(text)) {
+                filteredDealList.add(d);
+            }
+        }
+        dealAdapter.updateList(filteredDealList);
+    }
+
 
     private void getDealsIfLocationEnabled() {
         if (PermissionUtils.checkPermissionGranted((AppCompatActivity) getActivity(), "android.permission.ACCESS_COARSE_LOCATION") &&
                 PermissionUtils.checkPermissionGranted((AppCompatActivity) getActivity(), "android.permission.ACCESS_FINE_LOCATION")) {
-
             GPSTracker gpsTracker = new GPSTracker(getActivity());
             boolean isLocationEnabled = gpsTracker.isLocationEnabled(getActivity());
             initiateDealsAndUpdateBottomVisibility(isLocationEnabled);
@@ -124,69 +164,26 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 }
                 //Checking SDK to to set Gps status listener which is deprecated in android N.
                 if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
-                    lm.addGpsStatusListener(new GpsStatus.Listener() {
-                        public void onGpsStatusChanged(int event) {
-                            switch (event) {
-                                case GPS_EVENT_STARTED:
-                                    initiateDealsAndUpdateBottomVisibility(true);
-                                    break;
-                                case GPS_EVENT_STOPPED:
-                                    initiateDealsAndUpdateBottomVisibility(false);
-                                    break;
-                            }
-                        }
-                    });
-                }else{
-                    gnsCallBack = new GnssStatus.Callback() {
-                        @Override
-                        public void onStarted() {
-                            super.onStarted();
-                            initiateDealsAndUpdateBottomVisibility(true);
-                        }
-
-                        @Override
-                        public void onStopped() {
-                            super.onStopped();
-                            initiateDealsAndUpdateBottomVisibility(false);
-                        }
-
-                    };
+                    requestLocUpdates(lm);
+                } else {
                     lm.registerGnssStatusCallback(gnsCallBack);
-                    lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 0, new LocationListener() {
-                        @Override
-                        public void onLocationChanged(Location location) {
-
-                        }
-
-                        @Override
-                        public void onStatusChanged(String s, int i, Bundle bundle) {
-                        }
-
-                        @Override
-                        public void onProviderEnabled(String s) {
-                            initiateDealsAndUpdateBottomVisibility(true);
-                        }
-
-                        @Override
-                        public void onProviderDisabled(String s) {
-                            initiateDealsAndUpdateBottomVisibility(false);
-                        }
-                    });
+                    requestLocUpdates(lm);
                 }
             } else {
                 //Setting GPS listener without checking runtime permission for devices below Android M.
-                lm.addGpsStatusListener(new GpsStatus.Listener() {
-                    public void onGpsStatusChanged(int event) {
-                        switch (event) {
-                            case GPS_EVENT_STARTED:
-                                initiateDealsAndUpdateBottomVisibility(true);
-                                break;
-                            case GPS_EVENT_STOPPED:
-                                initiateDealsAndUpdateBottomVisibility(false);
-                                break;
-                        }
-                    }
-                });
+//                lm.addGpsStatusListener(new GpsStatus.Listener() {
+//                    public void onGpsStatusChanged(int event) {
+//                        switch (event) {
+//                            case GPS_EVENT_STARTED:
+//                                initiateDealsAndUpdateBottomVisibility(true);
+//                                break;
+//                            case GPS_EVENT_STOPPED:
+//                                initiateDealsAndUpdateBottomVisibility(false);
+//                                break;
+//                        }
+//                    }
+//                });
+                requestLocUpdates(lm);
             }
 
         }
@@ -194,10 +191,37 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     }
 
+    private void requestLocUpdates(LocationManager lm) {
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 0, new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+                initiateDealsAndUpdateBottomVisibility(true);
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+                initiateDealsAndUpdateBottomVisibility(false);
+            }
+        });
+
+    }
+
     private void requestPermission() {
         String[] strPermission = {"android.permission.ACCESS_COARSE_LOCATION",
                 "android.permission.ACCESS_FINE_LOCATION"};
-        requestPermissions(strPermission,ISwipe.LOCATION_PERMISSION);
+        requestPermissions(strPermission, ISwipe.LOCATION_PERMISSION);
     }
 
 
@@ -227,7 +251,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     public void onDealsReceived(Deals[] dealsList) {
-        rvDeals.setAdapter(new DealsAdapter(getActivity(), new CommonHelper().updateStartEndDateFormat(new ArrayList<Deals>(Arrays.asList(dealsList))), this));
+        dealsArrayList = new ArrayList<Deals>(Arrays.asList(dealsList));
+        dealAdapter = new DealsAdapter(getActivity(), new CommonHelper().updateStartEndDateFormat(dealsArrayList), this);
+        rvDeals.setAdapter(dealAdapter);
     }
 
 
@@ -236,11 +262,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case ISwipe.LOCATION_PERMISSION:
-                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     setLocationListener();
                     getDealsIfLocationEnabled();
-                }
-                else{
+                } else {
                     showMessage(getActivity().getResources().getString(R.string.permission_error));
                 }
                 break;

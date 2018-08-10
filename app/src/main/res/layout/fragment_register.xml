@@ -168,6 +168,20 @@
             android:layout_height="match_parent"
             android:layout_gravity="top|center_horizontal"
             android:orientation="horizontal">
+
+        <com.facebook.login.widget.LoginButton
+                android:id="@+id/fb_login_button"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:visibility="gone"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginLeft="@dimen/margin_very_small"
+                android:layout_marginRight="@dimen/margin_very_small"
+                android:padding="@dimen/margin_very_small"
+                />
+
+
+
         <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_facebook"
                 android:layout_width="72dp"

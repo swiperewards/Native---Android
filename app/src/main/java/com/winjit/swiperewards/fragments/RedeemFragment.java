@@ -19,6 +19,7 @@ import android.widget.Spinner;
 
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.activities.HomeActivity;
+import com.winjit.swiperewards.appdata.SingletonAppCache;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.entities.RedeemModes;
 import com.winjit.swiperewards.helpers.UIHelper;
@@ -123,6 +124,8 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
 
 
     public void setAdaptersForRedeemMode(Context context, final Spinner spinner, String[] dropDownValues) {
+        if (context == null)
+            return;
         if (dropDownValues != null && dropDownValues.length > 0) {
             spinner.setAdapter(new ArrayAdapter<>(context, R.layout.row_spinner, dropDownValues));
         }
@@ -160,10 +163,28 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_confirm:
-                if (isValidInputsEntered()) {
+                if (isValidInputsEntered() && isValidRedeemAmountEntered()) {
                     showConfirmationDialog();
                 }
                 break;
+        }
+    }
+
+    private boolean isValidRedeemAmountEntered() {
+        try {
+            Float redeemAmount = Float.parseFloat(etAmount.getText().toString());
+            if (redeemAmount==null || redeemAmount <= 0) {
+                showMessage("Redeem amount should be greater than $0");
+                return false;
+            } else if (SingletonAppCache.getInstance().getUserProfile() != null &&
+                    SingletonAppCache.getInstance().getUserProfile().getWalletBalance() < redeemAmount) {
+                showMessage("You cannot redeem more than $" + SingletonAppCache.getInstance().getUserProfile().getWalletBalance());
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            showMessage(getActivity().getResources().getString(R.string.err_generic));
+            return false;
         }
     }
 
@@ -173,7 +194,7 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
         String dialogInterfaceMessage = "You are creating a redeem request of $" + amount + " to your account XXXX. Do you want to continue?";
 
         UIHelper.configureShowConfirmDialog(dialogInterfaceMessage, getActivity(),
-                R.string.confirm, R.string.btn_cancel,R.string.confirm,
+                R.string.confirm, R.string.btn_cancel, R.string.confirm,
                 new MessageDialogConfirm() {
                     @Override
                     public void onPositiveClick() {

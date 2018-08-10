@@ -20,18 +20,21 @@ public class UserProfile {
     @SerializedName("longitude")
     @Expose
     private String longitude;
-    @SerializedName("userLevel")
+    @SerializedName("level")
     @Expose
-    private Integer userLevel;
-    @SerializedName("levelDescription")
-    @Expose
-    private String levelDescription;
+    private LevelDetails levelDetails;
+
     @SerializedName("isNotificationEnabled")
     @Expose
     private Boolean isNotificationEnabled;
     @SerializedName("profilePicUrl")
     @Expose
     private String profilePicUrl;
+
+
+    @SerializedName("walletBalance")
+    @Expose
+    private float walletBalance;
 
     public Long getUserId() {
         return userId;
@@ -73,22 +76,6 @@ public class UserProfile {
         this.longitude = longitude;
     }
 
-    public Integer getUserLevel() {
-        return userLevel;
-    }
-
-    public void setUserLevel(Integer userLevel) {
-        this.userLevel = userLevel;
-    }
-
-    public String getLevelDescription() {
-        return levelDescription;
-    }
-
-    public void setLevelDescription(String levelDescription) {
-        this.levelDescription = levelDescription;
-    }
-
     public Boolean getNotificationEnabled() {
         return isNotificationEnabled;
     }
@@ -103,5 +90,21 @@ public class UserProfile {
 
     public void setProfilePicUrl(String profilePicUrl) {
         this.profilePicUrl = profilePicUrl;
+    }
+
+    public float getWalletBalance() {
+        return walletBalance;
+    }
+
+    public void setWalletBalance(float walletBalance) {
+        this.walletBalance = walletBalance;
+    }
+
+    public LevelDetails getLevelDetails() {
+        return levelDetails;
+    }
+
+    public void setLevelDetails(LevelDetails levelDetails) {
+        this.levelDetails = levelDetails;
     }
 }

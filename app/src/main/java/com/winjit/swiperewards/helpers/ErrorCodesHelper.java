@@ -9,10 +9,12 @@ public class ErrorCodesHelper {
 
     public static final int ERROR_GENERIC = 1;
     public static final int ERROR_NETOWRK = 2;
-    private static final int USER_ALREADY_EXIST = 801;
+    private static final int USER_ALREADY_EXIST = 1004;
     private static final int INVALID_LOGIN_CREDENTIALS = 1003;
     private static final int INVALID_OLD_PASSWORD = 1006;
     private static final int CARD_ALREADY_EXIST = 1051;
+    private static final int PROFILE_PIC_UPLOAD_ERROR_1 = 1008;
+    private static final int PROFILE_PIC_UPLOAD_ERROR_2 = 1007;
 
 
     public static String getErrorStringFromCode(Context context, int code) {
@@ -27,7 +29,9 @@ public class ErrorCodesHelper {
                 return context.getResources().getString(R.string.err_invalid_old_password);
             case CARD_ALREADY_EXIST:
                 return context.getResources().getString(R.string.err_card_aready_exists);
-
+            case PROFILE_PIC_UPLOAD_ERROR_1:
+            case PROFILE_PIC_UPLOAD_ERROR_2:
+                return context.getResources().getString(R.string.err_profile_pic);
             case ERROR_GENERIC:
             default:
                 return context.getResources().getString(R.string.err_generic);

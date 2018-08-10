@@ -15,9 +15,9 @@ public class SettingsPresenter {
         this.settingsView = settingsView;
     }
 
-    public void updateNotificationStatus(boolean notificationStatus) {
+    public void updateNotificationStatus(boolean isChecked) {
         try {
-            new ServiceController().updateNotificationStatus(settingsView.getViewContext(), notificationStatus, new WebRequestManager.WebProcessListener<NotificationStatusEvent>() {
+            new ServiceController().updateNotificationStatus(settingsView.getViewContext(), isChecked, new WebRequestManager.WebProcessListener<NotificationStatusEvent>() {
                 @Override
                 public void onWebProcessSuccess(NotificationStatusEvent notificationStatusEvent) {
                     settingsView.hideProgress();

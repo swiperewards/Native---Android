@@ -165,14 +165,22 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void onErrorNotificationState() {
-        swNotification.setOnCheckedChangeListener(null);
         swNotification.setChecked(!swNotification.isChecked());
-        swNotification.setOnCheckedChangeListener(this);
     }
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isEnabled) {
-        showProgress(getActivity().getResources().getString(R.string.please_wait));
-        settingsPresenter.updateNotificationStatus(isEnabled);
+        if (compoundButton.isPressed()) {
+            showProgress(getActivity().getResources().getString(R.string.please_wait));
+            settingsPresenter.updateNotificationStatus(isEnabled);
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (swNotification != null) {
+            swNotification.setOnCheckedChangeListener(null);
+        }
     }
 }

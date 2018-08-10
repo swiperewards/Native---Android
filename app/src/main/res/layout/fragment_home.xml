@@ -21,7 +21,7 @@
             android:drawablePadding="@dimen/margin_tiny"
             android:drawableRight="@drawable/wrapper_search"
             android:gravity="center_vertical"
-            android:hint="Store Location"
+            android:hint="Store/Location"
             android:imeOptions="actionSearch"
             android:lines="1"
             android:maxLines="1"

@@ -73,6 +73,6 @@
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/margin_small"
             android:layout_marginTop="@dimen/margin_small"
-            android:text="@string/submit"/>
+            android:text="@string/send"/>
 
 </LinearLayout>

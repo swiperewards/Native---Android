@@ -1,9 +1,13 @@
 package com.winjit.swiperewards.presenters;
 
+import android.graphics.Bitmap;
+
 import com.android.volley.VolleyError;
 import com.winjit.swiperewards.constants.ISwipe;
+import com.winjit.swiperewards.events.BaseEvent;
 import com.winjit.swiperewards.events.InitSwipeEvent;
 import com.winjit.swiperewards.helpers.ErrorCodesHelper;
+import com.winjit.swiperewards.helpers.UIHelper;
 import com.winjit.swiperewards.mvpviews.InitSwipeView;
 import com.winjit.swiperewards.services.ServiceController;
 import com.winjit.swiperewards.web.WebRequestManager;
@@ -25,6 +29,36 @@ public class InitSwipePresenter {
                         initSwipeView.onSwipeInitialized(initSwipeEvent);
                     } else {
                         initSwipeView.showMessage(ErrorCodesHelper.getErrorStringFromCode(initSwipeView.getViewContext(), initSwipeEvent.getStatus()));
+                    }
+                }
+
+                @Override
+                public void onWebProcessFailed(VolleyError error, Class aClass) {
+                    initSwipeView.hideProgress();
+                    initSwipeView.showMessage(ErrorCodesHelper.getErrorStringFromCode(initSwipeView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+                }
+            });
+        } catch (Exception e) {
+            initSwipeView.hideProgress();
+            e.printStackTrace();
+            initSwipeView.showMessage(ErrorCodesHelper.getErrorStringFromCode(initSwipeView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+        }
+    }
+
+
+
+
+    public void uploadProfilePic(Bitmap profilePic) {
+        try {
+            new ServiceController().uploadProfilePic(initSwipeView.getViewContext(), new UIHelper().BitMapToString(profilePic),new WebRequestManager.WebProcessListener<BaseEvent>() {
+                @Override
+                public void onWebProcessSuccess(BaseEvent baseEvent) {
+                    initSwipeView.hideProgress();
+                    if (baseEvent.getStatus() == ISwipe.SUCCESS) {
+                        initSwipeView.showMessage("Profile pic uploaded successfully");
+
+                    } else {
+                        initSwipeView.showMessage(ErrorCodesHelper.getErrorStringFromCode(initSwipeView.getViewContext(), baseEvent.getStatus()));
                     }
                 }
 

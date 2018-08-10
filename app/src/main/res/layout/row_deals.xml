@@ -34,7 +34,7 @@
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/ll_left_decor"
             android:layout_toRightOf="@id/ll_left_decor"
-            app:srcCompat="@drawable/vc_facebook"/>
+            android:src="@mipmap/ic_launcher" />
 
     <LinearLayout
             android:layout_width="match_parent"

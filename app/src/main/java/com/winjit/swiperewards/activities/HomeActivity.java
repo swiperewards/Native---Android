@@ -2,11 +2,15 @@ package com.winjit.swiperewards.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +23,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.myhexaville.smartimagepicker.ImagePicker;
+import com.myhexaville.smartimagepicker.OnImagePickedListener;
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.appdata.SingletonAppCache;
 import com.winjit.swiperewards.constants.ISwipe;
@@ -35,7 +41,11 @@ import com.winjit.swiperewards.interfaces.MessageDialogConfirm;
 import com.winjit.swiperewards.mvpviews.InitSwipeView;
 import com.winjit.swiperewards.presenters.InitSwipePresenter;
 
+import java.io.IOException;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class HomeActivity extends BaseActivity implements InitSwipeView, View.OnClickListener {
 
@@ -52,8 +62,12 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     private TextView toolbarTitle;
     private AppCompatSeekBar skLevel;
     private InitSwipePresenter initSwipePresenter;
-    private RelativeLayout bottomSheet;
-    private LinearLayout linCamera, linGallery;
+    private LinearLayout llUserInfo;
+    private LinearLayout llCashback;
+    private RelativeLayout rlLevelDetails;
+    private AppCompatImageView ivChangeProfilePic;
+    private RelativeLayout rlProfilePic;
+    private ImagePicker imagePicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,15 +80,16 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         llTop = (LinearLayout) findViewById(R.id.ll_top);
         tvUserLocation = (AppCompatTextView) findViewById(R.id.tv_user_location);
         profileImage = (CircleImageView) findViewById(R.id.profile_image);
+        ivChangeProfilePic = findViewById(R.id.iv_change_profile_pic);
         tvUserName = (AppCompatTextView) findViewById(R.id.tv_user_name);
         tvCashBack = (AppCompatTextView) findViewById(R.id.tv_cashback);
         tvLevel = (AppCompatTextView) findViewById(R.id.tv_level);
         tvLevelDesc = (AppCompatTextView) findViewById(R.id.tv_level_desc);
         skLevel = (AppCompatSeekBar) findViewById(R.id.sk_level);
-        bottomSheet = (RelativeLayout) findViewById(R.id.bottom_sheet);
-        linCamera = (LinearLayout) findViewById(R.id.lin_camera);
-        linGallery = (LinearLayout) findViewById(R.id.lin_gallery);
-
+        llUserInfo = (LinearLayout) findViewById(R.id.ll_user_info);
+        llCashback = (LinearLayout) findViewById(R.id.ll_cashback);
+        rlLevelDetails = (RelativeLayout) findViewById(R.id.rl_level_details);
+        rlProfilePic = (RelativeLayout) findViewById(R.id.rl_profile_pic);
 
 
         navigation = (BottomNavigationViewEx) findViewById(R.id.bottom_navigation);
@@ -100,15 +115,13 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
                 return true;
             }
         });
-        profileImage.setOnClickListener(this);
-        linCamera.setOnClickListener(this);
-        linGallery.setOnClickListener(this);
-        bottomSheet.setOnClickListener(this);
-        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
+
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 setTopLayoutVisibility(item.getItemId());
+                setTopLayoutItemsVisibility(item.getItemId());
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
                         UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, HomeFragment.newInstance(), false);
@@ -148,6 +161,15 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         view.performClick();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (navigation.getCurrentItem() != 0 && getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            setDefaultHomeIndex();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
     public void setTopLayoutVisibility(int itemId) {
 
@@ -166,6 +188,31 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         }
     }
 
+    public void setTopLayoutItemsVisibility(int itemId) {
+
+        switch (itemId) {
+            case R.id.navigation_Settings:
+                llUserInfo.setVisibility(View.INVISIBLE);
+                llCashback.setVisibility(View.INVISIBLE);
+                rlLevelDetails.setVisibility(View.GONE);
+                ivChangeProfilePic.setVisibility(View.VISIBLE);
+                rlProfilePic.setOnClickListener(this);
+                tvUserName.setPadding(4, 4, 4, 25);
+                break;
+            case R.id.navigation_home:
+            case R.id.navigation_wallet:
+            case R.id.navigation_redeem:
+            default:
+                llUserInfo.setVisibility(View.VISIBLE);
+                llCashback.setVisibility(View.VISIBLE);
+                rlLevelDetails.setVisibility(View.VISIBLE);
+                ivChangeProfilePic.setVisibility(View.INVISIBLE);
+                rlProfilePic.setOnClickListener(null);
+                tvUserName.setPadding(4, 4, 4, 4);
+                break;
+        }
+    }
+
     public void setTopBarTitle(String title) {
         if (toolbarTitle != null) {
             toolbarTitle.setText(title);
@@ -175,8 +222,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
 
     @Override
     public void onSwipeInitialized(InitSwipeEvent initSwipeEvent) {
-//        if (!checkIfForcedUpdate(initSwipeEvent.getInitSwipe().getAppConfig()))
-        {
+        if (!checkIfForcedUpdate(initSwipeEvent.getInitSwipe().getAppConfig())) {
             SingletonAppCache.getInstance().setUserProfile(initSwipeEvent.getInitSwipe().getUserProfile());
             SingletonAppCache.getInstance().setAppConfig(initSwipeEvent.getInitSwipe().getAppConfig());
             setUserData(initSwipeEvent.getInitSwipe().getUserProfile());
@@ -219,26 +265,28 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             tvUserLocation.setText(userProfile.getCity());
         }
 
-//        if(!TextUtils.isEmpty(userProfile.getCashbak())){
-//            tvCashBack.setText(userProfile.getCashbak());
-//        }
+        tvCashBack.setText("$" + userProfile.getWalletBalance());
 
         if (!TextUtils.isEmpty(userProfile.getFullName())) {
             tvUserName.setText(userProfile.getFullName());
         }
 
-        if (userProfile.getUserLevel() != null) {
-            tvLevel.setText("Level " + userProfile.getUserLevel());
-            skLevel.setProgress(userProfile.getUserLevel());
+        if (userProfile.getLevelDetails() != null) && userProfile.getLevelDetails().getUserLevel() != 0){
+            tvLevel.setText("Level " + userProfile.getLevelDetails().getUserLevel());
+            skLevel.setMax(userProfile.getLevelDetails().getLevelMax() - userProfile.getLevelDetails().getLevelMin());
+            skLevel.setProgress(userProfile.getLevelDetails().getLevelMax() - userProfile.getLevelDetails().getUserXP());
+            tvLevelDesc.setText(userProfile.getLevelDetails().getUserXP() + "/" + userProfile.getLevelDetails().getLevelMax());
         }
-
-        if (userProfile.getLevelDescription() != null) {
-            tvLevelDesc.setText(userProfile.getLevelDescription());
+        else {
+            tvLevelDesc.setVisibility(View.GONE);
+            tvLevel.setVisibility(View.GONE);
+            skLevel.setVisibility(View.GONE);
         }
 
         if (!TextUtils.isEmpty(userProfile.getProfilePicUrl())) {
-            UIHelper.getInstance().loadImageOnline(this, userProfile.getProfilePicUrl().replace(" ", "%20"), profileImage, R.mipmap.ic_launcher, R.mipmap.ic_launcher);
+            UIHelper.getInstance().loadImageOnline(this, userProfile.getProfilePicUrl().replace(" ", "%20"), profileImage, R.mipmap.ic_user_icon, R.mipmap.ic_user_icon);
         }
+
     }
 
     @Override
@@ -254,32 +302,68 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.profile_image:
-            case R.id.bottom_sheet:
-                showBottomSheetMenu();
-                break;
-            case R.id.lin_camera:
-                showBottomSheetMenu();
-                break;
-            case R.id.lin_gallery:
-                showBottomSheetMenu();
+            case R.id.rl_profile_pic:
+                launchGallery();
                 break;
         }
     }
 
-    private void showBottomSheetMenu() {
-
-        if (bottomSheet.getVisibility()==View.VISIBLE) {
-            bottomSheet.setVisibility(View.GONE);
-        } else {
-            bottomSheet.setVisibility(View.VISIBLE);
-        }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        imagePicker.handleActivityResult(resultCode, requestCode, data);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == ISwipe.CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE_WITH_CAMERA) {
+            if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED &&
+                    grantResults.length > 1 && grantResults[1] == PERMISSION_GRANTED) {
+                launchGallery();
+            } else {
+                showMessage("Permissions must be granted to set the profile picture!");
+            }
+        }
+
+        if (requestCode == ISwipe.CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE_WITHOUT_CAMERA) {
+            if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED) {
+                launchGallery();
+            } else {
+                showMessage("Permissions must be granted to set the profile picture!");
+            }
+        } else if (requestCode == ISwipe.CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED) {
+                launchGallery();
+            } else {
+                showMessage("Permissions must be granted to set the profile picture!");
+            }
+        }
+    }
+
+
+    private void launchGallery() {
+
+        if (imagePicker == null) {
+            imagePicker = new ImagePicker(this, /* activity non null*/
+                    null, /* fragment nullable*/
+                    new OnImagePickedListener() {
+                        @Override
+                        public void onImagePicked(Uri imageUri) {
+                            profileImage.setImageURI(imageUri);
+                            try {
+                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                                Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(bitmap, ISwipe.THUMBNAIL_SIZE, ISwipe.THUMBNAIL_SIZE);
+                                initSwipePresenter.uploadProfilePic(ThumbImage);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+            imagePicker.setWithImageCrop(1, 1);
+        }
+        imagePicker.choosePicture(true /*show camera intents*/);
+
     }
 
 }
-
