@@ -1,6 +1,8 @@
 package com.winjit.swiperewards.activities;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -11,6 +13,9 @@ import com.leo.simplearcloader.ArcConfiguration;
 import com.leo.simplearcloader.SimpleArcDialog;
 import com.leo.simplearcloader.SimpleArcLoader;
 import com.winjit.swiperewards.R;
+import com.winjit.swiperewards.entities.AppConfig;
+import com.winjit.swiperewards.helpers.UIHelper;
+import com.winjit.swiperewards.interfaces.MessageDialogConfirm;
 
 public class UniversalBaseActivity extends AppCompatActivity {
 
@@ -73,6 +78,38 @@ public class UniversalBaseActivity extends AppCompatActivity {
     public void showLongToast(Context context, String mMessage) {
         Toast.makeText(context, mMessage, Toast.LENGTH_LONG).show();
     }
+
+    protected boolean checkIfForcedUpdate(AppConfig appConfig) {
+        if (appConfig.getForcedUpdate()) {
+            String dialogInterfaceMessage = getString(R.string.app_update_msg);
+
+            UIHelper.configureShowConfirmDialog(dialogInterfaceMessage, this,
+                    R.string.update, R.string.btn_exit, R.string.app_update,
+                    new MessageDialogConfirm() {
+                        @Override
+                        public void onPositiveClick() {
+                            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                            try {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                            } catch (android.content.ActivityNotFoundException anfe) {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                            }
+                        }
+
+                        @Override
+                        public void onNegativeClick() {
+                            android.os.Process.killProcess(android.os.Process.myPid());
+                            return;
+                        }
+                    });
+
+            return true;
+        }
+        return false;
+    }
+
+
+
 /*
     @Override
     protected void attachBaseContext(Context newBase) {

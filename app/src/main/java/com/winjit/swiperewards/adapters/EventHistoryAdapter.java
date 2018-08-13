@@ -57,10 +57,10 @@ public class EventHistoryAdapter extends RecyclerView.Adapter<EventHistoryAdapte
             if (event.getCredit() != null) {
                 if (event.getCredit()) {
                     holder.tvAmount.setText("+$" + event.getTransactionAmount());
-                    holder.tvAmount.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.vc_arrow_up, 0);
+                    holder.tvAmount.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.wrapper_arrow_up, 0);
                 } else {
                     holder.tvAmount.setText("-$" + event.getTransactionAmount());
-                    holder.tvAmount.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.vc_arrow_down, 0);
+                    holder.tvAmount.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.wrapper_arrow_down, 0);
                 }
             } else {
                 holder.tvAmount.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);

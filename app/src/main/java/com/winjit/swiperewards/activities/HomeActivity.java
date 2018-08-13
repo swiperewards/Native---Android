@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.AppCompatTextView;
@@ -28,7 +27,6 @@ import com.myhexaville.smartimagepicker.OnImagePickedListener;
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.appdata.SingletonAppCache;
 import com.winjit.swiperewards.constants.ISwipe;
-import com.winjit.swiperewards.entities.AppConfig;
 import com.winjit.swiperewards.entities.UserProfile;
 import com.winjit.swiperewards.events.InitSwipeEvent;
 import com.winjit.swiperewards.fragments.EventHistoryFragment;
@@ -36,8 +34,8 @@ import com.winjit.swiperewards.fragments.HomeFragment;
 import com.winjit.swiperewards.fragments.RedeemFragment;
 import com.winjit.swiperewards.fragments.SettingsFragment;
 import com.winjit.swiperewards.fragments.WalletFragment;
+import com.winjit.swiperewards.helpers.CommonHelper;
 import com.winjit.swiperewards.helpers.UIHelper;
-import com.winjit.swiperewards.interfaces.MessageDialogConfirm;
 import com.winjit.swiperewards.mvpviews.InitSwipeView;
 import com.winjit.swiperewards.presenters.InitSwipePresenter;
 
@@ -50,7 +48,6 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 public class HomeActivity extends BaseActivity implements InitSwipeView, View.OnClickListener {
 
 
-    private NestedScrollView svParent;
     private AppCompatTextView tvUserLocation;
     private CircleImageView profileImage;
     private AppCompatTextView tvUserName;
@@ -77,7 +74,6 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         llTop = findViewById(R.id.ll_top);
         skLevel = findViewById(R.id.sk_level);
 
-        svParent = (NestedScrollView) findViewById(R.id.sv_parent);
         llTop = (LinearLayout) findViewById(R.id.ll_top);
         tvUserLocation = (AppCompatTextView) findViewById(R.id.tv_user_location);
         profileImage = (CircleImageView) findViewById(R.id.profile_image);
@@ -106,7 +102,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     private void initSwipe() {
         initSwipePresenter = new InitSwipePresenter(this);
         showProgress(getResources().getString(R.string.please_wait));
-        initSwipePresenter.initialiseSwipeRewards(1);
+        initSwipePresenter.initialiseSwipeRewards(new CommonHelper().getVersionCode(this));
     }
 
 
@@ -240,42 +236,14 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
 
     }
 
-    private boolean checkIfForcedUpdate(AppConfig appConfig) {
-        if (appConfig.getForcedUpdate()) {
-            String dialogInterfaceMessage = "Please update an app to continue exploring";
-
-            UIHelper.configureShowConfirmDialog(dialogInterfaceMessage, this,
-                    R.string.update, R.string.btn_exit, R.string.app_update,
-                    new MessageDialogConfirm() {
-                        @Override
-                        public void onPositiveClick() {
-                            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
-                            try {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-                            } catch (android.content.ActivityNotFoundException anfe) {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                            }
-                        }
-
-                        @Override
-                        public void onNegativeClick() {
-                            android.os.Process.killProcess(android.os.Process.myPid());
-                            return;
-                        }
-                    });
-
-            return true;
-        }
-        return false;
-    }
-
     private void setUserData(UserProfile userProfile) {
         try {
             if (!TextUtils.isEmpty(userProfile.getCity())) {
                 tvUserLocation.setText(userProfile.getCity());
             }
 
-            tvCashBack.setText("$" + userProfile.getWalletBalance());
+            String balance = String.format("%02d", userProfile.getWalletBalance());
+            tvCashBack.setText("$" + balance);
 
             if (!TextUtils.isEmpty(userProfile.getFullName())) {
                 tvUserName.setText(userProfile.getFullName());
@@ -298,7 +266,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             if (!TextUtils.isEmpty(userProfile.getProfilePicUrl())) {
                 UIHelper.getInstance().loadImageOnline(this, userProfile.getProfilePicUrl().replace(" ", "%20"), profileImage, R.mipmap.ic_user_icon, R.mipmap.ic_user_icon);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }

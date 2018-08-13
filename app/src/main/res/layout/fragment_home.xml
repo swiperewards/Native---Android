@@ -51,7 +51,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:drawableLeft="@drawable/vc_location"
+                android:drawableLeft="@drawable/wrapper_location"
                 android:drawablePadding="@dimen/margin_very_small"
                 android:gravity="center"
                 android:padding="@dimen/margin_tiny"

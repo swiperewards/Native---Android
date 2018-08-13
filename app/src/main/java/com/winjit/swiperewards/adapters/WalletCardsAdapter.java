@@ -59,7 +59,7 @@ public class WalletCardsAdapter extends RecyclerSwipeAdapter<WalletCardsAdapter.
             if (walletCards.get(position).getCardType() != null) {
                 viewHolder.tvCardName.setCompoundDrawablesWithIntrinsicBounds(walletCards.get(position).getCardType().getFrontResource(), 0, 0, 0);
             } else {
-                viewHolder.tvCardName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.vc_wallet, 0, 0, 0);
+                viewHolder.tvCardName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wrapper_wallet, 0, 0, 0);
             }
 
             viewHolder.tvCardName.setText(walletCards.get(position).getNameOnCard() + " " + lastFourDigits);

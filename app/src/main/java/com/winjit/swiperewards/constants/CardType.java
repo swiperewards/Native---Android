@@ -44,7 +44,7 @@ public enum CardType {
             16, 19,
             3, R.string.bt_cvn),
     UNKNOWN("\\d+",
-            R.drawable.vc_wallet,
+            R.drawable.wrapper_wallet,
             12, 19,
             3, R.string.bt_cvv),
     EMPTY("^$",

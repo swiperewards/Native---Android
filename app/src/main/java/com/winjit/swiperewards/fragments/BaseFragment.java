@@ -26,7 +26,9 @@ public class BaseFragment extends Fragment implements BaseMVPView {
 
     @Override
     public void showProgress(String message) {
-        ((UniversalBaseActivity) getActivity()).showProgress(message);
+        if (((UniversalBaseActivity) getActivity()) != null) {
+            ((UniversalBaseActivity) getActivity()).showProgress(message);
+        }
     }
 
     @Override
@@ -39,17 +41,23 @@ public class BaseFragment extends Fragment implements BaseMVPView {
     @Override
     public void showMessage(String error) {
         hideProgress();
-        ((UniversalBaseActivity) getActivity()).showToast(getActivity(), error);
+        if (((UniversalBaseActivity) getActivity()) != null) {
+            ((UniversalBaseActivity) getActivity()).showToast(getActivity(), error);
+        }
     }
 
     public void showLongToast(String message) {
-        ((UniversalBaseActivity) getActivity()).showLongToast(getActivity(), message);
+        if (((UniversalBaseActivity) getActivity()) != null) {
+            ((UniversalBaseActivity) getActivity()).showLongToast(getActivity(), message);
+        }
     }
 
 
     public SimpleArcDialog getLoader() {
-        return ((UniversalBaseActivity) getActivity()).getLoader();
-
+        if (((UniversalBaseActivity) getActivity()) != null) {
+            return ((UniversalBaseActivity) getActivity()).getLoader();
+        }
+        return null;
     }
 
     @Override

@@ -174,7 +174,7 @@ public class CardEditText extends ErrorEditText implements TextWatcher {
 
     private void setCardIcon(int icon) {
         if (!mDisplayCardIcon || getText().length() == 0) {
-            TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(this, 0, 0, R.drawable.vc_wallet, 0);
+            TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(this, 0, 0, R.drawable.wrapper_wallet, 0);
         } else {
             TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(this, 0, 0, icon, 0);
         }
