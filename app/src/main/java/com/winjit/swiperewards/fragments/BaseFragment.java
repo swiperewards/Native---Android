@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-import com.leo.simplearcloader.SimpleArcDialog;
 import com.winjit.swiperewards.activities.LoginActivity;
 import com.winjit.swiperewards.activities.UniversalBaseActivity;
 import com.winjit.swiperewards.helpers.PreferenceUtils;
@@ -61,12 +60,7 @@ public class BaseFragment extends Fragment implements BaseMVPView {
     }
 
 
-    public SimpleArcDialog getLoader() {
-        if (((UniversalBaseActivity) getActivity()) != null) {
-            return ((UniversalBaseActivity) getActivity()).getLoader();
-        }
-        return null;
-    }
+
 
     @Override
     public void onStop() {
