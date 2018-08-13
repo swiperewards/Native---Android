@@ -123,7 +123,6 @@ public class WalletFragment extends BaseFragment implements View.OnClickListener
         });
         ((WalletCardsAdapter) mAdapter).setMode(Attributes.Mode.Single);
         rvCards.setAdapter(mAdapter);
-        onSessionExpired();
 
     }
 
