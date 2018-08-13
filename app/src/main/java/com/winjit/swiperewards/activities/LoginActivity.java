@@ -46,6 +46,10 @@ public class LoginActivity extends UniversalBaseActivity implements InitSwipeVie
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 
     @Override
     public Context getViewContext() {
@@ -56,8 +60,6 @@ public class LoginActivity extends UniversalBaseActivity implements InitSwipeVie
     public void showMessage(String message) {
 
     }
-
-
     @Override
     public void onSwipeInitialized(InitSwipeEvent initSwipeEvent) {
         checkIfForcedUpdate(initSwipeEvent.getInitSwipe().getAppConfig());

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -20,10 +21,43 @@ import com.winjit.swiperewards.interfaces.MessageDialogConfirm;
 public class UniversalBaseActivity extends AppCompatActivity {
 
     private SimpleArcDialog pgLoader;
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onBackPressed() {
+        doubleBackPressToExit();
+    }
+
+
+    /**
+     * Function to provide double back key press event to exit the app.
+     */
+    protected void doubleBackPressToExit() {
+        //Checking for fragment count on backstack
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStackImmediate();
+
+        } else if (!doubleBackToExitPressedOnce) {
+            this.doubleBackToExitPressedOnce = true;
+            showToast(this, getString(R.string.msg_exit));
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+        } else {
+            super.onBackPressed();
+            android.os.Process.killProcess(android.os.Process.myPid());
+            return;
+        }
     }
 
 
@@ -60,6 +94,10 @@ public class UniversalBaseActivity extends AppCompatActivity {
     public void hideProgress() {
         if (pgLoader != null && pgLoader.isShowing())
             pgLoader.dismiss();
+    }
+
+    public void onSessionExpired() {
+
     }
 
     public SimpleArcDialog getLoader() {

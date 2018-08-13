@@ -16,7 +16,7 @@ import com.winjit.swiperewards.helpers.UIHelper;
 import com.winjit.swiperewards.helpers.ValidationHelper;
 
 
-public class LoginFragment extends SocialBaseFragment implements View.OnClickListener {
+public class LoginFragment extends OnBoardingBaseFragment implements View.OnClickListener {
 
     private TextInputEditText etUserEmail;
     private TextInputEditText etPassword;

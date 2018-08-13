@@ -22,7 +22,7 @@ public class ErrorCodesHelper {
     private static final int EMAIL_NOT_FOUND = 1012;
     private static final int FAILED_PASSWORD_RESET_LINK = 1013;
     private static final int INVALID_EMAIL = 1014;
-    private static final int INVALID_TOKEN = 1050;
+    public static final int INVALID_TOKEN = 1050;
     private static final int CARD_ALREADY_EXIST = 1051;
 
 

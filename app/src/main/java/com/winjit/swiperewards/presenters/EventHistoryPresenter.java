@@ -3,12 +3,11 @@ package com.winjit.swiperewards.presenters;
 import com.android.volley.VolleyError;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.events.GetEventHistoryEvent;
-import com.winjit.swiperewards.helpers.ErrorCodesHelper;
 import com.winjit.swiperewards.mvpviews.EventHistoryView;
 import com.winjit.swiperewards.services.ServiceController;
 import com.winjit.swiperewards.web.WebRequestManager;
 
-public class EventHistoryPresenter {
+public class EventHistoryPresenter extends BasePresenter {
     private EventHistoryView eventHistoryView;
 
     public EventHistoryPresenter(EventHistoryView eventHistoryView) {
@@ -19,30 +18,22 @@ public class EventHistoryPresenter {
         try {
             new ServiceController().getEventHistory(eventHistoryView.getViewContext(), new WebRequestManager.WebProcessListener<GetEventHistoryEvent>() {
                 @Override
-                public void onWebProcessSuccess(GetEventHistoryEvent getDealsEvent) {
-                    if (getDealsEvent.getEventDetails() != null) {
+                public void onWebProcessSuccess(GetEventHistoryEvent getEventHistoryEvent) {
+                    if (getEventHistoryEvent.getEventDetails() != null) {
                         eventHistoryView.hideProgress();
-                        eventHistoryView.onEventHistoryReceived(getDealsEvent.getEventDetails());
-                    } else if (getDealsEvent.getStatus() != ISwipe.SUCCESS) {
-                        eventHistoryView.hideProgress();
-                        eventHistoryView.showMessage(ErrorCodesHelper.getErrorStringFromCode(eventHistoryView.getViewContext(), getDealsEvent.getStatus()));
+                        eventHistoryView.onEventHistoryReceived(getEventHistoryEvent.getEventDetails());
+                    } else if (getEventHistoryEvent.getStatus() != ISwipe.SUCCESS) {
+                        handleReceivedError(eventHistoryView, getEventHistoryEvent);
                     }
                 }
 
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
-                    eventHistoryView.hideProgress();
-                    if (error.getMessage() == null) {
-                        eventHistoryView.showMessage(ErrorCodesHelper.getErrorStringFromCode(eventHistoryView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
-                    } else {
-                        eventHistoryView.showMessage(error.getMessage());
-                    }
+                    handleWebProcessFailed(eventHistoryView, error);
                 }
             });
         } catch (Exception e) {
-            eventHistoryView.hideProgress();
-            e.printStackTrace();
-            eventHistoryView.showMessage(ErrorCodesHelper.getErrorStringFromCode(eventHistoryView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+            handleWebProcessFailed(eventHistoryView, null);
         }
     }
 

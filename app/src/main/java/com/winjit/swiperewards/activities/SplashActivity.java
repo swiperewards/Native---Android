@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 
 import com.winjit.swiperewards.R;
+import com.winjit.swiperewards.helpers.PreferenceUtils;
 
 
 /**
@@ -28,11 +30,22 @@ public class SplashActivity extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
-                startActivity(mainIntent);
-                finish();
+
+                if (isValidSession()) {
+                    Intent mainIntent = new Intent(SplashActivity.this, HomeActivity.class);
+                    startActivity(mainIntent);
+                    finish();
+                } else {
+                    Intent mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
+                    startActivity(mainIntent);
+                    finish();
+                }
             }
         }, SPLASH_TIME_OUT);
 
+    }
+
+    private boolean isValidSession() {
+        return !TextUtils.isEmpty(PreferenceUtils.readString(this, PreferenceUtils.SESSION_TOKEN, ""));
     }
 }

@@ -1,6 +1,5 @@
 package com.winjit.swiperewards.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
@@ -13,7 +12,6 @@ import android.widget.CompoundButton;
 
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.activities.HomeActivity;
-import com.winjit.swiperewards.activities.LoginActivity;
 import com.winjit.swiperewards.appdata.SingletonAppCache;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.helpers.UIHelper;
@@ -81,10 +79,9 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 new MessageDialogConfirm() {
                     @Override
                     public void onPositiveClick() {
-                        Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
-                        startActivity(loginIntent);
-                        getActivity().finish();
+                        processLogout(getActivity());
                     }
+
 
                     @Override
                     public void onNegativeClick() {

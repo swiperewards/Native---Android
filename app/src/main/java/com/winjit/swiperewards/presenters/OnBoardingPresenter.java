@@ -5,12 +5,11 @@ import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.entities.UserDetails;
 import com.winjit.swiperewards.events.LoginEvent;
 import com.winjit.swiperewards.events.RegisterUserEvent;
-import com.winjit.swiperewards.helpers.ErrorCodesHelper;
 import com.winjit.swiperewards.mvpviews.OnBoardingView;
 import com.winjit.swiperewards.services.ServiceController;
 import com.winjit.swiperewards.web.WebRequestManager;
 
-public class OnBoardingPresenter {
+public class OnBoardingPresenter extends BasePresenter {
     private OnBoardingView onBoardingView;
 
     public OnBoardingPresenter(OnBoardingView onBoardingView) {
@@ -31,25 +30,17 @@ public class OnBoardingPresenter {
                             onBoardingView.onSuccessfulLogin(registerUserEvent.getSessionData());
                         }
                     } else if (registerUserEvent.getStatus() != ISwipe.SUCCESS) {
-                        onBoardingView.hideProgress();
-                        onBoardingView.showMessage(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), registerUserEvent.getStatus()));
+                        handleReceivedError(onBoardingView, registerUserEvent);
                     }
                 }
 
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
-                    onBoardingView.hideProgress();
-                    if (error.getMessage() == null) {
-                        onBoardingView.showMessage(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
-                    } else {
-                        onBoardingView.showMessage(error.getMessage());
-                    }
+                    handleWebProcessFailed(onBoardingView, error);
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
-            onBoardingView.hideProgress();
-            onBoardingView.showMessage(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+            handleWebProcessFailed(onBoardingView, null);
         }
     }
 
@@ -59,29 +50,21 @@ public class OnBoardingPresenter {
             new ServiceController().loginUser(onBoardingView.getViewContext(), emailId, password, new WebRequestManager.WebProcessListener<LoginEvent>() {
                 @Override
                 public void onWebProcessSuccess(LoginEvent loginEvent) {
-                    if (loginEvent.getSessionData() != null) {
+                    if (loginEvent.getStatus() == ISwipe.SUCCESS && loginEvent.getSessionData() != null) {
                         onBoardingView.hideProgress();
                         onBoardingView.onSuccessfulLogin(loginEvent.getSessionData());
-                    } else if (loginEvent.getStatus() != ISwipe.SUCCESS) {
-                        onBoardingView.showMessage(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), loginEvent.getStatus()));
-                        onBoardingView.hideProgress();
+                    } else {
+                        handleReceivedError(onBoardingView, loginEvent);
                     }
                 }
 
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
-                    onBoardingView.hideProgress();
-                    if (error.getMessage() == null) {
-                        onBoardingView.showMessage(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
-                    } else {
-                        onBoardingView.showMessage(error.getMessage());
-                    }
+                    handleWebProcessFailed(onBoardingView, error);
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
-            onBoardingView.hideProgress();
-            onBoardingView.showMessage(ErrorCodesHelper.getErrorStringFromCode(onBoardingView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+            handleWebProcessFailed(onBoardingView, null);
         }
     }
 

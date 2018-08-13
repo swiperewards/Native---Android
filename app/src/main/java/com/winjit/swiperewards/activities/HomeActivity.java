@@ -281,6 +281,8 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         showToast(this, message);
     }
 
+
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

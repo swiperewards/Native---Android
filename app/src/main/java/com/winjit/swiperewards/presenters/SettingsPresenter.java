@@ -3,12 +3,11 @@ package com.winjit.swiperewards.presenters;
 import com.android.volley.VolleyError;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.events.NotificationStatusEvent;
-import com.winjit.swiperewards.helpers.ErrorCodesHelper;
 import com.winjit.swiperewards.mvpviews.SettingsView;
 import com.winjit.swiperewards.services.ServiceController;
 import com.winjit.swiperewards.web.WebRequestManager;
 
-public class SettingsPresenter {
+public class SettingsPresenter extends BasePresenter {
     private SettingsView settingsView;
 
     public SettingsPresenter(SettingsView settingsView) {
@@ -20,30 +19,23 @@ public class SettingsPresenter {
             new ServiceController().updateNotificationStatus(settingsView.getViewContext(), isChecked, new WebRequestManager.WebProcessListener<NotificationStatusEvent>() {
                 @Override
                 public void onWebProcessSuccess(NotificationStatusEvent notificationStatusEvent) {
-                    settingsView.hideProgress();
                     if (notificationStatusEvent.getStatus() == ISwipe.SUCCESS) {
+                        settingsView.hideProgress();
                         settingsView.onNotificationStatusChanged(notificationStatusEvent.getNotificationStatus().isEnableNotification());
                     } else {
-                        settingsView.showMessage(ErrorCodesHelper.getErrorStringFromCode(settingsView.getViewContext(), notificationStatusEvent.getStatus()));
+                        handleReceivedError(settingsView, notificationStatusEvent);
                         settingsView.onErrorNotificationState();
                     }
                 }
 
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
-                    settingsView.hideProgress();
                     settingsView.onErrorNotificationState();
-                    if (error.getMessage() == null) {
-                        settingsView.showMessage(ErrorCodesHelper.getErrorStringFromCode(settingsView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
-                    } else {
-                        settingsView.showMessage(error.getMessage());
-                    }
+                    handleWebProcessFailed(settingsView, error);
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
-            settingsView.hideProgress();
-            settingsView.showMessage(ErrorCodesHelper.getErrorStringFromCode(settingsView.getViewContext(), ErrorCodesHelper.ERROR_GENERIC));
+            handleWebProcessFailed(settingsView, null);
             settingsView.onErrorNotificationState();
         }
     }
