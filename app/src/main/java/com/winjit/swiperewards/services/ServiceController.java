@@ -24,14 +24,16 @@ import com.winjit.swiperewards.helpers.InputRequestHelper;
 import com.winjit.swiperewards.helpers.PreferenceUtils;
 import com.winjit.swiperewards.web.WebRequestManager;
 
-import org.json.JSONObject;
-
 import java.util.HashMap;
 
 /**
  * Class to call api methods.
  */
 public class ServiceController {
+
+    public ServiceController() {
+
+    }
 
     private HashMap<String, String> generateRequestHeader(String accessToken) {
         HashMap<String, String> headers = new HashMap<>();
@@ -48,7 +50,7 @@ public class ServiceController {
     }
 
     public void registerUser(Context context, UserDetails userDetails, WebRequestManager.WebProcessListener<RegisterUserEvent> webProcessListener) {
-        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+        new WebRequestManager(context,webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_REGISTER,
                 generateRequestHeader(null),
                 new InputRequestHelper().prepareWrappedInputRequest(context, userDetails),
@@ -61,7 +63,7 @@ public class ServiceController {
         map.put("emailId", emailId);
         map.put("password", password);
 
-        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+        new WebRequestManager(context,webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_LOGIN,
                 generateRequestHeader(null),
                 new InputRequestHelper().prepareWrappedInputRequest(context, map),
@@ -73,7 +75,7 @@ public class ServiceController {
         HashMap<String, String> map = new HashMap<>();
         map.put("location", location);
 
-        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+        new WebRequestManager(context,webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_GET_DEALS,
                 generateRequestHeader(getSessionToken(context)),
                 new InputRequestHelper().prepareWrappedInputRequest(context, map),
@@ -85,7 +87,7 @@ public class ServiceController {
         map.put("oldPassword", oldPassword);
         map.put("password", newPassword);
 
-        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+        new WebRequestManager(context,webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_CHANGE_PASSWORD,
                 generateRequestHeader(getSessionToken(context)),
                 new InputRequestHelper().prepareWrappedInputRequest(context, map),
@@ -94,7 +96,7 @@ public class ServiceController {
 
 
     public void addWalletCard(Context context, WalletCard walletCard, WebRequestManager.WebProcessListener<BaseEvent> webProcessListener) {
-        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+        new WebRequestManager(context,webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_ADD_CARD,
                 generateRequestHeader(getSessionToken(context)),
                 new InputRequestHelper().prepareWrappedInputRequest(context, walletCard),
@@ -102,7 +104,7 @@ public class ServiceController {
     }
 
     public void getWalletCards(Context context, WebRequestManager.WebProcessListener<GetWalletCardsEvent> webProcessListener) {
-        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+        new WebRequestManager(context,webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_GET_CARDS,
                 generateRequestHeader(getSessionToken(context)),
                 new InputRequestHelper().prepareWrappedInputRequest(context, null),
@@ -114,7 +116,7 @@ public class ServiceController {
         HashMap<String, Object> map = new HashMap<>();
         map.put("cardId", cardId);
 
-        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+        new WebRequestManager(context,webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_DELETE_CARD,
                 generateRequestHeader(getSessionToken(context)),
                 new InputRequestHelper().prepareWrappedInputRequest(context, map),
@@ -124,7 +126,7 @@ public class ServiceController {
 
     public void getTicketTypes(Context context, WebRequestManager.WebProcessListener<GetTicketTypeEvent> webProcessListener) {
 
-        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+        new WebRequestManager(context,webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_GET_TICKET_TYPES,
                 generateRequestHeader(getSessionToken(context)),
                 new InputRequestHelper().prepareWrappedInputRequest(context, null),
@@ -137,7 +139,7 @@ public class ServiceController {
         map.put("userCategory", userCategory);
         map.put("feedback", feedback);
 
-        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+        new WebRequestManager(context,webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_GENERATE_TICKET,
                 generateRequestHeader(getSessionToken(context)),
                 new InputRequestHelper().prepareWrappedInputRequest(context, map),
@@ -149,7 +151,7 @@ public class ServiceController {
         HashMap<String, Object> map = new HashMap<>();
         map.put("enableNotification", isEnabled);
 
-        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+        new WebRequestManager(context,webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_SET_NOTIFICATION_STATUS,
                 generateRequestHeader(getSessionToken(context)),
                 new InputRequestHelper().prepareWrappedInputRequest(context, map),
@@ -162,7 +164,7 @@ public class ServiceController {
         map.put("appVersionCode", appVersionCode);
         map.put("platform", ISwipe.PLATFORM);
 
-        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+        new WebRequestManager(context,webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_INIT_SWIPE,
                 generateRequestHeader(getSessionToken(context)),
                 new InputRequestHelper().prepareWrappedInputRequest(context, map),
@@ -170,7 +172,7 @@ public class ServiceController {
     }
 
     public void getRedeemModes(Context context, WebRequestManager.WebProcessListener<GetRedeemModesEvent> webProcessListener) {
-        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+        new WebRequestManager(context,webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_GET_REDEEM_OPTIONS,
                 generateRequestHeader(getSessionToken(context)),
                 new InputRequestHelper().prepareWrappedInputRequest(context, null),
@@ -179,7 +181,7 @@ public class ServiceController {
     }
 
     public void getEventHistory(Context context, WebRequestManager.WebProcessListener<GetEventHistoryEvent> webProcessListener) {
-        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+        new WebRequestManager(context,webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_GET_EVENT_HISTORY,
                 generateRequestHeader(getSessionToken(context)),
                 new InputRequestHelper().prepareWrappedInputRequest(context, null),
@@ -188,7 +190,7 @@ public class ServiceController {
     }
 
     public void raiseRedeemRequest(Context context, HashMap<String, Object> map, WebRequestManager.WebProcessListener<BaseEvent> webProcessListener) {
-        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+        new WebRequestManager(context,webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_RAISE_REDEEM_REQUEST,
                 generateRequestHeader(getSessionToken(context)),
                 new InputRequestHelper().prepareWrappedInputRequest(context, map),
@@ -199,11 +201,37 @@ public class ServiceController {
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("file", bitMap);
-        new WebRequestManager(webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+        new WebRequestManager(context,webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_UPLOAD_PROFILE_PIC,
                 generateRequestHeader(getSessionToken(context)),
-                new JSONObject(map),
+                new InputRequestHelper().prepareWrappedInputRequest(context, map),
                 BaseEvent.class);
+    }
+
+
+    public void forgotPassword(Context context, String emailID, WebRequestManager.WebProcessListener<BaseEvent> webProcessListener) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("emailId", emailID);
+
+        new WebRequestManager(context,webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+                WebRequestConstants.WS_FORGOT_PASSWORD,
+                generateRequestHeader(getSessionToken(context)),
+                new InputRequestHelper().prepareWrappedInputRequest(context, map),
+                BaseEvent.class);
+    }
+
+
+    public void setNewPassword(Context context, String emailID, String passCode, String newPassword, WebRequestManager.WebProcessListener<ChangePasswordEvent> webProcessListener) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("resetToken", passCode);
+        map.put("password", newPassword);
+        map.put("emailId", emailID);
+
+        new WebRequestManager(context,webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+                WebRequestConstants.WS_SET_NEW_PASSWORD,
+                generateRequestHeader(getSessionToken(context)),
+                new InputRequestHelper().prepareWrappedInputRequest(context, map),
+                ChangePasswordEvent.class);
     }
 
 }

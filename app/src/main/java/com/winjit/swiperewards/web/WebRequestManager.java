@@ -1,7 +1,11 @@
 package com.winjit.swiperewards.web;
 
+import android.content.Context;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
+import com.winjit.swiperewards.R;
+import com.winjit.swiperewards.helpers.NetworkUtil;
 
 import org.json.JSONObject;
 
@@ -10,6 +14,7 @@ import java.util.Map;
 public class WebRequestManager implements WebRequestHelper.WebResponseListener {
 
     private WebProcessListener mWebProcessListener;
+    private Context context;
 
     public interface WebProcessListener<T> {
         void onWebProcessSuccess(T object);
@@ -17,14 +22,20 @@ public class WebRequestManager implements WebRequestHelper.WebResponseListener {
         void onWebProcessFailed(VolleyError error, Class aClass);
     }
 
-    public WebRequestManager(WebProcessListener webProcessListener) {
+    public WebRequestManager(Context context, WebProcessListener webProcessListener) {
+        this.context = context;
         mWebProcessListener = webProcessListener;
     }
 
-    public void makeRequest(RequestQueue requestQueue, int methodType,  String url, Map<String, String> headers, JSONObject params, Class clazz) {
-        WebRequestHelper webRequest;
-        webRequest = new WebRequestHelper(methodType, url, headers, (params == null) ? new JSONObject() : params, WebRequestManager.this, clazz);
-        requestQueue.add(webRequest);
+    public void makeRequest(RequestQueue requestQueue, int methodType, String url, Map<String, String> headers, JSONObject params, Class clazz) {
+        if (context == null || NetworkUtil.getInstance().isConnectedToInternet(context)) {
+            WebRequestHelper webRequest;
+            webRequest = new WebRequestHelper(methodType, url, headers, (params == null) ? new JSONObject() : params, WebRequestManager.this, clazz);
+            requestQueue.add(webRequest);
+        } else {
+            onWebRequestError(new VolleyError(context.getResources().getString(R.string.err_network)), clazz);
+        }
+
     }
 
     @Override
@@ -36,7 +47,7 @@ public class WebRequestManager implements WebRequestHelper.WebResponseListener {
 
     @Override
     public void onWebRequestError(VolleyError error, Class aClass) {
-        mWebProcessListener.onWebProcessFailed(error,  aClass);
+        mWebProcessListener.onWebProcessFailed(error, aClass);
     }
 //
 //    @Override

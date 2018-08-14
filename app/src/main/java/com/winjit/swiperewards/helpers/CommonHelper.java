@@ -2,6 +2,8 @@ package com.winjit.swiperewards.helpers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -40,7 +42,7 @@ public class CommonHelper {
                 String dialogInterfaceMessage = "Do you want to navigate to this deal location?";
 
                 UIHelper.configureShowConfirmDialog(dialogInterfaceMessage, context,
-                        R.string.yes, R.string.btn_cancel,R.string.confirm,
+                        R.string.yes, R.string.btn_cancel, R.string.confirm,
                         new MessageDialogConfirm() {
                             @Override
                             public void onPositiveClick() {
@@ -55,10 +57,17 @@ public class CommonHelper {
                         });
 
 
-
             }
         }
     }
 
-
+    public int getVersionCode(Context context) {
+        try {
+            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return pInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return 0; // default
+        }
+    }
 }

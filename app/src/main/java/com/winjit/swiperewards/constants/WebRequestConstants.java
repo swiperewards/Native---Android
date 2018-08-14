@@ -14,6 +14,8 @@ public class WebRequestConstants {
     public static final String WS_LOGIN = URL + "/users/loginUser";
     public static final String WS_GET_DEALS = URL + "/deals/getDeals";
     public static final String WS_CHANGE_PASSWORD = URL + "/users/changepassword";
+    public static final String WS_FORGOT_PASSWORD = URL + "/users/forgotPassword";
+    public static final String WS_SET_NEW_PASSWORD = URL + "/users/setPassword";
     public static final String WS_ADD_CARD = URL + "/user/cards/addCard";
     public static final String WS_GET_CARDS = URL + "/user/cards/getCards";
     public static final String WS_DELETE_CARD = URL + "/user/cards/deleteCard";
@@ -24,7 +26,7 @@ public class WebRequestConstants {
     public static final String WS_GET_REDEEM_OPTIONS = URL + "/redeem/getRedeemOptions";
     public static final String WS_RAISE_REDEEM_REQUEST = URL + "/redeem/raiseRedeemRequest";
     public static final String WS_GET_EVENT_HISTORY = URL + "/event/getEventNotifications";
-    public static final String WS_UPLOAD_PROFILE_PIC = URL + "/users/updateProfilePic";
+    public static final String WS_UPLOAD_PROFILE_PIC = URL + "/users/updateProfilePicV1";
 
 
 

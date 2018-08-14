@@ -18,5 +18,6 @@ public interface BaseMVPView {
 
     void showMessage(String message);
 
+    void onSessionExpired();
 
 }

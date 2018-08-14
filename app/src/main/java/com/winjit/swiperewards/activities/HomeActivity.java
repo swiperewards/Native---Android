@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.AppCompatTextView;
@@ -28,7 +27,6 @@ import com.myhexaville.smartimagepicker.OnImagePickedListener;
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.appdata.SingletonAppCache;
 import com.winjit.swiperewards.constants.ISwipe;
-import com.winjit.swiperewards.entities.AppConfig;
 import com.winjit.swiperewards.entities.UserProfile;
 import com.winjit.swiperewards.events.InitSwipeEvent;
 import com.winjit.swiperewards.fragments.EventHistoryFragment;
@@ -36,8 +34,8 @@ import com.winjit.swiperewards.fragments.HomeFragment;
 import com.winjit.swiperewards.fragments.RedeemFragment;
 import com.winjit.swiperewards.fragments.SettingsFragment;
 import com.winjit.swiperewards.fragments.WalletFragment;
+import com.winjit.swiperewards.helpers.CommonHelper;
 import com.winjit.swiperewards.helpers.UIHelper;
-import com.winjit.swiperewards.interfaces.MessageDialogConfirm;
 import com.winjit.swiperewards.mvpviews.InitSwipeView;
 import com.winjit.swiperewards.presenters.InitSwipePresenter;
 
@@ -50,7 +48,6 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 public class HomeActivity extends BaseActivity implements InitSwipeView, View.OnClickListener {
 
 
-    private NestedScrollView svParent;
     private AppCompatTextView tvUserLocation;
     private CircleImageView profileImage;
     private AppCompatTextView tvUserName;
@@ -58,6 +55,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     private AppCompatTextView tvLevel;
     private AppCompatTextView tvLevelDesc;
     private LinearLayout llTop;
+    private LinearLayout llProfilePic;
     private BottomNavigationViewEx navigation;
     private TextView toolbarTitle;
     private AppCompatSeekBar skLevel;
@@ -76,7 +74,6 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         llTop = findViewById(R.id.ll_top);
         skLevel = findViewById(R.id.sk_level);
 
-        svParent = (NestedScrollView) findViewById(R.id.sv_parent);
         llTop = (LinearLayout) findViewById(R.id.ll_top);
         tvUserLocation = (AppCompatTextView) findViewById(R.id.tv_user_location);
         profileImage = (CircleImageView) findViewById(R.id.profile_image);
@@ -88,6 +85,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         skLevel = (AppCompatSeekBar) findViewById(R.id.sk_level);
         llUserInfo = (LinearLayout) findViewById(R.id.ll_user_info);
         llCashback = (LinearLayout) findViewById(R.id.ll_cashback);
+        llProfilePic = (LinearLayout) findViewById(R.id.ll_profile_pic);
         rlLevelDetails = (RelativeLayout) findViewById(R.id.rl_level_details);
         rlProfilePic = (RelativeLayout) findViewById(R.id.rl_profile_pic);
 
@@ -104,7 +102,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     private void initSwipe() {
         initSwipePresenter = new InitSwipePresenter(this);
         showProgress(getResources().getString(R.string.please_wait));
-        initSwipePresenter.initialiseSwipeRewards(1);
+        initSwipePresenter.initialiseSwipeRewards(new CommonHelper().getVersionCode(this));
     }
 
 
@@ -192,12 +190,14 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
 
         switch (itemId) {
             case R.id.navigation_Settings:
-                llUserInfo.setVisibility(View.INVISIBLE);
-                llCashback.setVisibility(View.INVISIBLE);
+                int topPadding = rlLevelDetails.getHeight();
+                llUserInfo.setVisibility(View.GONE);
+                llCashback.setVisibility(View.GONE);
                 rlLevelDetails.setVisibility(View.GONE);
                 ivChangeProfilePic.setVisibility(View.VISIBLE);
                 rlProfilePic.setOnClickListener(this);
-                tvUserName.setPadding(4, 4, 4, 25);
+                llProfilePic.setPadding(0, topPadding, 0, 0);
+//                tvUserName.setPadding(4, 4, 4, 25);
                 break;
             case R.id.navigation_home:
             case R.id.navigation_wallet:
@@ -208,7 +208,8 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
                 rlLevelDetails.setVisibility(View.VISIBLE);
                 ivChangeProfilePic.setVisibility(View.INVISIBLE);
                 rlProfilePic.setOnClickListener(null);
-                tvUserName.setPadding(4, 4, 4, 4);
+//                tvUserName.setPadding(4, 4, 4, 4);
+                llProfilePic.setPadding(0, 0, 0, 0);
                 break;
         }
     }
@@ -223,70 +224,51 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     @Override
     public void onSwipeInitialized(InitSwipeEvent initSwipeEvent) {
         if (!checkIfForcedUpdate(initSwipeEvent.getInitSwipe().getAppConfig())) {
-            SingletonAppCache.getInstance().setUserProfile(initSwipeEvent.getInitSwipe().getUserProfile());
-            SingletonAppCache.getInstance().setAppConfig(initSwipeEvent.getInitSwipe().getAppConfig());
-            setUserData(initSwipeEvent.getInitSwipe().getUserProfile());
-            setDefaultHomeIndex();
+            if (initSwipeEvent.getInitSwipe().getUserProfile() != null) {
+                SingletonAppCache.getInstance().setUserProfile(initSwipeEvent.getInitSwipe().getUserProfile());
+                SingletonAppCache.getInstance().setAppConfig(initSwipeEvent.getInitSwipe().getAppConfig());
+                setUserData(initSwipeEvent.getInitSwipe().getUserProfile());
+                setDefaultHomeIndex();
+            } else {
+                showMessage(getResources().getString(R.string.err_generic));
+            }
         }
 
-    }
-
-    private boolean checkIfForcedUpdate(AppConfig appConfig) {
-        if (appConfig.getForcedUpdate()) {
-            String dialogInterfaceMessage = "Please update an app to continue exploring";
-
-            UIHelper.configureShowConfirmDialog(dialogInterfaceMessage, this,
-                    R.string.update, R.string.btn_exit, R.string.app_update,
-                    new MessageDialogConfirm() {
-                        @Override
-                        public void onPositiveClick() {
-                            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
-                            try {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-                            } catch (android.content.ActivityNotFoundException anfe) {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                            }
-                        }
-
-                        @Override
-                        public void onNegativeClick() {
-                            android.os.Process.killProcess(android.os.Process.myPid());
-                            return;
-                        }
-                    });
-
-            return true;
-        }
-        return false;
     }
 
     private void setUserData(UserProfile userProfile) {
-        if (!TextUtils.isEmpty(userProfile.getCity())) {
-            tvUserLocation.setText(userProfile.getCity());
-        }
+        try {
+            if (!TextUtils.isEmpty(userProfile.getCity())) {
+                tvUserLocation.setText(userProfile.getCity());
+            }
 
-        tvCashBack.setText("$" + userProfile.getWalletBalance());
+            String balance = String.format("%02d", userProfile.getWalletBalance());
+            tvCashBack.setText("$" + balance);
 
-        if (!TextUtils.isEmpty(userProfile.getFullName())) {
-            tvUserName.setText(userProfile.getFullName());
-        }
+            if (!TextUtils.isEmpty(userProfile.getFullName())) {
+                tvUserName.setText(userProfile.getFullName());
+            }
 
-        if (userProfile.getLevelDetails() != null) && userProfile.getLevelDetails().getUserLevel() != 0){
-            tvLevel.setText("Level " + userProfile.getLevelDetails().getUserLevel());
-            skLevel.setMax(userProfile.getLevelDetails().getLevelMax() - userProfile.getLevelDetails().getLevelMin());
-            skLevel.setProgress(userProfile.getLevelDetails().getLevelMax() - userProfile.getLevelDetails().getUserXP());
-            tvLevelDesc.setText(userProfile.getLevelDetails().getUserXP() + "/" + userProfile.getLevelDetails().getLevelMax());
-        }
-        else {
-            tvLevelDesc.setVisibility(View.GONE);
-            tvLevel.setVisibility(View.GONE);
-            skLevel.setVisibility(View.GONE);
-        }
+            if (userProfile.getLevelDetails() != null && userProfile.getLevelDetails().getUserLevel() != 0) {
+                tvLevel.setText("Level " + userProfile.getLevelDetails().getUserLevel());
+                skLevel.setMax(userProfile.getLevelDetails().getLevelMax() - userProfile.getLevelDetails().getLevelMin());
+                skLevel.setProgress(userProfile.getLevelDetails().getUserXP() - userProfile.getLevelDetails().getLevelMin());
+                tvLevelDesc.setText(userProfile.getLevelDetails().getUserXP() + "/" + userProfile.getLevelDetails().getLevelMax());
+            } else {
+                int topPadding = rlLevelDetails.getHeight();
+                tvLevelDesc.setVisibility(View.GONE);
+                tvLevel.setVisibility(View.GONE);
+                skLevel.setVisibility(View.GONE);
+                rlProfilePic.setPadding(0, topPadding, 0, 0);
 
-        if (!TextUtils.isEmpty(userProfile.getProfilePicUrl())) {
-            UIHelper.getInstance().loadImageOnline(this, userProfile.getProfilePicUrl().replace(" ", "%20"), profileImage, R.mipmap.ic_user_icon, R.mipmap.ic_user_icon);
-        }
+            }
 
+            if (!TextUtils.isEmpty(userProfile.getProfilePicUrl())) {
+                UIHelper.getInstance().loadImageOnline(this, userProfile.getProfilePicUrl().replace(" ", "%20"), profileImage, R.mipmap.ic_user_icon, R.mipmap.ic_user_icon);
+            }
+        } catch (Exception e) {
+
+        }
     }
 
     @Override
@@ -298,6 +280,8 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     public void showMessage(String message) {
         showToast(this, message);
     }
+
+
 
     @Override
     public void onClick(View view) {
@@ -353,8 +337,8 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
                             profileImage.setImageURI(imageUri);
                             try {
                                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                                Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(bitmap, ISwipe.THUMBNAIL_SIZE, ISwipe.THUMBNAIL_SIZE);
-                                initSwipePresenter.uploadProfilePic(ThumbImage);
+                                Bitmap thumbImage = ThumbnailUtils.extractThumbnail(bitmap, ISwipe.THUMBNAIL_SIZE, ISwipe.THUMBNAIL_SIZE);
+                                initSwipePresenter.uploadProfilePic(thumbImage);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

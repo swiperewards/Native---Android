@@ -104,6 +104,12 @@ public class PreferenceUtils {
         }
     }
 
+    public static void clearPreferences(Context context) {
+        if (context != null) {
+            getEditor(context).clear().commit();
+        }
+    }
+
     private static SharedPreferences getPreferences(Context context) {
         if (context != null) {
             return context.getSharedPreferences(PREF_NAME, MODE);

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.winjit.swiperewards.R;
-import com.winjit.swiperewards.activities.LoginActivity;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.helpers.UIHelper;
 import com.winjit.swiperewards.helpers.ValidationHelper;
@@ -17,15 +16,18 @@ import com.winjit.swiperewards.mvpviews.PasswordView;
 import com.winjit.swiperewards.presenters.PasswordPresenter;
 
 
-public class ForgotPasswordFragment extends BaseFragment implements View.OnClickListener, PasswordView {
-    private TextInputEditText etUserEmail;
+public class SetNewPasswordFragment extends BaseFragment implements View.OnClickListener, PasswordView {
+
+    private TextInputEditText etPassCode;
+    private TextInputEditText etNewPassword;
+    private TextInputEditText etConfirmNewPassword;
     private Button btSubmit;
     private PasswordPresenter passwordPresenter;
+    private String emailId;
 
-
-    public static ForgotPasswordFragment newInstance() {
+    public static SetNewPasswordFragment newInstance() {
         Bundle args = new Bundle();
-        ForgotPasswordFragment fragment = new ForgotPasswordFragment();
+        SetNewPasswordFragment fragment = new SetNewPasswordFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -33,6 +35,9 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null && getArguments().containsKey(ISwipe.KEY_EMAIL)) {
+            emailId = getArguments().getString(ISwipe.KEY_EMAIL);
+        }
         passwordPresenter = new PasswordPresenter(this);
     }
 
@@ -40,50 +45,56 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_forgot_password, container, false);
+        View view = inflater.inflate(R.layout.fragment_set_new_password, container, false);
         initViews(view);
         return view;
     }
 
     private void initViews(View mRootView) {
-        etUserEmail = (TextInputEditText) mRootView.findViewById(R.id.et_user_email);
+        etPassCode = (TextInputEditText) mRootView.findViewById(R.id.et_passcode);
+        etNewPassword = (TextInputEditText) mRootView.findViewById(R.id.et_new_password);
+        etConfirmNewPassword = (TextInputEditText) mRootView.findViewById(R.id.et_confirm_new_password);
         btSubmit = (Button) mRootView.findViewById(R.id.bt_submit);
 
         btSubmit.setOnClickListener(this);
-        ((LoginActivity) getActivity()).changeHeader(getActivity().getResources().getString(R.string.welcome));
     }
 
 
     @Override
     public void onClick(View v) {
-        UIHelper.getInstance().hideKeyboard(getActivity());
         switch (v.getId()) {
             case R.id.bt_submit:
                 if (isValidInputsEntered()) {
                     showProgress(getActivity().getResources().getString(R.string.please_wait));
-                    passwordPresenter.forgotPassword(etUserEmail.getText().toString());
-                    break;
+                    passwordPresenter.setNewPassword(emailId,etPassCode.getText().toString(), etNewPassword.getText().toString());
                 }
+                break;
         }
     }
 
     private boolean isValidInputsEntered() {
         ValidationHelper validationHelper = new ValidationHelper();
-        return validationHelper.isValidEmail(getActivity(), etUserEmail);
-
+        return validationHelper.isValidEditTexts(getActivity(), etPassCode, etNewPassword, etConfirmNewPassword) &&
+                validationHelper.isPasswordMatch(getActivity(), etNewPassword, etConfirmNewPassword) &&
+                validationHelper.isAcceptablePassword(getActivity(), etNewPassword);
     }
+
 
     @Override
     public void onPasswordChangedSuccessfully() {
+        showMessage(getActivity().getResources().getString(R.string.password_changed));
+        clearInputFields();
+        UIHelper.getInstance().popFragment(getActivity().getSupportFragmentManager());
+    }
 
+    private void clearInputFields() {
+        etPassCode.setText("");
+        etNewPassword.setText("");
+        etConfirmNewPassword.setText("");
     }
 
     @Override
     public void onPasswordLinkSentSuccessfully() {
-        SetNewPasswordFragment setNewPasswordFragment = SetNewPasswordFragment.newInstance();
-        Bundle bundle = new Bundle();
-        bundle.putString(ISwipe.KEY_EMAIL, etUserEmail.getText().toString());
-        setNewPasswordFragment.setArguments(bundle);
-        UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, setNewPasswordFragment, false);
+
     }
 }

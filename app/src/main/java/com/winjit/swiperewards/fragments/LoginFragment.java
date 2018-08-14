@@ -12,11 +12,12 @@ import android.widget.TextView;
 import com.facebook.login.widget.LoginButton;
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.activities.LoginActivity;
+import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.helpers.UIHelper;
 import com.winjit.swiperewards.helpers.ValidationHelper;
 
 
-public class LoginFragment extends SocialBaseFragment implements View.OnClickListener {
+public class LoginFragment extends OnBoardingBaseFragment implements View.OnClickListener {
 
     private TextInputEditText etUserEmail;
     private TextInputEditText etPassword;
@@ -104,9 +105,8 @@ public class LoginFragment extends SocialBaseFragment implements View.OnClickLis
 
 
     private void setDummyData() {
-//        if (ISwipe.IS_DUMMY_DATA_ENABLED)
-        {
-            etUserEmail.setText("aditya@winjit.com");
+        if (ISwipe.IS_DUMMY_DATA_ENABLED) {
+            etUserEmail.setText("vishalb@winjit.com");
             etPassword.setText("Winjit@123");
         }
     }

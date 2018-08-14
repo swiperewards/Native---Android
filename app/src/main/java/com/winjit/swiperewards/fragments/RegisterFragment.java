@@ -19,7 +19,7 @@ import com.winjit.swiperewards.helpers.UIHelper;
 import com.winjit.swiperewards.helpers.ValidationHelper;
 
 
-public class RegisterFragment extends SocialBaseFragment implements View.OnClickListener {
+public class RegisterFragment extends OnBoardingBaseFragment implements View.OnClickListener {
 
     private TextInputEditText etFirstName;
     private TextInputEditText etLastName;

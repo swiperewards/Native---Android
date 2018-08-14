@@ -45,4 +45,5 @@ public interface ISwipe {
     int CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE = 2011;
     int THUMBNAIL_SIZE = 256;
 
+    String KEY_EMAIL = "key_email";
 }

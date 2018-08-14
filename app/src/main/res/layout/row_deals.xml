@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/rl_parent"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -20,7 +19,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_very_small"
+            android:layout_marginRight="@dimen/margin_tiny"
             android:background="@drawable/vertical_curved_background"
             android:gravity="center_vertical"
             android:orientation="vertical"
@@ -34,7 +33,7 @@
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/ll_left_decor"
             android:layout_toRightOf="@id/ll_left_decor"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"/>
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -57,13 +56,13 @@
             <android.support.v7.widget.AppCompatTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
+                    android:layout_gravity="center_vertical|left"
                     android:layout_marginRight="@dimen/margin_tiny"
                     android:layout_weight="0.4"
                     android:gravity="center_vertical|left"
                     android:text="Store"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_hint"/>
+                    android:textColor="@color/color_hint"
+                    android:textSize="@dimen/text_size_very_small"/>
 
 
             <android.support.v7.widget.AppCompatTextView
@@ -71,12 +70,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:layout_gravity="center_vertical|left"
                     android:layout_weight="0.6"
-                    android:gravity="center_vertical|right"
+                    android:gravity="center_vertical|left"
                     android:maxLines="2"
-                    android:text="Whole Foods Market"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/color_text"/>
 
@@ -95,13 +92,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_gravity="left"
+                    android:layout_gravity="left|center_vertical"
                     android:layout_marginRight="@dimen/margin_tiny"
                     android:layout_weight="0.4"
                     android:gravity="center_vertical|left"
                     android:text="Location"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_hint"/>
+                    android:textColor="@color/color_hint"
+                    android:textSize="@dimen/text_size_very_small"/>
 
 
             <android.support.v7.widget.AppCompatTextView
@@ -109,12 +106,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:layout_gravity="right|center_vertical"
                     android:layout_weight="0.6"
-                    android:gravity="center_vertical|right"
+                    android:gravity="center_vertical|left"
                     android:maxLines="2"
-                    android:text="Los Angeles"
+                    android:inputType="textCapWords"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/color_text"/>
 
@@ -132,13 +128,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_gravity="left"
+                    android:layout_gravity="left|center_vertical"
                     android:layout_marginRight="@dimen/margin_tiny"
                     android:layout_weight="0.4"
                     android:gravity="center_vertical|left"
                     android:text="Cashback"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_hint"/>
+                    android:textColor="@color/color_hint"
+                    android:textSize="@dimen/text_size_very_small"/>
 
 
             <android.support.v7.widget.AppCompatTextView
@@ -146,12 +142,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:layout_gravity="center_vertical|left"
                     android:layout_weight="0.6"
-                    android:gravity="center_vertical|right"
+                    android:gravity="center_vertical|left"
                     android:maxLines="2"
-                    android:text="10%"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/color_text"/>
 
@@ -169,13 +163,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_gravity="left"
+                    android:layout_gravity="left|center_vertical"
                     android:layout_marginRight="@dimen/margin_tiny"
                     android:layout_weight="0.4"
                     android:gravity="center_vertical|left"
                     android:text="Promotion Date"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_hint"/>
+                    android:textColor="@color/color_hint"
+                    android:textSize="@dimen/text_size_very_small"/>
 
 
             <android.support.v7.widget.AppCompatTextView
@@ -183,12 +177,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:layout_gravity="center_vertical|left"
                     android:layout_weight="0.6"
-                    android:gravity="center_vertical|right"
+                    android:gravity="center_vertical|left"
                     android:maxLines="2"
-                    android:text="10/05/2018-09-06-2018"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/color_text"/>
 

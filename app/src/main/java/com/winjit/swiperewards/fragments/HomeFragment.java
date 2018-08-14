@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.GnssStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -47,8 +46,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private DealsPresenter dealsPresenter;
     private RelativeLayout rlLocation;
     private AppCompatTextView tvEnableLocation;
-    private LocationManager lm = null;
-    private GnssStatus.Callback gnsCallBack;
+    private LocationManager locationManager = null;
     private AppCompatEditText etSearchDeals;
     private ArrayList<Deals> dealsArrayList;
     private DealsAdapter dealAdapter;
@@ -118,9 +116,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private void filter(String text) {
         ArrayList<Deals> filteredDealList = new ArrayList();
         for (Deals d : dealsArrayList) {
-            //or use .equal(text) with you want equal match
-            //use .toLowerCase() for better matches
-            if (d.getLocation().contains(text) || d.getShortDescription().contains(text)) {
+            if (d.getLocation().toLowerCase().contains(text.toLowerCase()) ||
+                    d.getShortDescription().toLowerCase().contains(text.toLowerCase())) {
                 filteredDealList.add(d);
             }
         }
@@ -143,7 +140,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         if (isLocationEnabled) {
             rlLocation.setVisibility(View.GONE);
             if (rvDeals == null || rvDeals.getAdapter() == null || rvDeals.getAdapter().getItemCount() == 0) {
-                showProgress(getActivity().getResources().getString(R.string.please_wait));
+                if (getActivity() != null)
+                    showProgress(getActivity().getResources().getString(R.string.please_wait));
                 dealsPresenter.getDeals(ISwipe.DUMMY_CITY);
             }
         } else {
@@ -153,69 +151,35 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
 
     private void setLocationListener() {
-
-        lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
-        if (lm != null) {
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager != null) {
             //Checking SDK to ensure runtime permissions.
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
-                //Checking SDK to to set Gps status listener which is deprecated in android N.
-                if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
-                    requestLocUpdates(lm);
-                } else {
-                    lm.registerGnssStatusCallback(gnsCallBack);
-                    requestLocUpdates(lm);
+            }
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 0, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+
                 }
-            } else {
-                //Setting GPS listener without checking runtime permission for devices below Android M.
-//                lm.addGpsStatusListener(new GpsStatus.Listener() {
-//                    public void onGpsStatusChanged(int event) {
-//                        switch (event) {
-//                            case GPS_EVENT_STARTED:
-//                                initiateDealsAndUpdateBottomVisibility(true);
-//                                break;
-//                            case GPS_EVENT_STOPPED:
-//                                initiateDealsAndUpdateBottomVisibility(false);
-//                                break;
-//                        }
-//                    }
-//                });
-                requestLocUpdates(lm);
-            }
 
+                @Override
+                public void onStatusChanged(String s, int i, Bundle bundle) {
+                }
+
+                @Override
+                public void onProviderEnabled(String s) {
+                    initiateDealsAndUpdateBottomVisibility(true);
+                }
+
+                @Override
+                public void onProviderDisabled(String s) {
+                    initiateDealsAndUpdateBottomVisibility(false);
+                }
+            });
         }
-
-
-    }
-
-    private void requestLocUpdates(LocationManager lm) {
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 0, new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-
-            }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-                initiateDealsAndUpdateBottomVisibility(true);
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-                initiateDealsAndUpdateBottomVisibility(false);
-            }
-        });
-
     }
 
     private void requestPermission() {
@@ -275,9 +239,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (lm != null && gnsCallBack != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            lm.unregisterGnssStatusCallback(gnsCallBack);
-        }
     }
 
 

@@ -37,7 +37,7 @@ import org.json.JSONObject;
 import java.util.Arrays;
 
 
-public class SocialBaseFragment extends BaseFragment implements OnBoardingView {
+public class OnBoardingBaseFragment extends BaseFragment implements OnBoardingView {
     protected OnBoardingPresenter onBoardingPresenter;
     protected LoginButton fbLoginButton;
     private CallbackManager callbackManager;
