@@ -2,6 +2,7 @@ package com.winjit.swiperewards.presenters;
 
 import com.android.volley.VolleyError;
 import com.winjit.swiperewards.constants.ISwipe;
+import com.winjit.swiperewards.events.GetCitiesEvent;
 import com.winjit.swiperewards.events.GetDealsEvent;
 import com.winjit.swiperewards.mvpviews.DealsView;
 import com.winjit.swiperewards.services.ServiceController;
@@ -34,6 +35,33 @@ public class DealsPresenter extends BasePresenter {
             });
         } catch (Exception e) {
             handleWebProcessFailed(dealsView, null);
+        }
+    }
+
+
+
+    public void getCities() {
+        try {
+            new ServiceController().getCityList(dealsView.getViewContext(), new WebRequestManager.WebProcessListener<GetCitiesEvent>() {
+                @Override
+                public void onWebProcessSuccess(GetCitiesEvent getCitiesEvent) {
+                    if (getCitiesEvent.getStatus() == ISwipe.SUCCESS) {
+                        dealsView.onDealCityListReceived(getCitiesEvent.getCityDetails());
+                    } else {
+                        handleReceivedError(dealsView, getCitiesEvent);
+                        dealsView.onDealCityListReceived(null);
+                    }
+                }
+
+                @Override
+                public void onWebProcessFailed(VolleyError error, Class aClass) {
+                    handleWebProcessFailed(dealsView, error);
+                    dealsView.onDealCityListReceived(null);
+                }
+            });
+        } catch (Exception e) {
+            handleWebProcessFailed(dealsView, null);
+            dealsView.onDealCityListReceived(null);
         }
     }
 

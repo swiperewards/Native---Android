@@ -13,25 +13,32 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.activities.HomeActivity;
 import com.winjit.swiperewards.adapters.DealsAdapter;
 import com.winjit.swiperewards.constants.ISwipe;
+import com.winjit.swiperewards.entities.CityDetails;
 import com.winjit.swiperewards.entities.Deals;
 import com.winjit.swiperewards.helpers.CommonHelper;
 import com.winjit.swiperewards.helpers.GPSTracker;
 import com.winjit.swiperewards.helpers.PermissionUtils;
+import com.winjit.swiperewards.helpers.UIHelper;
 import com.winjit.swiperewards.interfaces.AdapterResponseInterface;
 import com.winjit.swiperewards.mvpviews.DealsView;
 import com.winjit.swiperewards.presenters.DealsPresenter;
@@ -45,9 +52,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private RecyclerView rvDeals;
     private DealsPresenter dealsPresenter;
     private RelativeLayout rlLocation;
+    private RelativeLayout rlChangeLocation;
     private AppCompatTextView tvEnableLocation;
+    private AppCompatTextView tvChangeLocationError;
     private LocationManager locationManager = null;
-    private AppCompatEditText etSearchDeals;
+    private AppCompatAutoCompleteTextView etSearchDeals;
     private ArrayList<Deals> dealsArrayList;
     private DealsAdapter dealAdapter;
 
@@ -74,6 +83,50 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         return view;
     }
 
+    private void setupCityList(String[] cityList) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (getActivity(), R.layout.row_spinner, cityList);
+        //Getting the instance of AutoCompleteTextView
+        etSearchDeals.setThreshold(0);//will start working from first character
+        etSearchDeals.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
+        etSearchDeals.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (!etSearchDeals.isPopupShowing()) {
+                    etSearchDeals.showDropDown();
+                }
+                return false;
+            }
+        });
+        etSearchDeals.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String city = null;
+                if (view != null && view instanceof TextView) {
+                    city = ((TextView) view).getText().toString();
+                    if (!TextUtils.isEmpty(city)) {
+                        UIHelper.getInstance().hideKeyboard(getActivity());
+                        ((HomeActivity) getActivity()).updateCityLocation(city);
+                        showProgress(getActivity().getResources().getString(R.string.please_wait));
+                        dealsPresenter.getDeals(city);
+                        etSearchDeals.setText("");
+
+                    }
+
+                }
+            }
+        });
+
+//        etSearchDeals.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean focused) {
+//                if (focused && !etSearchDeals.isPopupShowing()) {
+//                    etSearchDeals.showDropDown();
+//                }
+//            }
+//        });
+    }
+
 
     private void initViews(View mRootView) {
         rvDeals = mRootView.findViewById(R.id.rv_deals);
@@ -81,11 +134,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         rvDeals.setLayoutManager(linearLayoutManager);
 
         rlLocation = mRootView.findViewById(R.id.rl_location);
+        rlChangeLocation = mRootView.findViewById(R.id.rl_change_location);
         etSearchDeals = mRootView.findViewById(R.id.et_search_deals);
+        tvChangeLocationError = mRootView.findViewById(R.id.tv_change_location_error);
         tvEnableLocation = mRootView.findViewById(R.id.tv_enable_location);
         tvEnableLocation.setOnClickListener(this);
-
-        getDealsIfLocationEnabled();
+        rlLocation.setOnClickListener(this);
+        tvChangeLocationError.setOnClickListener(this);
+        showProgress(getActivity().getResources().getString(R.string.please_wait));
+        dealsPresenter.getCities();
         setFilterListenerForLocation();
     }
 
@@ -128,6 +185,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private void getDealsIfLocationEnabled() {
         if (PermissionUtils.checkPermissionGranted((AppCompatActivity) getActivity(), "android.permission.ACCESS_COARSE_LOCATION") &&
                 PermissionUtils.checkPermissionGranted((AppCompatActivity) getActivity(), "android.permission.ACCESS_FINE_LOCATION")) {
+
             GPSTracker gpsTracker = new GPSTracker(getActivity());
             boolean isLocationEnabled = gpsTracker.isLocationEnabled(getActivity());
             initiateDealsAndUpdateBottomVisibility(isLocationEnabled);
@@ -139,12 +197,37 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private void initiateDealsAndUpdateBottomVisibility(boolean isLocationEnabled) {
         if (isLocationEnabled) {
             rlLocation.setVisibility(View.GONE);
+            String cityName;
+            int attempts = 0;
+            GPSTracker gpsTracker = new GPSTracker(getActivity());
+
+            do {
+                attempts++;
+                cityName = gpsTracker.getCityName(getActivity());
+            } while (attempts < ISwipe.MAX_GET_CITY_ATTEMPTS && TextUtils.isEmpty(cityName));
+
+
+            if (TextUtils.isEmpty(cityName)) {
+                rlChangeLocation.setVisibility(View.VISIBLE);
+                onDealsReceived(null);
+                return;
+            }
+
             if (rvDeals == null || rvDeals.getAdapter() == null || rvDeals.getAdapter().getItemCount() == 0) {
-                if (getActivity() != null)
+                if (getActivity() != null) {
                     showProgress(getActivity().getResources().getString(R.string.please_wait));
-                dealsPresenter.getDeals(ISwipe.DUMMY_CITY);
+                    if (!TextUtils.isEmpty(cityName)) {
+                        ((HomeActivity) getActivity()).updateCityLocation(cityName);
+                    }
+                }
+                if (!TextUtils.isEmpty(cityName)) {
+                    dealsPresenter.getDeals(cityName);
+                } else {
+                    onDealCityListReceived(null);
+                }
             }
         } else {
+            rlChangeLocation.setVisibility(View.GONE);
             rlLocation.setVisibility(View.VISIBLE);
         }
     }
@@ -193,8 +276,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_enable_location:
+            case R.id.rl_location:
                 Intent viewIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(viewIntent);
+                break;
+            case R.id.rl_change_location:
+            case R.id.tv_change_location_error:
+                etSearchDeals.showDropDown();
                 break;
         }
     }
@@ -215,9 +303,21 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     public void onDealsReceived(Deals[] dealsList) {
-        dealsArrayList = new ArrayList<Deals>(Arrays.asList(dealsList));
-        dealAdapter = new DealsAdapter(getActivity(), new CommonHelper().updateStartEndDateFormat(dealsArrayList), this);
-        rvDeals.setAdapter(dealAdapter);
+        if (dealsList != null && dealsList.length > 0) {
+            rlChangeLocation.setVisibility(View.GONE);
+            dealsArrayList = new ArrayList<Deals>(Arrays.asList(dealsList));
+            dealAdapter = new DealsAdapter(getActivity(), new CommonHelper().updateStartEndDateFormat(dealsArrayList), this);
+            rvDeals.setAdapter(dealAdapter);
+        } else {
+            //Setting an empty list
+            dealsArrayList = new ArrayList<Deals>();
+            dealAdapter = new DealsAdapter(getActivity(), new CommonHelper().updateStartEndDateFormat(dealsArrayList), this);
+            rvDeals.setAdapter(dealAdapter);
+
+            String currentLocation = ((HomeActivity) getActivity()).getCurrentLocation();
+            tvChangeLocationError.setText(getActivity().getResources().getString(R.string.no_deal_error, currentLocation));
+            rlChangeLocation.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -237,9 +337,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
+    public void onDealCityListReceived(CityDetails[] cityDetails) {
+        if (cityDetails != null && cityDetails.length > 0) {
 
+            String[] cityList = new String[cityDetails.length];
+
+            for (int i = 0; i < cityDetails.length; i++) {
+                cityList[i] = cityDetails[i].getName();
+            }
+            setupCityList(cityList);
+        }
+        getDealsIfLocationEnabled();
+    }
 
 }

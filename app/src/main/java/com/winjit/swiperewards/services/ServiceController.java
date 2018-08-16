@@ -11,6 +11,7 @@ import com.winjit.swiperewards.entities.UserDetails;
 import com.winjit.swiperewards.entities.WalletCard;
 import com.winjit.swiperewards.events.BaseEvent;
 import com.winjit.swiperewards.events.ChangePasswordEvent;
+import com.winjit.swiperewards.events.GetCitiesEvent;
 import com.winjit.swiperewards.events.GetDealsEvent;
 import com.winjit.swiperewards.events.GetEventHistoryEvent;
 import com.winjit.swiperewards.events.GetRedeemModesEvent;
@@ -171,6 +172,7 @@ public class ServiceController {
                 InitSwipeEvent.class);
     }
 
+
     public void getRedeemModes(Context context, WebRequestManager.WebProcessListener<GetRedeemModesEvent> webProcessListener) {
         new WebRequestManager(context,webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_GET_REDEEM_OPTIONS,
@@ -234,4 +236,13 @@ public class ServiceController {
                 ChangePasswordEvent.class);
     }
 
+
+    public void getCityList(Context context, WebRequestManager.WebProcessListener<GetCitiesEvent> webProcessListener) {
+
+        new WebRequestManager(context,webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
+                WebRequestConstants.WS_GET_CITIES,
+                generateRequestHeader(getSessionToken(context)),
+                new InputRequestHelper().prepareWrappedInputRequest(context, null),
+                GetCitiesEvent.class);
+    }
 }

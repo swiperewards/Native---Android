@@ -3,6 +3,7 @@ package com.winjit.swiperewards.helpers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.text.TextUtils;
 
 import com.winjit.swiperewards.helpers.security.CryptoHelper;
 
@@ -49,7 +50,10 @@ public class PreferenceUtils {
     }
 
     public static void writeString(Context context, String key, String value) {
-        value = new CryptoHelper().encryptXOR(value);
+        if (!TextUtils.isEmpty(value)) {
+            value = new CryptoHelper().encryptXOR(value);
+        }
+
         if (context != null) {
             Editor editor = getEditor(context);
             if (editor != null) {
@@ -63,7 +67,9 @@ public class PreferenceUtils {
 
         if (sharedPreferences != null) {
             String readValue = sharedPreferences.getString(key, defValue);
-            readValue = new CryptoHelper().decryptXOR(readValue);
+            if (!TextUtils.isEmpty(readValue)) {
+                readValue = new CryptoHelper().decryptXOR(readValue);
+            }
             return readValue;
         } else {
             return defValue;

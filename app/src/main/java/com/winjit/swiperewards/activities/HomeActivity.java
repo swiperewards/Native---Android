@@ -238,15 +238,16 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
 
     private void setUserData(UserProfile userProfile) {
         try {
+            CommonHelper commonHelper = new CommonHelper();
             if (!TextUtils.isEmpty(userProfile.getCity())) {
-                tvUserLocation.setText(userProfile.getCity());
+                tvUserLocation.setText(commonHelper.capitalize(userProfile.getCity()));
             }
 
-            String balance = String.format("%02d", userProfile.getWalletBalance());
+            String balance = String.format("%.2f", userProfile.getWalletBalance());
             tvCashBack.setText("$" + balance);
 
             if (!TextUtils.isEmpty(userProfile.getFullName())) {
-                tvUserName.setText(userProfile.getFullName());
+                tvUserName.setText(commonHelper.capitalize(userProfile.getFullName()));
             }
 
             if (userProfile.getLevelDetails() != null && userProfile.getLevelDetails().getUserLevel() != 0) {
@@ -280,7 +281,6 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     public void showMessage(String message) {
         showToast(this, message);
     }
-
 
 
     @Override
@@ -350,4 +350,11 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
 
     }
 
+    public void updateCityLocation(String cityName) {
+        tvUserLocation.setText(cityName);
+    }
+
+    public String getCurrentLocation() {
+        return tvUserLocation.getText().toString();
+    }
 }

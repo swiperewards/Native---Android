@@ -64,4 +64,5 @@ public class LoginActivity extends UniversalBaseActivity implements InitSwipeVie
     public void onSwipeInitialized(InitSwipeEvent initSwipeEvent) {
         checkIfForcedUpdate(initSwipeEvent.getInitSwipe().getAppConfig());
     }
+
 }

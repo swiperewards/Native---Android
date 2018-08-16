@@ -4,9 +4,12 @@
 
 package com.winjit.swiperewards.mvpviews;
 
+import com.winjit.swiperewards.entities.CityDetails;
 import com.winjit.swiperewards.entities.Deals;
 
 
 public interface DealsView extends BaseMVPView {
+    void onDealCityListReceived(CityDetails[] cityDetails);
+
     void onDealsReceived(Deals[] dealsList);
 }
