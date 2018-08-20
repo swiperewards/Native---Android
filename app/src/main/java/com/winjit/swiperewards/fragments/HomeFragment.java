@@ -59,6 +59,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private AppCompatAutoCompleteTextView etSearchDeals;
     private ArrayList<Deals> dealsArrayList;
     private DealsAdapter dealAdapter;
+    private LocationListener locationListener;
 
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
@@ -79,52 +80,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         initViews(view);
-        setLocationListener();
+        setLocationListener(); // to check device location service on-off
         return view;
-    }
-
-    private void setupCityList(String[] cityList) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                (getActivity(), R.layout.row_spinner, cityList);
-        //Getting the instance of AutoCompleteTextView
-        etSearchDeals.setThreshold(0);//will start working from first character
-        etSearchDeals.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
-        etSearchDeals.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (!etSearchDeals.isPopupShowing()) {
-                    etSearchDeals.showDropDown();
-                }
-                return false;
-            }
-        });
-        etSearchDeals.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String city = null;
-                if (view != null && view instanceof TextView) {
-                    city = ((TextView) view).getText().toString();
-                    if (!TextUtils.isEmpty(city)) {
-                        UIHelper.getInstance().hideKeyboard(getActivity());
-                        ((HomeActivity) getActivity()).updateCityLocation(city);
-                        showProgress(getActivity().getResources().getString(R.string.please_wait));
-                        dealsPresenter.getDeals(city);
-                        etSearchDeals.setText("");
-
-                    }
-
-                }
-            }
-        });
-
-//        etSearchDeals.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View view, boolean focused) {
-//                if (focused && !etSearchDeals.isPopupShowing()) {
-//                    etSearchDeals.showDropDown();
-//                }
-//            }
-//        });
     }
 
 
@@ -190,6 +147,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             boolean isLocationEnabled = gpsTracker.isLocationEnabled(getActivity());
             initiateDealsAndUpdateBottomVisibility(isLocationEnabled);
         } else {
+            hideProgress();
             requestPermission();
         }
     }
@@ -215,7 +173,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
             if (rvDeals == null || rvDeals.getAdapter() == null || rvDeals.getAdapter().getItemCount() == 0) {
                 if (getActivity() != null) {
-                    showProgress(getActivity().getResources().getString(R.string.please_wait));
                     if (!TextUtils.isEmpty(cityName)) {
                         ((HomeActivity) getActivity()).updateCityLocation(cityName);
                     }
@@ -227,8 +184,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 }
             }
         } else {
+            hideProgress();
             rlChangeLocation.setVisibility(View.GONE);
             rlLocation.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (locationManager != null && locationListener != null) {
+            locationManager.removeUpdates(locationListener);
         }
     }
 
@@ -242,7 +208,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     return;
                 }
             }
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 0, new LocationListener() {
+
+            locationListener = new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
 
@@ -261,7 +228,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 public void onProviderDisabled(String s) {
                     initiateDealsAndUpdateBottomVisibility(false);
                 }
-            });
+            };
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 0, locationListener);
         }
     }
 
@@ -314,9 +282,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             dealAdapter = new DealsAdapter(getActivity(), new CommonHelper().updateStartEndDateFormat(dealsArrayList), this);
             rvDeals.setAdapter(dealAdapter);
 
-            String currentLocation = ((HomeActivity) getActivity()).getCurrentLocation();
-            tvChangeLocationError.setText(getActivity().getResources().getString(R.string.no_deal_error, currentLocation));
-            rlChangeLocation.setVisibility(View.VISIBLE);
+
+            GPSTracker gpsTracker = new GPSTracker(getActivity());
+            boolean isLocationEnabled = gpsTracker.isLocationEnabled(getActivity());
+            if (isLocationEnabled) {
+                String currentLocation = ((HomeActivity) getActivity()).getCurrentLocation();
+                tvChangeLocationError.setText(getActivity().getResources().getString(R.string.no_deal_error, currentLocation));
+                rlChangeLocation.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -348,6 +321,42 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             setupCityList(cityList);
         }
         getDealsIfLocationEnabled();
+    }
+
+    private void setupCityList(String[] cityList) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (getActivity(), R.layout.row_spinner, cityList);
+        //Getting the instance of AutoCompleteTextView
+        etSearchDeals.setThreshold(0);//will start working from first character
+        etSearchDeals.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
+        etSearchDeals.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (!etSearchDeals.isPopupShowing()) {
+                    etSearchDeals.showDropDown();
+                }
+                return false;
+            }
+        });
+        etSearchDeals.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String city = null;
+                if (view != null && view instanceof TextView) {
+                    city = ((TextView) view).getText().toString();
+                    if (!TextUtils.isEmpty(city)) {
+                        UIHelper.getInstance().hideKeyboard(getActivity());
+                        ((HomeActivity) getActivity()).updateCityLocation(city);
+                        showProgress(getActivity().getResources().getString(R.string.please_wait));
+                        dealsPresenter.getDeals(city);
+                        etSearchDeals.setText("");
+
+                    }
+
+                }
+            }
+        });
+
     }
 
 }

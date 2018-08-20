@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "891412668727-h0070a4ib5a7t097rhpljtlrkei9u06i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.winjit.swiperewards",
+            "certificate_hash": "e76433dab8bcbc4a1c817fd12bbb3449f1ade16d"
+          }
+        },
+        {
           "client_id": "891412668727-0ost48gdka1q8ol4i66grl8gbk0c288h.apps.googleusercontent.com",
           "client_type": 3
         }
