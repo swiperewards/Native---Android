@@ -46,4 +46,5 @@ public interface ISwipe {
     int THUMBNAIL_SIZE = 256;
 
     String KEY_EMAIL = "key_email";
+    int MAX_GET_CITY_ATTEMPTS = 5;
 }

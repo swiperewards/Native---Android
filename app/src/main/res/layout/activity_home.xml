@@ -72,13 +72,12 @@
 
                         <android.support.v7.widget.AppCompatTextView
                                 android:id="@+id/tv_user_location"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:layout_centerVertical="true"
                                 android:gravity="center_horizontal"
                                 android:padding="@dimen/margin_tiny"
-                                android:text="-"
                                 android:textColor="@color/secondary_text_color"
                                 android:textSize="@dimen/text_size_medium"
                                 />
@@ -127,6 +126,9 @@
                                 android:layout_centerVertical="true"
                                 android:gravity="center_horizontal"
                                 android:padding="@dimen/margin_tiny"
+                                android:lines="2"
+                                android:minLines="2"
+                                android:maxLines="2"
                                 android:text="-"
                                 android:textColor="@color/secondary_text_color"
                                 android:textSize="@dimen/text_size_small"

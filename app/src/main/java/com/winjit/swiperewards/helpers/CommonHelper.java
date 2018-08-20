@@ -14,6 +14,8 @@ import com.winjit.swiperewards.entities.Deals;
 import com.winjit.swiperewards.interfaces.MessageDialogConfirm;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CommonHelper {
 
@@ -59,6 +61,16 @@ public class CommonHelper {
 
             }
         }
+    }
+
+    public String capitalize(String capString) {
+        StringBuffer capBuffer = new StringBuffer();
+        Matcher capMatcher = Pattern.compile("([a-z-éá])([a-z-éá]*)", Pattern.CASE_INSENSITIVE).matcher(capString);
+        while (capMatcher.find()) {
+            capMatcher.appendReplacement(capBuffer, capMatcher.group(1).toUpperCase() + capMatcher.group(2).toLowerCase());
+        }
+
+        return capMatcher.appendTail(capBuffer).toString();
     }
 
     public int getVersionCode(Context context) {
