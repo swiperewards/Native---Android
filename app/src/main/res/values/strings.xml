@@ -71,6 +71,7 @@
     <string name="dummy_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="confirm">Confirm</string>
     <string name="acc_number">Account Number</string>
+    <string name="wallet_address">Wallet Address</string>
     <string name="btn_cancel">Cancel</string>
     <string name="yes">Yes</string>
     <string name="err_email_exist">This email id is already registered.</string>
