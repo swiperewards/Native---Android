@@ -373,7 +373,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             if (bottomErrorType == ISwipe.BottomErrorType.ERROR_NO_DEALS_AVAILABLE) {
                 rlChangeLocation.setVisibility(View.GONE);
             } else {
-                rlChangeLocation.setVisibility(View.GONE);
+                rlLocation.setVisibility(View.GONE);
             }
         }
     }
