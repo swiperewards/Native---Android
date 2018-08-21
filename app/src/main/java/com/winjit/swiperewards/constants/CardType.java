@@ -1,4 +1,4 @@
-                                 package com.winjit.swiperewards.constants;
+package com.winjit.swiperewards.constants;
 
 import android.text.TextUtils;
 
@@ -52,8 +52,8 @@ public enum CardType {
             12, 19,
             3, R.string.bt_cvv);
 
-    private static final int[] AMEX_SPACE_INDICES = { 4, 10 };
-    private static final int[] DEFAULT_SPACE_INDICES = { 4, 8, 12 };
+    private static final int[] AMEX_SPACE_INDICES = {4, 10};
+    private static final int[] DEFAULT_SPACE_INDICES = {4, 8, 12};
 
     private final Pattern mPattern;
     private final int mFrontResource;
@@ -133,7 +133,7 @@ public enum CardType {
      * @param cardNumber a String consisting of numeric digits (only).
      * @return {@code true} if the sequence passes the checksum
      * @throws IllegalArgumentException if {@code cardNumber} contained a non-digit (where {@link
-     * Character#isDefined(char)} is {@code false}).
+     *                                  Character#isDefined(char)} is {@code false}).
      * @see <a href="http://en.wikipedia.org/wiki/Luhn_algorithm">Luhn Algorithm (Wikipedia)</a>
      */
     public static boolean isLuhnValid(String cardNumber) {

@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatSeekBar;
@@ -47,7 +48,7 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class HomeActivity extends BaseActivity implements InitSwipeView, View.OnClickListener {
 
-
+    private AppBarLayout topPanel;
     private AppCompatTextView tvUserLocation;
     private CircleImageView profileImage;
     private AppCompatTextView tvUserName;
@@ -74,6 +75,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         llTop = findViewById(R.id.ll_top);
         skLevel = findViewById(R.id.sk_level);
 
+        topPanel = (AppBarLayout) findViewById(R.id.top_panel);
         llTop = (LinearLayout) findViewById(R.id.ll_top);
         tvUserLocation = (AppCompatTextView) findViewById(R.id.tv_user_location);
         profileImage = (CircleImageView) findViewById(R.id.profile_image);
@@ -187,7 +189,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     }
 
     public void setTopLayoutItemsVisibility(int itemId) {
-
+        getTopView().setExpanded(true,false);
         switch (itemId) {
             case R.id.navigation_Settings:
                 int topPadding = rlLevelDetails.getHeight();
@@ -356,5 +358,9 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
 
     public String getCurrentLocation() {
         return tvUserLocation.getText().toString();
+    }
+
+    public AppBarLayout getTopView() {
+        return topPanel;
     }
 }

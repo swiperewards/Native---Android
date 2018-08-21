@@ -90,6 +90,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rvDeals.setLayoutManager(linearLayoutManager);
 
+        dealsArrayList = new ArrayList<Deals>();
+        dealAdapter = new DealsAdapter(getActivity(), new CommonHelper().updateStartEndDateFormat(dealsArrayList), this);
+        rvDeals.setAdapter(dealAdapter);
+
         rlLocation = mRootView.findViewById(R.id.rl_location);
         rlChangeLocation = mRootView.findViewById(R.id.rl_change_location);
         etSearchDeals = mRootView.findViewById(R.id.et_search_deals);
@@ -154,7 +158,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     private void initiateDealsAndUpdateBottomVisibility(boolean isLocationEnabled) {
         if (isLocationEnabled) {
-            rlLocation.setVisibility(View.GONE);
+            showHideBottomError(ISwipe.BottomErrorType.ERROR_ENABLE_LOCATION, false);
             String cityName;
             int attempts = 0;
             GPSTracker gpsTracker = new GPSTracker(getActivity());
@@ -166,7 +170,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
 
             if (TextUtils.isEmpty(cityName)) {
-                rlChangeLocation.setVisibility(View.VISIBLE);
+                showHideBottomError(ISwipe.BottomErrorType.ERROR_NO_DEALS_AVAILABLE, true);
                 onDealsReceived(null);
                 return;
             }
@@ -185,8 +189,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             }
         } else {
             hideProgress();
-            rlChangeLocation.setVisibility(View.GONE);
-            rlLocation.setVisibility(View.VISIBLE);
+            showHideBottomError(ISwipe.BottomErrorType.ERROR_ENABLE_LOCATION, true);
         }
     }
 
@@ -272,23 +275,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onDealsReceived(Deals[] dealsList) {
         if (dealsList != null && dealsList.length > 0) {
-            rlChangeLocation.setVisibility(View.GONE);
+            showHideBottomError(ISwipe.BottomErrorType.ERROR_NO_DEALS_AVAILABLE, false);
             dealsArrayList = new ArrayList<Deals>(Arrays.asList(dealsList));
-            dealAdapter = new DealsAdapter(getActivity(), new CommonHelper().updateStartEndDateFormat(dealsArrayList), this);
-            rvDeals.setAdapter(dealAdapter);
+            dealAdapter.updateList(new CommonHelper().updateStartEndDateFormat(dealsArrayList));
         } else {
             //Setting an empty list
             dealsArrayList = new ArrayList<Deals>();
-            dealAdapter = new DealsAdapter(getActivity(), new CommonHelper().updateStartEndDateFormat(dealsArrayList), this);
-            rvDeals.setAdapter(dealAdapter);
+            dealAdapter.updateList(dealsArrayList);
 
-
-            GPSTracker gpsTracker = new GPSTracker(getActivity());
-            boolean isLocationEnabled = gpsTracker.isLocationEnabled(getActivity());
-            if (isLocationEnabled) {
+            if (!(rlLocation.getVisibility() == View.VISIBLE)) {
                 String currentLocation = ((HomeActivity) getActivity()).getCurrentLocation();
                 tvChangeLocationError.setText(getActivity().getResources().getString(R.string.no_deal_error, currentLocation));
-                rlChangeLocation.setVisibility(View.VISIBLE);
+                showHideBottomError(ISwipe.BottomErrorType.ERROR_NO_DEALS_AVAILABLE, true);
             }
         }
     }
@@ -333,7 +331,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (!etSearchDeals.isPopupShowing()) {
+                    ((HomeActivity)getActivity()).getTopView().setExpanded(false);
                     etSearchDeals.showDropDown();
+
                 }
                 return false;
             }
@@ -357,6 +357,25 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             }
         });
 
+    }
+
+
+    private void showHideBottomError(ISwipe.BottomErrorType bottomErrorType, boolean isVisible) {
+        if (isVisible) {
+            if (bottomErrorType == ISwipe.BottomErrorType.ERROR_NO_DEALS_AVAILABLE && rlLocation.getVisibility() == View.GONE) {
+                rlChangeLocation.setVisibility(View.VISIBLE);
+            } else {
+                rlChangeLocation.setVisibility(View.GONE);
+                rlLocation.setVisibility(View.VISIBLE);
+            }
+
+        } else {
+            if (bottomErrorType == ISwipe.BottomErrorType.ERROR_NO_DEALS_AVAILABLE) {
+                rlChangeLocation.setVisibility(View.GONE);
+            } else {
+                rlChangeLocation.setVisibility(View.GONE);
+            }
+        }
     }
 
 }

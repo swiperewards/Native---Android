@@ -32,11 +32,23 @@
             android:paddingTop="@dimen/margin_tiny"
             android:textSize="@dimen/text_size_small"/>
 
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_deals"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/et_search_deals"
+            android:layout_marginBottom="@dimen/margin_very_small"
+            android:layout_marginLeft="@dimen/margin_very_small"
+            android:layout_marginRight="@dimen/margin_very_small"
+            android:cacheColorHint="@android:color/transparent"
+            android:scrollbars="none"
+            />
     <LinearLayout
             android:id="@+id/lin_lay_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:isScrollContainer="false"
             android:orientation="vertical">
 
         <RelativeLayout
@@ -112,19 +124,6 @@
         </RelativeLayout>
 
     </LinearLayout>
-    <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_deals"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/lin_lay_location"
-            android:layout_below="@+id/et_search_deals"
-            android:layout_marginBottom="@dimen/margin_very_small"
-            android:layout_marginLeft="@dimen/margin_very_small"
-            android:layout_marginRight="@dimen/margin_very_small"
-            android:cacheColorHint="@android:color/transparent"
-            android:nestedScrollingEnabled="false"
-            android:scrollbars="none"
-            />
 
 
 </RelativeLayout>

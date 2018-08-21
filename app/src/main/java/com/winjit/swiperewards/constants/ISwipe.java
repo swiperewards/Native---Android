@@ -48,4 +48,13 @@ public interface ISwipe {
 
     String KEY_EMAIL = "key_email";
     int MAX_GET_CITY_ATTEMPTS = 5;
+
+    public enum BottomErrorType {
+
+        ERROR_ENABLE_LOCATION(1),
+        ERROR_NO_DEALS_AVAILABLE(2);
+
+        BottomErrorType(int i) {
+        }
+    }
 }
