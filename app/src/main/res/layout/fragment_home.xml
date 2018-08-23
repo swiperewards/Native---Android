@@ -41,7 +41,7 @@
             android:layout_marginLeft="@dimen/margin_very_small"
             android:layout_marginRight="@dimen/margin_very_small"
             android:cacheColorHint="@android:color/transparent"
-            android:scrollbars="none"
+            android:scrollbars="vertical"
             />
     <LinearLayout
             android:id="@+id/lin_lay_location"

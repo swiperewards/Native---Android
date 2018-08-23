@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
@@ -39,7 +38,7 @@ import com.winjit.swiperewards.helpers.CommonHelper;
 import com.winjit.swiperewards.helpers.GPSTracker;
 import com.winjit.swiperewards.helpers.PermissionUtils;
 import com.winjit.swiperewards.helpers.UIHelper;
-import com.winjit.swiperewards.interfaces.AdapterResponseInterface;
+import com.winjit.swiperewards.interfaces.DealAdapterResponseInterface;
 import com.winjit.swiperewards.mvpviews.DealsView;
 import com.winjit.swiperewards.presenters.DealsPresenter;
 
@@ -47,7 +46,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class HomeFragment extends BaseFragment implements View.OnClickListener, AdapterResponseInterface, DealsView {
+public class HomeFragment extends BaseFragment implements View.OnClickListener, DealAdapterResponseInterface, DealsView {
 
     private RecyclerView rvDeals;
     private DealsPresenter dealsPresenter;
@@ -60,6 +59,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private ArrayList<Deals> dealsArrayList;
     private DealsAdapter dealAdapter;
     private LocationListener locationListener;
+    private int currentDealPageNumber = 1;
+
 
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
@@ -174,18 +175,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 onDealsReceived(null);
                 return;
             }
-
-            if (rvDeals == null || rvDeals.getAdapter() == null || rvDeals.getAdapter().getItemCount() == 0) {
-                if (getActivity() != null) {
-                    if (!TextUtils.isEmpty(cityName)) {
-                        ((HomeActivity) getActivity()).updateCityLocation(cityName);
-                    }
-                }
+            if (getActivity() != null) {
                 if (!TextUtils.isEmpty(cityName)) {
-                    dealsPresenter.getDeals(cityName);
-                } else {
-                    onDealCityListReceived(null);
+                    ((HomeActivity) getActivity()).updateCityLocation(cityName);
                 }
+            }
+            if (!TextUtils.isEmpty(cityName)) {
+                dealsPresenter.getDeals(cityName);
+//                    dealsPresenter.getDealsWithPagination(cityName, currentDealPageNumber, ISwipe.DEFAULT_DEALS_PAGE_SIZE);
+            } else {
+                onDealCityListReceived(null);
             }
         } else {
             hideProgress();
@@ -212,27 +211,27 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 }
             }
 
-            locationListener = new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-
-                }
-
-                @Override
-                public void onStatusChanged(String s, int i, Bundle bundle) {
-                }
-
-                @Override
-                public void onProviderEnabled(String s) {
-                    initiateDealsAndUpdateBottomVisibility(true);
-                }
-
-                @Override
-                public void onProviderDisabled(String s) {
-                    initiateDealsAndUpdateBottomVisibility(false);
-                }
-            };
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 0, locationListener);
+//            locationListener = new LocationListener() {
+//                @Override
+//                public void onLocationChanged(Location location) {
+//
+//                }
+//
+//                @Override
+//                public void onStatusChanged(String s, int i, Bundle bundle) {
+//                }
+//
+//                @Override
+//                public void onProviderEnabled(String s) {
+//                    initiateDealsAndUpdateBottomVisibility(true);
+//                }
+//
+//                @Override
+//                public void onProviderDisabled(String s) {
+//                    initiateDealsAndUpdateBottomVisibility(false);
+//                }
+//            };
+//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 120000, 2000, locationListener);
         }
     }
 
@@ -265,6 +264,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     @Override
+    public void loadMoreDeals() {
+        if (getActivity() != null && !TextUtils.isEmpty(((HomeActivity) getActivity()).getCurrentLocation())) {
+            String currentCity = ((HomeActivity) getActivity()).getCurrentLocation();
+            dealsPresenter.getDeals(currentCity);
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         if (((HomeActivity) getActivity()) != null) {
@@ -276,7 +283,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     public void onDealsReceived(Deals[] dealsList) {
         if (dealsList != null && dealsList.length > 0) {
             showHideBottomError(ISwipe.BottomErrorType.ERROR_NO_DEALS_AVAILABLE, false);
-            dealsArrayList = new ArrayList<Deals>(Arrays.asList(dealsList));
+            if (currentDealPageNumber == 1) {
+                dealsArrayList = new ArrayList<Deals>(Arrays.asList(dealsList));
+            } else {
+                dealsArrayList.addAll(new ArrayList<Deals>(Arrays.asList(dealsList)));
+            }
+            currentDealPageNumber++;
             dealAdapter.updateList(new CommonHelper().updateStartEndDateFormat(dealsArrayList));
         } else {
             //Setting an empty list
@@ -331,7 +343,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (!etSearchDeals.isPopupShowing()) {
-                    ((HomeActivity)getActivity()).getTopView().setExpanded(false);
+                    ((HomeActivity) getActivity()).getTopView().setExpanded(false);
                     etSearchDeals.showDropDown();
 
                 }
@@ -348,7 +360,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                         UIHelper.getInstance().hideKeyboard(getActivity());
                         ((HomeActivity) getActivity()).updateCityLocation(city);
                         showProgress(getActivity().getResources().getString(R.string.please_wait));
+                        currentDealPageNumber = 1;
                         dealsPresenter.getDeals(city);
+//                        dealsPresenter.getDealsWithPagination(city, currentDealPageNumber, ISwipe.DEFAULT_DEALS_PAGE_SIZE);
                         etSearchDeals.setText("");
 
                     }

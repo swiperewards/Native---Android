@@ -39,7 +39,7 @@ public interface ISwipe {
     int EVENT_TYPE_TRANSACTION = 3;
 
     String CHEQUE = "Cheque";
-    String BANK_ACCOUNT ="Bank Account" ;
+    String BANK_ACCOUNT = "Bank Account";
 
     int CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE_WITH_CAMERA = 100;
     int CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE_WITHOUT_CAMERA = 101;
@@ -48,8 +48,9 @@ public interface ISwipe {
 
     String KEY_EMAIL = "key_email";
     int MAX_GET_CITY_ATTEMPTS = 5;
+    String APP_STACK = "APP_STACK";
 
-    public enum BottomErrorType {
+    enum BottomErrorType {
 
         ERROR_ENABLE_LOCATION(1),
         ERROR_NO_DEALS_AVAILABLE(2);

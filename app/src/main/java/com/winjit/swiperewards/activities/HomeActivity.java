@@ -122,6 +122,9 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 setTopLayoutVisibility(item.getItemId());
                 setTopLayoutItemsVisibility(item.getItemId());
+
+                //To pop the child/sub fragments from created stack
+                UIHelper.getInstance().popBackStackByName(getSupportFragmentManager(), ISwipe.APP_STACK);
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
                         UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, HomeFragment.newInstance(), false);
@@ -146,6 +149,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
 
         });
 
+
     }
 
     private void initToolBar() {
@@ -159,6 +163,15 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     public void setDefaultHomeIndex() {
         View view = navigation.findViewById(R.id.navigation_home);
         view.performClick();
+
+        //Trick to avoid the reselection of selected item
+        navigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem item) {
+                //To pop the child/sub fragments from created stack
+                UIHelper.getInstance().popBackStackByName(getSupportFragmentManager(), ISwipe.APP_STACK);
+            }
+        });
     }
 
     @Override
@@ -189,7 +202,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     }
 
     public void setTopLayoutItemsVisibility(int itemId) {
-        getTopView().setExpanded(true,false);
+        getTopView().setExpanded(true, false);
         switch (itemId) {
             case R.id.navigation_Settings:
                 int topPadding = rlLevelDetails.getHeight();

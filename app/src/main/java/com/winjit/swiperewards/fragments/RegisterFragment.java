@@ -94,6 +94,9 @@ public class RegisterFragment extends OnBoardingBaseFragment implements View.OnC
             case R.id.fb_login_button:
                 initiateFacebookLogin();
                 break;
+            case R.id.iv_google:
+                initializeGoogleLogin();
+                break;
         }
     }
 

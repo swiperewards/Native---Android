@@ -28,7 +28,7 @@ public class WebRequestConstants {
     public static final String WS_GET_EVENT_HISTORY = URL + "/event/getEventNotifications";
     public static final String WS_UPLOAD_PROFILE_PIC = URL + "/users/updateProfilePicV1";
     public static final String WS_GET_CITIES = URL + "/config/getCities";
-
+    public static final String WS_GET_DEALS_PAGINATION = URL + "/deals/getDealsWithPaging";
 
 
 

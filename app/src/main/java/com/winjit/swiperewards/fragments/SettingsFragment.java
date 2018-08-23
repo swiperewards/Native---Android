@@ -28,7 +28,6 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     private AppCompatTextView tvSignOut;
     private SettingsPresenter settingsPresenter;
 
-
     public static SettingsFragment newInstance() {
         Bundle args = new Bundle();
         SettingsFragment fragment = new SettingsFragment();
@@ -96,11 +95,11 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         switch (v.getId()) {
             case R.id.tv_change_password:
                 ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
-                UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, ChangePasswordFragment.newInstance(), true);
+                UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, ChangePasswordFragment.newInstance(), true, ISwipe.APP_STACK);
                 break;
             case R.id.tv_contact_us:
                 ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
-                UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, ContactUsFragment.newInstance(), true);
+                UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, ContactUsFragment.newInstance(), true, ISwipe.APP_STACK);
                 break;
             case R.id.tv_privacy:
                 if (SingletonAppCache.getInstance().getAppConfig() == null || SingletonAppCache.getInstance().getAppConfig().getPrivacySecurityUrl() == null ||
@@ -114,11 +113,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 if (((HomeActivity) getActivity()) != null) {
                     ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_PRIVACY_SECURITY);
                 }
-                WebViewFragment webViewFragment = WebViewFragment.newInstance();
-                Bundle bundle = new Bundle();
-                bundle.putString(ISwipe.WEB_URL, privacySecurityUrl);
-                webViewFragment.setArguments(bundle);
-                UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, webViewFragment, true);
+                launchWebViewFragment(privacySecurityUrl);
                 break;
             case R.id.tv_terms_of_use:
 
@@ -132,16 +127,21 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 if (((HomeActivity) getActivity()) != null) {
                     ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_TERMS_OF_USE);
                 }
-                WebViewFragment webViewTermsFragment = WebViewFragment.newInstance();
-                Bundle termsBundle = new Bundle();
-                termsBundle.putString(ISwipe.WEB_URL, termsOfUseUrl);
-                webViewTermsFragment.setArguments(termsBundle);
-                UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, webViewTermsFragment, true);
+                launchWebViewFragment(termsOfUseUrl);
                 break;
             case R.id.tv_sign_out:
                 showConfirmationLogoutDialog();
                 break;
         }
+    }
+
+    private void launchWebViewFragment(String url) {
+        WebViewFragment webViewTermsFragment = WebViewFragment.newInstance();
+        Bundle termsBundle = new Bundle();
+        termsBundle.putString(ISwipe.WEB_URL, url);
+        webViewTermsFragment.setArguments(termsBundle);
+        UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, webViewTermsFragment, true, ISwipe.APP_STACK);
+
     }
 
     @Override

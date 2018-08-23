@@ -111,7 +111,7 @@ public class WalletFragment extends BaseFragment implements View.OnClickListener
                     switch (actionName) {
                         case ISwipe.ACTION_ADD_NEW_CARD:
                             ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
-                            UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, AddNewCardFragment.newInstance(), true);
+                            UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, AddNewCardFragment.newInstance(), true, ISwipe.APP_STACK);
                             break;
                         case ISwipe.ACTION_DELETE_CARD:
                             long cardID = bundle.getLong(ISwipe.CARD_ID);

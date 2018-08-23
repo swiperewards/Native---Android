@@ -36,32 +36,30 @@ public class GPSTracker extends Service implements LocationListener {
     private final Context mContext;
 
     // flag for GPS Status
-    boolean isGPSEnabled = false;
+    private boolean isGPSEnabled = false;
 
     // flag for network status
-    boolean isNetworkEnabled = false;
+    private boolean isNetworkEnabled = false;
 
     // flag for GPS Tracking is enabled
-    boolean isGPSTrackingEnabled = false;
+    private boolean isGPSTrackingEnabled = false;
 
     Location location;
-    public double latitude;
-    public double longitude;
+    private double latitude;
+    private double longitude;
 
     // How many Geocoder should return our GPSTracker
-    int geocoderMaxResults = 1;
+    private int geocoderMaxResults = 1;
 
     // The minimum distance to change updates in meters
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1000; // 1000 meters
 
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 10; // 10 minute
 
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
-    // Store LocationManager.GPS_PROVIDER or LocationManager.NETWORK_PROVIDER information
-    private String provider_info;
 
     public GPSTracker(Context context) {
         this.mContext = context;
