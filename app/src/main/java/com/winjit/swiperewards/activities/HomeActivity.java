@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatSeekBar;
@@ -47,7 +48,7 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class HomeActivity extends BaseActivity implements InitSwipeView, View.OnClickListener {
 
-
+    private AppBarLayout topPanel;
     private AppCompatTextView tvUserLocation;
     private CircleImageView profileImage;
     private AppCompatTextView tvUserName;
@@ -74,6 +75,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         llTop = findViewById(R.id.ll_top);
         skLevel = findViewById(R.id.sk_level);
 
+        topPanel = (AppBarLayout) findViewById(R.id.top_panel);
         llTop = (LinearLayout) findViewById(R.id.ll_top);
         tvUserLocation = (AppCompatTextView) findViewById(R.id.tv_user_location);
         profileImage = (CircleImageView) findViewById(R.id.profile_image);
@@ -120,6 +122,9 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 setTopLayoutVisibility(item.getItemId());
                 setTopLayoutItemsVisibility(item.getItemId());
+
+                //To pop the child/sub fragments from created stack
+                UIHelper.getInstance().popBackStackByName(getSupportFragmentManager(), ISwipe.APP_STACK);
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
                         UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, HomeFragment.newInstance(), false);
@@ -144,6 +149,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
 
         });
 
+
     }
 
     private void initToolBar() {
@@ -157,6 +163,15 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     public void setDefaultHomeIndex() {
         View view = navigation.findViewById(R.id.navigation_home);
         view.performClick();
+
+        //Trick to avoid the reselection of selected item
+        navigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem item) {
+                //To pop the child/sub fragments from created stack
+                UIHelper.getInstance().popBackStackByName(getSupportFragmentManager(), ISwipe.APP_STACK);
+            }
+        });
     }
 
     @Override
@@ -187,7 +202,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     }
 
     public void setTopLayoutItemsVisibility(int itemId) {
-
+        getTopView().setExpanded(true, false);
         switch (itemId) {
             case R.id.navigation_Settings:
                 int topPadding = rlLevelDetails.getHeight();
@@ -356,5 +371,9 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
 
     public String getCurrentLocation() {
         return tvUserLocation.getText().toString();
+    }
+
+    public AppBarLayout getTopView() {
+        return topPanel;
     }
 }

@@ -58,6 +58,8 @@ public class OnBoardingBaseFragment extends BaseFragment implements OnBoardingVi
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+        mGoogleSignInClient.signOut();
+        mGoogleSignInClient.revokeAccess();
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }

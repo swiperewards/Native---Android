@@ -66,4 +66,27 @@ public class DealsPresenter extends BasePresenter {
     }
 
 
+    public void getDealsWithPagination(String location,int pageNumber, int pageSize) {
+        try {
+            new ServiceController().getDealsWithPagination(dealsView.getViewContext(), location,pageNumber,pageSize, new WebRequestManager.WebProcessListener<GetDealsEvent>() {
+                @Override
+                public void onWebProcessSuccess(GetDealsEvent getDealsEvent) {
+                    if (getDealsEvent.getStatus() == ISwipe.SUCCESS && getDealsEvent.getDeals() != null) {
+                        dealsView.hideProgress();
+                        dealsView.onDealsReceived(getDealsEvent.getDeals());
+                    } else  {
+                        handleReceivedError(dealsView, getDealsEvent);
+                    }
+                }
+
+                @Override
+                public void onWebProcessFailed(VolleyError error, Class aClass) {
+                    handleWebProcessFailed(dealsView, error);
+                }
+            });
+        } catch (Exception e) {
+            handleWebProcessFailed(dealsView, null);
+        }
+    }
+
 }

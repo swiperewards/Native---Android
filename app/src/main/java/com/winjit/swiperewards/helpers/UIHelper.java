@@ -1,8 +1,5 @@
 package com.winjit.swiperewards.helpers;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,7 +19,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
@@ -43,7 +39,6 @@ import java.util.ArrayList;
  */
 public class UIHelper {
 
-    public int animCounter = 0;
     public static UIHelper uiHelper;
 
     public static UIHelper getInstance() {
@@ -93,7 +88,15 @@ public class UIHelper {
     }
 
 
-    public void replaceFragmentAllowLoss(FragmentManager fragmentManager, int layout, Fragment fragment, boolean isBackStack) {
+    /**
+     * Method used to add fragment on activity
+     *
+     * @param fragmentManager
+     * @param layout
+     * @param fragment
+     * @param isBackStack     decide to add fragment with back stack or not.
+     */
+    public void replaceFragment(FragmentManager fragmentManager, int layout, Fragment fragment, boolean isBackStack,String stackName) {
 
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -102,7 +105,7 @@ public class UIHelper {
         if (fragmentManager.findFragmentByTag(fragment.getClass().getSimpleName()) == null) {
 //            fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.pop_enter, R.anim.pop_exit);
             if (isBackStack) {
-                fragmentTransaction.replace(layout, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+                fragmentTransaction.replace(layout, fragment, fragment.getClass().getSimpleName()).addToBackStack(stackName).commit();
             } else {
                 fragmentTransaction.replace(layout, fragment).commit();
             }
@@ -124,6 +127,7 @@ public class UIHelper {
             }
         }
     }
+
 
     /**
      * Method used to add fragment on activity
@@ -214,24 +218,6 @@ public class UIHelper {
         }
     }
 
-    public void showToast(Context mContext, String string) {
-        Toast.makeText(mContext, string, Toast.LENGTH_SHORT).show();
-    }
-
-
-    /**
-     * Interface used to toggle drawer navigation button
-     */
-    public interface OnDrawerInteractionListener {
-        void showDrawerToggle(boolean showDrawerToggle);
-    }
-
-    /**
-     * Interface used to launch fragment
-     */
-    public interface OnLaunchFragmentListener {
-        void launchFragment(Fragment fragment);
-    }
 
     public String BitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -241,8 +227,6 @@ public class UIHelper {
     }
 
 
-
-
     public Fragment getCurrentFragment(FragmentManager fragmentManager, int containerId) {
         return fragmentManager.findFragmentById(containerId);
     }
@@ -250,8 +234,7 @@ public class UIHelper {
     public void clearBackStack(FragmentManager fragmentManager, String simpleName) {
         for (Fragment fragment : fragmentManager.getFragments()) {
             try {
-                if (fragment.getClass().getSimpleName().equalsIgnoreCase("NavigationDrawerFragment") == false &&
-                        fragment.getClass().getSimpleName().equalsIgnoreCase("HomeFragment") == false)
+                if (fragment.getClass().getSimpleName().equalsIgnoreCase("HomeFragment") == false)
                     removeFragment(fragmentManager, fragment);
             } catch (NullPointerException e) {
 
@@ -314,16 +297,6 @@ public class UIHelper {
     }
 
 
-    public void findFragmentByTag(FragmentManager fragmentManager) {
-        for (Fragment fragment : fragmentManager.getFragments()) {
-            String tag = fragment.getTag();
-            if (tag != null)
-                if (tag.equalsIgnoreCase("TreatmentPlanFragment"))
-                    removeFragment(fragmentManager, fragment);
-
-        }
-    }
-
     public void clearBackStackImmediate(FragmentManager manager) {
         if (manager.getBackStackEntryCount() > 0) {
             FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
@@ -333,51 +306,6 @@ public class UIHelper {
 
     public static int getDrawableIdFromResourceName(Context context, String resourceName) {
         return context.getResources().getIdentifier(resourceName, "drawable", context.getPackageName());
-    }
-
-
-
-    public void startAnimation(final ImageView view, final int frequency) {
-        if (view == null) {
-            return;
-        }
-
-
-        PropertyValuesHolder postX = PropertyValuesHolder.ofFloat("scaleX",
-                new float[]{0.9f, 1.05f});
-        PropertyValuesHolder postY = PropertyValuesHolder.ofFloat("scaleY",
-                new float[]{0.9f, 1.05f});
-
-        final ObjectAnimator scaleDown = ObjectAnimator.ofPropertyValuesHolder(view,
-                postX, postY);
-
-        scaleDown.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animator) {
-                scaleDown.removeListener(this);
-                view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(300).start();
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animator) {
-
-            }
-        });
-
-        scaleDown.setDuration(700);
-        scaleDown.setRepeatCount(frequency);
-        scaleDown.setRepeatMode(ObjectAnimator.REVERSE);
-        scaleDown.start();
     }
 
 
@@ -415,8 +343,6 @@ public class UIHelper {
     }
 
 
-
-
     public void loadImageOnline(Context context, String url, ImageView target, int defaultImage, int errorImage) {
         if (TextUtils.isEmpty(url) == false) {
             Picasso.with(context)
@@ -430,17 +356,8 @@ public class UIHelper {
     }
 
 
-    public void loadImageWithSize(Context context, String url, ImageView target, int defaultImage, int errorImage, int widhhHeight) {
-        if (TextUtils.isEmpty(url) == false) {
-            Picasso.with(context)
-                    .load(url).resize(widhhHeight, widhhHeight)
-                    .placeholder(defaultImage).centerInside()
-//                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                    .error(errorImage)
-                    .into(target);
-        }
+    public void popBackStackByName(FragmentManager fragmentManager, String BACK_STACK_ROOT_TAG) {
+        fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
-
-
 
 }

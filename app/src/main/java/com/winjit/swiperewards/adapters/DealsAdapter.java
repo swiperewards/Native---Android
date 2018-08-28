@@ -6,6 +6,7 @@ import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,7 @@ import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.entities.Deals;
 import com.winjit.swiperewards.helpers.UIHelper;
-import com.winjit.swiperewards.interfaces.AdapterResponseInterface;
+import com.winjit.swiperewards.interfaces.DealAdapterResponseInterface;
 
 import java.util.ArrayList;
 
@@ -23,10 +24,10 @@ import java.util.ArrayList;
 public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.AccountDetailViewHolder> {
 
     private final Context context;
-    private AdapterResponseInterface adapterResponseInterface;
+    private DealAdapterResponseInterface adapterResponseInterface;
     private ArrayList<Deals> dealsList;
 
-    public DealsAdapter(Context context, ArrayList<Deals> dealsList, AdapterResponseInterface adapterResponseInterface) {
+    public DealsAdapter(Context context, ArrayList<Deals> dealsList, DealAdapterResponseInterface adapterResponseInterface) {
         this.context = context;
         this.adapterResponseInterface = adapterResponseInterface;
         this.dealsList = dealsList;
@@ -38,7 +39,7 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.AccountDetai
         return new AccountDetailViewHolder(view);
     }
 
-    public void updateList(ArrayList<Deals> list){
+    public void updateList(ArrayList<Deals> list) {
         dealsList = list;
         notifyDataSetChanged();
     }
@@ -53,14 +54,17 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.AccountDetai
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
-                bundle.putString(ISwipe.LATITUDE,dealsList.get(position).getLatitude());
-                bundle.putString(ISwipe.LONGITUDE,dealsList.get(position).getLongitude());
+                bundle.putString(ISwipe.LATITUDE, dealsList.get(position).getLatitude());
+                bundle.putString(ISwipe.LONGITUDE, dealsList.get(position).getLongitude());
                 adapterResponseInterface.getAdapterResponse(bundle);
             }
         });
 
         if (!TextUtils.isEmpty(dealsList.get(position).getIcon())) {
             UIHelper.getInstance().loadImageOnline(context, dealsList.get(position).getIcon().replace(" ", "%20"), holder.ivIcon, R.mipmap.ic_launcher, R.mipmap.ic_launcher);
+        }
+        if (position >= getItemCount() - 1) {
+            adapterResponseInterface.loadMoreDeals();
         }
     }
 

@@ -152,10 +152,16 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
             tilName.setVisibility(View.VISIBLE);
             tilAccountNumber.setVisibility(View.GONE);
         } else {
+            if (!selectedItem.equalsIgnoreCase(ISwipe.BANK_ACCOUNT)) {
+                tilAccountNumber.setHint(getActivity().getResources().getString(R.string.wallet_address));
+            } else {
+                tilAccountNumber.setHint(getActivity().getResources().getString(R.string.acc_number));
+            }
             spRedeemModeOptions.setVisibility(View.VISIBLE);
             tilAddress.setVisibility(View.GONE);
-            tilAccountNumber.setVisibility(View.VISIBLE);
             tilName.setVisibility(View.GONE);
+            tilAccountNumber.setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -173,7 +179,7 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
     private boolean isValidRedeemAmountEntered() {
         try {
             Float redeemAmount = Float.parseFloat(etAmount.getText().toString());
-            if (redeemAmount==null || redeemAmount <= 0) {
+            if (redeemAmount == null || redeemAmount <= 0) {
                 showMessage("Redeem amount should be greater than $0");
                 return false;
             } else if (SingletonAppCache.getInstance().getUserProfile() != null &&
