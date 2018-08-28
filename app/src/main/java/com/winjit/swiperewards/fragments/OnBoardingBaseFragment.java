@@ -179,7 +179,9 @@ public class OnBoardingBaseFragment extends BaseFragment implements OnBoardingVi
         Bundle bundle = new Bundle();
         bundle.putBoolean(ISwipe.IS_FROM_SIGN_UP, true);
         successFragment.setArguments(bundle);
-        UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, successFragment, false);
+        UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container,successFragment,false, ISwipe.FragTagSuccessFragment,null);
+
+
     }
 
     @Override

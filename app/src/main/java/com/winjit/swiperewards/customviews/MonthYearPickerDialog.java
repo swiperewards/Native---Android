@@ -29,13 +29,26 @@ public class MonthYearPickerDialog extends DialogFragment {
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        Calendar cal = Calendar.getInstance();
+        final Calendar cal = Calendar.getInstance();
 
         View dialog = inflater.inflate(R.layout.date_picker_dialog, null);
         final NumberPicker monthPicker = (NumberPicker) dialog.findViewById(R.id.picker_month);
         final NumberPicker yearPicker = (NumberPicker) dialog.findViewById(R.id.picker_year);
 
-        monthPicker.setMinValue(1);
+        yearPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int oldValue, int newValue) {
+                if (newValue == cal.get(Calendar.YEAR)) {
+                    monthPicker.setMinValue(cal.get(Calendar.MONTH) + 1);
+                    monthPicker.setMaxValue(12);
+                } else {
+                    monthPicker.setMinValue(1);
+                    monthPicker.setMaxValue(12);
+                }
+            }
+        });
+
+        monthPicker.setMinValue(cal.get(Calendar.MONTH) + 1);
         monthPicker.setMaxValue(12);
         monthPicker.setValue(cal.get(Calendar.MONTH) + 1);
 

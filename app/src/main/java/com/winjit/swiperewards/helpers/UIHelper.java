@@ -20,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -55,65 +56,24 @@ public class UIHelper {
      * @param fragment
      * @param isBackStack     decide to add fragment with back stack or not.
      */
-    public void replaceFragment(FragmentManager fragmentManager, int layout, Fragment fragment, boolean isBackStack) {
+    public void replaceFragment(FragmentManager fragmentManager, int layout, Fragment fragment, boolean isBackStack, String tagName, String stackName) {
 
-
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-
-        if (fragmentManager.findFragmentByTag(fragment.getClass().getSimpleName()) == null) {
-//            fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.pop_enter, R.anim.pop_exit);
-            if (isBackStack) {
-                fragmentTransaction.replace(layout, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
-            } else {
-                fragmentTransaction.replace(layout, fragment).commit();
-            }
-
-        } else {
-
-            Fragment requestedFragment = fragmentManager.findFragmentByTag(fragment.getClass().getSimpleName());
-
-            if (requestedFragment != null) {
-                for (Fragment f : fragmentManager.getFragments()) {
-                    if (f != null) {
-                        if (f == requestedFragment)
-                            fragmentTransaction.show(f);
-                        else
-                            fragmentTransaction.hide(f);
-                    }
-                }
-                fragmentTransaction.commit();
-            }
+        if (TextUtils.isEmpty(tagName)) {
+            tagName = fragment.getClass().getSimpleName();
         }
-    }
-
-
-    /**
-     * Method used to add fragment on activity
-     *
-     * @param fragmentManager
-     * @param layout
-     * @param fragment
-     * @param isBackStack     decide to add fragment with back stack or not.
-     */
-    public void replaceFragment(FragmentManager fragmentManager, int layout, Fragment fragment, boolean isBackStack,String stackName) {
-
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
 
-        if (fragmentManager.findFragmentByTag(fragment.getClass().getSimpleName()) == null) {
-//            fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.pop_enter, R.anim.pop_exit);
+        if (fragmentManager.findFragmentByTag(tagName) == null) {
             if (isBackStack) {
-                fragmentTransaction.replace(layout, fragment, fragment.getClass().getSimpleName()).addToBackStack(stackName).commit();
+                fragmentTransaction.replace(layout, fragment, tagName).addToBackStack(stackName).commit();
             } else {
                 fragmentTransaction.replace(layout, fragment).commit();
             }
 
         } else {
-
-            Fragment requestedFragment = fragmentManager.findFragmentByTag(fragment.getClass().getSimpleName());
-
+            Fragment requestedFragment = fragmentManager.findFragmentByTag(tagName);
             if (requestedFragment != null) {
                 for (Fragment f : fragmentManager.getFragments()) {
                     if (f != null) {
@@ -136,24 +96,24 @@ public class UIHelper {
      * @param layout
      * @param fragment
      * @param isBackStack
-     * @param isWithAnimation - With or without animation.
      */
-    public void addFragment(FragmentManager fragmentManager, int layout, Fragment fragment, boolean isBackStack, boolean isWithAnimation) {
+    public void addFragment(FragmentManager fragmentManager, int layout, Fragment fragment, boolean isBackStack, String tagName, String stackName) {
+        if (TextUtils.isEmpty(tagName)) {
+            tagName = fragment.getClass().getSimpleName();
+        }
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        if (fragmentManager.findFragmentByTag(fragment.getClass().getSimpleName()) == null) {
-            if (isWithAnimation)
-                fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.left_out, R.anim.pop_enter, R.anim.pop_exit);
+        if (fragmentManager.findFragmentByTag(tagName) == null) {
             if (isBackStack) {
-                fragmentTransaction.add(layout, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+                fragmentTransaction.add(layout, fragment, tagName).addToBackStack(stackName).commit();
             } else {
                 fragmentTransaction.add(layout, fragment).commit();
             }
 
         } else {
 
-            Fragment requestedFragment = fragmentManager.findFragmentByTag(fragment.getClass().getSimpleName());
+            Fragment requestedFragment = fragmentManager.findFragmentByTag(tagName);
 
             if (requestedFragment != null) {
                 for (Fragment f : fragmentManager.getFragments()) {
@@ -355,6 +315,28 @@ public class UIHelper {
         }
     }
 
+    public void loadImage(final Context context, final String url, final ImageView target, final int defaultImage, final int errorImage) {
+        if (TextUtils.isEmpty(url) == false) {
+            Picasso.with(context)
+                    .load(url.replace(" ", "%20"))
+                    .placeholder(defaultImage)
+                    .into(target, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(context)
+                                    .load(url.replace(" ", "%20"))
+                                    .placeholder(defaultImage)
+                                    .networkPolicy(NetworkPolicy.OFFLINE)
+                                    .error(errorImage)
+                                    .into(target);
+                        }
+                    });
+        }
+    }
 
     public void popBackStackByName(FragmentManager fragmentManager, String BACK_STACK_ROOT_TAG) {
         fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);

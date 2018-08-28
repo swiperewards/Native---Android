@@ -28,16 +28,19 @@ public class InitSwipePresenter extends BasePresenter {
                         initSwipeView.onSwipeInitialized(initSwipeEvent);
                     } else {
                         handleReceivedError(initSwipeView, initSwipeEvent);
+                        initSwipeView.onSwipeInitializationFailed();
                     }
                 }
 
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
                     handleWebProcessFailed(initSwipeView, error);
+                    initSwipeView.onSwipeInitializationFailed();
                 }
             });
         } catch (Exception e) {
             handleWebProcessFailed(initSwipeView, null);
+            initSwipeView.onSwipeInitializationFailed();
         }
     }
 

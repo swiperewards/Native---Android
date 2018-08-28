@@ -84,6 +84,6 @@ public class ForgotPasswordFragment extends BaseFragment implements View.OnClick
         Bundle bundle = new Bundle();
         bundle.putString(ISwipe.KEY_EMAIL, etUserEmail.getText().toString());
         setNewPasswordFragment.setArguments(bundle);
-        UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, setNewPasswordFragment, false);
+        UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container,setNewPasswordFragment,false, ISwipe.FragTagSetNewPasswordFragment,null);
     }
 }

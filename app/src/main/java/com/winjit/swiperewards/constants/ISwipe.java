@@ -49,6 +49,9 @@ public interface ISwipe {
     String KEY_EMAIL = "key_email";
     int MAX_GET_CITY_ATTEMPTS = 5;
     String APP_STACK = "APP_STACK";
+    String HOME_STACK = "HOME_STACK";
+    String CachedHomeState="CachedHomeState";
+    int DEFAULT_DEALS_PAGE_SIZE = 0;
 
     enum BottomErrorType {
 
@@ -58,4 +61,20 @@ public interface ISwipe {
         BottomErrorType(int i) {
         }
     }
+
+    String FragTagAddNewCardFragment="AddNewCardFragment";
+    String FragTagChangePasswordFragment="ChangePasswordFragment";
+    String FragTagContactUsFragment="ContactUsFragment";
+    String FragTagEventHistoryFragment="EventHistoryFragment";
+    String FragTagForgotPasswordFragment="ForgotPasswordFragment";
+    String FragTagHomeFragment="HomeFragment";
+    String FragTagLoginFragment="LoginFragment";
+    String FragTagRedeemFragment="RedeemFragment";
+    String FragTagRegisterFragment="RegisterFragment";
+    String FragTagSetNewPasswordFragment="SetNewPasswordFragment";
+    String FragTagSettingsFragment="SettingsFragment";
+    String FragTagSuccessFragment="SuccessFragment";
+    String FragTagWalletFragment="WalletFragment";
+    String FragTagWebViewFragment="WebViewFragment";
+
 }

@@ -82,4 +82,12 @@ public class CommonHelper {
             return 0; // default
         }
     }
+
+    public Deals[] getDealsArrayFromArrayList(ArrayList deals) {
+        Deals[] dealsArray = new Deals[deals.size()];
+        for (int i = 0; i < deals.size(); i++) {
+            dealsArray[i] = (Deals) deals.get(i);
+        }
+        return dealsArray;
+    }
 }

@@ -1,11 +1,8 @@
 package com.winjit.swiperewards.fragments;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,10 +25,12 @@ import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.winjit.swiperewards.R;
 import com.winjit.swiperewards.activities.HomeActivity;
 import com.winjit.swiperewards.adapters.DealsAdapter;
 import com.winjit.swiperewards.constants.ISwipe;
+import com.winjit.swiperewards.entities.CachedHomeState;
 import com.winjit.swiperewards.entities.CityDetails;
 import com.winjit.swiperewards.entities.Deals;
 import com.winjit.swiperewards.helpers.CommonHelper;
@@ -54,13 +53,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private RelativeLayout rlChangeLocation;
     private AppCompatTextView tvEnableLocation;
     private AppCompatTextView tvChangeLocationError;
-    private LocationManager locationManager = null;
     private AppCompatAutoCompleteTextView etSearchDeals;
     private ArrayList<Deals> dealsArrayList;
     private DealsAdapter dealAdapter;
-    private LocationListener locationListener;
-    private int currentDealPageNumber = 1;
-
+    private int currentDealPageNumber = 0;
+    private Bundle savedState = null;
+    private CityDetails[] cityDetails;
 
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
@@ -76,13 +74,37 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         dealsPresenter = new DealsPresenter(this);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         initViews(view);
-        setLocationListener(); // to check device location service on-off
+
+        /* If the Fragment was destroyed in between (screen rotation), we need to recover the savedState first */
+        /* However, if it was not, it stays in the instance from the last onDestroyView() and we don't want to overwrite it */
+        if (savedInstanceState != null && savedState == null) {
+            savedState = savedInstanceState.getBundle(ISwipe.CachedHomeState);
+        }
+        if (savedState != null && savedState.containsKey(ISwipe.CachedHomeState)) {
+            CachedHomeState cachedHomeState = new Gson().fromJson(savedState.get(ISwipe.CachedHomeState).toString(), CachedHomeState.class);
+            setCachedDataToViews(cachedHomeState);
+        } else {
+            showProgress(getActivity().getResources().getString(R.string.please_wait));
+            dealsPresenter.getCities();
+        }
+        savedState = null;
+        getLocationPermissions(); // to check device location service on-off
         return view;
+    }
+
+    private void setCachedDataToViews(CachedHomeState cachedHomeState) {
+        onDealsReceived(cachedHomeState.getDeals());
+        onDealCityListReceived(cachedHomeState.getCityDetails(), false);
+
+        if (!TextUtils.isEmpty(cachedHomeState.getAppliedFilter())) {
+            etSearchDeals.setText(cachedHomeState.getAppliedFilter());
+        }
     }
 
 
@@ -103,8 +125,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         tvEnableLocation.setOnClickListener(this);
         rlLocation.setOnClickListener(this);
         tvChangeLocationError.setOnClickListener(this);
-        showProgress(getActivity().getResources().getString(R.string.please_wait));
-        dealsPresenter.getCities();
         setFilterListenerForLocation();
     }
 
@@ -181,10 +201,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 }
             }
             if (!TextUtils.isEmpty(cityName)) {
-                dealsPresenter.getDeals(cityName);
-//                    dealsPresenter.getDealsWithPagination(cityName, currentDealPageNumber, ISwipe.DEFAULT_DEALS_PAGE_SIZE);
+//                dealsPresenter.getDeals(cityName);
+                dealsPresenter.getDealsWithPagination(cityName, currentDealPageNumber, ISwipe.DEFAULT_DEALS_PAGE_SIZE);
             } else {
-                onDealCityListReceived(null);
+                onDealCityListReceived(null, false);
             }
         } else {
             hideProgress();
@@ -192,46 +212,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (locationManager != null && locationListener != null) {
-            locationManager.removeUpdates(locationListener);
-        }
-    }
 
-
-    private void setLocationListener() {
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        if (locationManager != null) {
-            //Checking SDK to ensure runtime permissions.
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
+    private void getLocationPermissions() {
+        //Checking SDK to ensure runtime permissions.
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
             }
-
-//            locationListener = new LocationListener() {
-//                @Override
-//                public void onLocationChanged(Location location) {
-//
-//                }
-//
-//                @Override
-//                public void onStatusChanged(String s, int i, Bundle bundle) {
-//                }
-//
-//                @Override
-//                public void onProviderEnabled(String s) {
-//                    initiateDealsAndUpdateBottomVisibility(true);
-//                }
-//
-//                @Override
-//                public void onProviderDisabled(String s) {
-//                    initiateDealsAndUpdateBottomVisibility(false);
-//                }
-//            };
-//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 120000, 2000, locationListener);
         }
     }
 
@@ -267,38 +254,49 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     public void loadMoreDeals() {
         if (getActivity() != null && !TextUtils.isEmpty(((HomeActivity) getActivity()).getCurrentLocation())) {
             String currentCity = ((HomeActivity) getActivity()).getCurrentLocation();
-            dealsPresenter.getDeals(currentCity);
+//             dealsPresenter.getDeals(currentCity);
+            dealsPresenter.getDealsWithPagination(currentCity, currentDealPageNumber, ISwipe.DEFAULT_DEALS_PAGE_SIZE);
+
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (((HomeActivity) getActivity()) != null) {
-            ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_HOME);
+        if (getActivity() != null) {
+            ((HomeActivity) getActivity()).setTopBarTitle(getActivity().getResources().getString(R.string.title_home));
         }
+
     }
 
     @Override
     public void onDealsReceived(Deals[] dealsList) {
         if (dealsList != null && dealsList.length > 0) {
             showHideBottomError(ISwipe.BottomErrorType.ERROR_NO_DEALS_AVAILABLE, false);
-            if (currentDealPageNumber == 1) {
+            if (currentDealPageNumber == 0) {
                 dealsArrayList = new ArrayList<Deals>(Arrays.asList(dealsList));
             } else {
                 dealsArrayList.addAll(new ArrayList<Deals>(Arrays.asList(dealsList)));
+
             }
+            dealAdapter.setDealsSizeWithoutFilter(dealsArrayList.size());
+            dealAdapter.setEndOfPaginationReached(false);
             currentDealPageNumber++;
             dealAdapter.updateList(new CommonHelper().updateStartEndDateFormat(dealsArrayList));
         } else {
             //Setting an empty list
-            dealsArrayList = new ArrayList<Deals>();
-            dealAdapter.updateList(dealsArrayList);
+            if (currentDealPageNumber == 0) {
+                dealsArrayList = new ArrayList<Deals>();
+                dealAdapter.setEndOfPaginationReached(true);
+                dealAdapter.updateList(dealsArrayList);
 
-            if (!(rlLocation.getVisibility() == View.VISIBLE)) {
-                String currentLocation = ((HomeActivity) getActivity()).getCurrentLocation();
-                tvChangeLocationError.setText(getActivity().getResources().getString(R.string.no_deal_error, currentLocation));
-                showHideBottomError(ISwipe.BottomErrorType.ERROR_NO_DEALS_AVAILABLE, true);
+                if (!(rlLocation.getVisibility() == View.VISIBLE)) {
+                    String currentLocation = ((HomeActivity) getActivity()).getCurrentLocation();
+                    tvChangeLocationError.setText(getActivity().getResources().getString(R.string.no_deal_error, currentLocation));
+                    showHideBottomError(ISwipe.BottomErrorType.ERROR_NO_DEALS_AVAILABLE, true);
+                }
+            } else {
+                dealAdapter.setEndOfPaginationReached(true);
             }
         }
     }
@@ -310,7 +308,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         switch (requestCode) {
             case ISwipe.LOCATION_PERMISSION:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    setLocationListener();
+                    getLocationPermissions();
                     getDealsIfLocationEnabled();
                 } else {
                     showMessage(getActivity().getResources().getString(R.string.permission_error));
@@ -320,17 +318,19 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     @Override
-    public void onDealCityListReceived(CityDetails[] cityDetails) {
+    public void onDealCityListReceived(CityDetails[] cityDetails, boolean shouldCallGetDealsAPI) {
         if (cityDetails != null && cityDetails.length > 0) {
-
+            this.cityDetails = cityDetails;
             String[] cityList = new String[cityDetails.length];
 
             for (int i = 0; i < cityDetails.length; i++) {
                 cityList[i] = cityDetails[i].getName();
             }
             setupCityList(cityList);
+            if (shouldCallGetDealsAPI)
+                getDealsIfLocationEnabled();
         }
-        getDealsIfLocationEnabled();
+
     }
 
     private void setupCityList(String[] cityList) {
@@ -360,9 +360,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                         UIHelper.getInstance().hideKeyboard(getActivity());
                         ((HomeActivity) getActivity()).updateCityLocation(city);
                         showProgress(getActivity().getResources().getString(R.string.please_wait));
-                        currentDealPageNumber = 1;
-                        dealsPresenter.getDeals(city);
-//                        dealsPresenter.getDealsWithPagination(city, currentDealPageNumber, ISwipe.DEFAULT_DEALS_PAGE_SIZE);
+                        currentDealPageNumber = 0;
+//                        dealsPresenter.getDeals(city);
+                        dealsPresenter.getDealsWithPagination(city, currentDealPageNumber, ISwipe.DEFAULT_DEALS_PAGE_SIZE);
                         etSearchDeals.setText("");
 
                     }
@@ -392,4 +392,34 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         }
     }
 
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        savedState = saveState(); /* vstup defined here for sure */
+    }
+
+    private Bundle saveState() { /* called either from onDestroyView() or onSaveInstanceState() */
+        Bundle state = new Bundle();
+        state.putSerializable(ISwipe.CachedHomeState, new Gson().toJson(getDataToBeCached()));
+        return state;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        /* If onDestroyView() is called first, we can use the previously savedState but we can't call saveState() anymore */
+        /* If onSaveInstanceState() is called first, we don't have savedState, so we need to call saveState() */
+        /* => (?:) operator inevitable! */
+        outState.putBundle(ISwipe.CachedHomeState, (savedState != null) ? savedState : saveState());
+    }
+
+    public CachedHomeState getDataToBeCached() {
+        CachedHomeState cachedHomeState = new CachedHomeState();
+        cachedHomeState.setDeals(new CommonHelper().getDealsArrayFromArrayList(dealsArrayList));
+        cachedHomeState.setCityDetails(cityDetails);
+        cachedHomeState.setAppliedFilter(etSearchDeals.getText().toString());
+        cachedHomeState.setSelectedCity(((HomeActivity) getActivity()).getCurrentLocation());
+        return cachedHomeState;
+    }
 }

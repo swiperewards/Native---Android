@@ -65,7 +65,7 @@ public class SuccessFragment extends Fragment implements View.OnClickListener {
                 if (isFromSignUpScreen) {
                     UIHelper.getInstance().popFragment(getActivity().getSupportFragmentManager());
                 }else{
-                    UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, SetNewPasswordFragment.newInstance(), false);
+                    UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container,SetNewPasswordFragment.newInstance(),false, ISwipe.FragTagSetNewPasswordFragment,null);
 
                 }
                 break;

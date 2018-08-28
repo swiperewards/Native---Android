@@ -9,7 +9,7 @@ import com.winjit.swiperewards.entities.Deals;
 
 
 public interface DealsView extends BaseMVPView {
-    void onDealCityListReceived(CityDetails[] cityDetails);
+    void onDealCityListReceived(CityDetails[] cityDetails,boolean shouldCallGetDealsAPI);
 
     void onDealsReceived(Deals[] dealsList);
 }

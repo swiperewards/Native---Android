@@ -6,7 +6,6 @@ import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +25,8 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.AccountDetai
     private final Context context;
     private DealAdapterResponseInterface adapterResponseInterface;
     private ArrayList<Deals> dealsList;
+    private int dealsSizeWithoutFilter;
+    private boolean isEndOfPaginationReached;
 
     public DealsAdapter(Context context, ArrayList<Deals> dealsList, DealAdapterResponseInterface adapterResponseInterface) {
         this.context = context;
@@ -63,9 +64,17 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.AccountDetai
         if (!TextUtils.isEmpty(dealsList.get(position).getIcon())) {
             UIHelper.getInstance().loadImageOnline(context, dealsList.get(position).getIcon().replace(" ", "%20"), holder.ivIcon, R.mipmap.ic_launcher, R.mipmap.ic_launcher);
         }
-        if (position >= getItemCount() - 1) {
+        if (position >= dealsSizeWithoutFilter - 1 && !isEndOfPaginationReached) {
             adapterResponseInterface.loadMoreDeals();
         }
+    }
+
+    public void setDealsSizeWithoutFilter(int dealsSizeWithoutFilter) {
+        this.dealsSizeWithoutFilter = dealsSizeWithoutFilter;
+    }
+
+    public void setEndOfPaginationReached(boolean endOfPaginationReached) {
+        isEndOfPaginationReached = endOfPaginationReached;
     }
 
     @Override

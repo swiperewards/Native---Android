@@ -16,6 +16,7 @@ public class PreferenceUtils {
     private static final int MODE = Context.MODE_PRIVATE;
     // Keys
     public static final String SESSION_TOKEN = "session_token";
+    public static final String USER_DETAILS = "user_details";
     private static final String PREF_NAME = "swipe_rewards";
 
 

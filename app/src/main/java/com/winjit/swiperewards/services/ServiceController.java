@@ -202,7 +202,7 @@ public class ServiceController {
     public void uploadProfilePic(Context context, String bitMap, WebRequestManager.WebProcessListener<BaseEvent> webProcessListener) {
 
         HashMap<String, Object> map = new HashMap<>();
-        map.put("file", bitMap);
+        map.put("image", bitMap);
         new WebRequestManager(context, webProcessListener).makeRequest(SwipeRewardsApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_UPLOAD_PROFILE_PIC,
                 generateRequestHeader(getSessionToken(context)),

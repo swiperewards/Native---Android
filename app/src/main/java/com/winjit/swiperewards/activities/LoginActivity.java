@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.winjit.swiperewards.R;
+import com.winjit.swiperewards.constants.ISwipe;
 import com.winjit.swiperewards.events.InitSwipeEvent;
 import com.winjit.swiperewards.fragments.LoginFragment;
 import com.winjit.swiperewards.helpers.CommonHelper;
@@ -23,7 +24,7 @@ public class LoginActivity extends UniversalBaseActivity implements InitSwipeVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        UIHelper.getInstance().addFragment(getSupportFragmentManager(), R.id.login_container, LoginFragment.newInstance(), false, false);
+        UIHelper.getInstance().addFragment(getSupportFragmentManager(), R.id.login_container, LoginFragment.newInstance(), false, ISwipe.FragTagLoginFragment, null);
         tvLoginTitle = findViewById(R.id.tv_login_title);
         initSwipe();
     }
@@ -63,6 +64,11 @@ public class LoginActivity extends UniversalBaseActivity implements InitSwipeVie
     @Override
     public void onSwipeInitialized(InitSwipeEvent initSwipeEvent) {
         checkIfForcedUpdate(initSwipeEvent.getInitSwipe().getAppConfig());
+    }
+
+    @Override
+    public void onSwipeInitializationFailed() {
+
     }
 
 }
