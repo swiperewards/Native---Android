@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Swipe Rewards</string>
+    <string name="app_name">Nouvo</string>
     <string name="please_wait">Please wait</string>
     <string name="msg_exit">Please click BACK again to exit</string>
 
@@ -49,15 +49,15 @@
     <string name="password">Password</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_in_with_social">Or Sign in with</string>
-    <string name="welcome">Welcome to Swipe Rewards!!</string>
-    <string name="welcome_register">Register to Swipe Rewards!!</string>
+    <string name="welcome">Welcome to Nouvo!!</string>
+    <string name="welcome_register">Register to Nouvo!!</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="connect_with">Or connect with</string>
     <string name="already_member">Already a Member?</string>
     <string name="verify_email">Thank You!\nPlease check your email to activate your account.</string>
     <string name="password_sent">A passcode has been sent to your registered e-mail address.</string>
-    <string name="title_activity_home">Swipe Rewards</string>
+    <string name="title_activity_home">Nouvo</string>
     <string name="title_home">Home</string>
     <string name="title_wallet">Wallet</string>
     <string name="title_redeem">Redeem</string>
