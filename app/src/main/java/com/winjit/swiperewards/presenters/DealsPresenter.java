@@ -46,22 +46,22 @@ public class DealsPresenter extends BasePresenter {
                 @Override
                 public void onWebProcessSuccess(GetCitiesEvent getCitiesEvent) {
                     if (getCitiesEvent.getStatus() == ISwipe.SUCCESS) {
-                        dealsView.onDealCityListReceived(getCitiesEvent.getCityDetails());
+                        dealsView.onDealCityListReceived(getCitiesEvent.getCityDetails(),true);
                     } else {
                         handleReceivedError(dealsView, getCitiesEvent);
-                        dealsView.onDealCityListReceived(null);
+                        dealsView.onDealCityListReceived(null,false);
                     }
                 }
 
                 @Override
                 public void onWebProcessFailed(VolleyError error, Class aClass) {
                     handleWebProcessFailed(dealsView, error);
-                    dealsView.onDealCityListReceived(null);
+                    dealsView.onDealCityListReceived(null,false);
                 }
             });
         } catch (Exception e) {
             handleWebProcessFailed(dealsView, null);
-            dealsView.onDealCityListReceived(null);
+            dealsView.onDealCityListReceived(null,false);
         }
     }
 

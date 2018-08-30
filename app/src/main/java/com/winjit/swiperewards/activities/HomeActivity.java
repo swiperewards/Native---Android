@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.myhexaville.smartimagepicker.ImagePicker;
 import com.myhexaville.smartimagepicker.OnImagePickedListener;
@@ -36,6 +37,8 @@ import com.winjit.swiperewards.fragments.RedeemFragment;
 import com.winjit.swiperewards.fragments.SettingsFragment;
 import com.winjit.swiperewards.fragments.WalletFragment;
 import com.winjit.swiperewards.helpers.CommonHelper;
+import com.winjit.swiperewards.helpers.GPSTracker;
+import com.winjit.swiperewards.helpers.PreferenceUtils;
 import com.winjit.swiperewards.helpers.UIHelper;
 import com.winjit.swiperewards.mvpviews.InitSwipeView;
 import com.winjit.swiperewards.presenters.InitSwipePresenter;
@@ -125,21 +128,28 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
 
                 //To pop the child/sub fragments from created stack
                 UIHelper.getInstance().popBackStackByName(getSupportFragmentManager(), ISwipe.APP_STACK);
+//                UIHelper.getInstance().popBackStackByName(getSupportFragmentManager(), ISwipe.HOME_STACK);
+
+                //Add to backstack if current fragment is default home fragment
+
+                boolean shouldAddToBackStack = navigation.getSelectedItemId() == R.id.navigation_home;
+                String backStackName = shouldAddToBackStack ? ISwipe.HOME_STACK : null;
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
-                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, HomeFragment.newInstance(), false);
+                        UIHelper.getInstance().popBackStackByName(getSupportFragmentManager(), null);
+                        //default fragment already being shown "HomeFragment"
                         return true;
                     case R.id.navigation_wallet:
-                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, WalletFragment.newInstance(), false);
+                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, WalletFragment.newInstance(), shouldAddToBackStack, ISwipe.FragTagWalletFragment,backStackName);
                         return true;
                     case R.id.navigation_redeem:
-                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, RedeemFragment.newInstance(), false);
+                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, RedeemFragment.newInstance(), shouldAddToBackStack, ISwipe.FragTagRedeemFragment, backStackName);
                         return true;
                     case R.id.navigation_history:
-                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, EventHistoryFragment.newInstance(), false);
+                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, EventHistoryFragment.newInstance(), shouldAddToBackStack, ISwipe.FragTagEventHistoryFragment, backStackName);
                         return true;
                     case R.id.navigation_Settings:
-                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, SettingsFragment.newInstance(), false);
+                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, SettingsFragment.newInstance(), shouldAddToBackStack, ISwipe.FragTagSettingsFragment,backStackName);
                         return true;
 
                 }
@@ -149,6 +159,15 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
 
         });
 
+
+        //Trick to avoid the reselection of selected item
+        navigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem item) {
+                //To pop the child/sub fragments from created stack
+                UIHelper.getInstance().popBackStackByName(getSupportFragmentManager(), ISwipe.APP_STACK);
+            }
+        });
 
     }
 
@@ -161,24 +180,14 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     }
 
     public void setDefaultHomeIndex() {
-        View view = navigation.findViewById(R.id.navigation_home);
-        view.performClick();
-
-        //Trick to avoid the reselection of selected item
-        navigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
-            @Override
-            public void onNavigationItemReselected(@NonNull MenuItem item) {
-                //To pop the child/sub fragments from created stack
-                UIHelper.getInstance().popBackStackByName(getSupportFragmentManager(), ISwipe.APP_STACK);
-            }
-        });
+        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, HomeFragment.newInstance(), false, ISwipe.FragTagHomeFragment, null);
     }
 
     @Override
     public void onBackPressed() {
         if (navigation.getCurrentItem() != 0 && getSupportFragmentManager().getBackStackEntryCount() == 0) {
             setDefaultHomeIndex();
-        } else {
+        }else{
             super.onBackPressed();
         }
     }
@@ -242,6 +251,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             if (initSwipeEvent.getInitSwipe().getUserProfile() != null) {
                 SingletonAppCache.getInstance().setUserProfile(initSwipeEvent.getInitSwipe().getUserProfile());
                 SingletonAppCache.getInstance().setAppConfig(initSwipeEvent.getInitSwipe().getAppConfig());
+                PreferenceUtils.writeString(this, PreferenceUtils.USER_DETAILS, new Gson().toJson(initSwipeEvent.getInitSwipe().getUserProfile()));
                 setUserData(initSwipeEvent.getInitSwipe().getUserProfile());
                 setDefaultHomeIndex();
             } else {
@@ -249,6 +259,34 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             }
         }
 
+    }
+
+    @Override
+    public void onSwipeInitializationFailed() {
+        String jsonUserObject = PreferenceUtils.readString(this, PreferenceUtils.USER_DETAILS, "");
+        if (!TextUtils.isEmpty(jsonUserObject)) {
+            UserProfile userProfile = new Gson().fromJson(jsonUserObject, UserProfile.class);
+            if (userProfile != null) {
+                setUserData(userProfile);
+            }
+        }
+        //Showing current location
+        showCurrentCityName();
+    }
+
+    private void showCurrentCityName() {
+        GPSTracker gpsTracker = new GPSTracker(this);
+        int attempts = 0;
+        String cityName;
+        do {
+            attempts++;
+
+            cityName = gpsTracker.getCityName(this);
+        } while (attempts < ISwipe.MAX_GET_CITY_ATTEMPTS && TextUtils.isEmpty(cityName));
+
+        if (!TextUtils.isEmpty(cityName)) {
+            updateCityLocation(cityName);
+        }
     }
 
     private void setUserData(UserProfile userProfile) {
@@ -280,7 +318,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             }
 
             if (!TextUtils.isEmpty(userProfile.getProfilePicUrl())) {
-                UIHelper.getInstance().loadImageOnline(this, userProfile.getProfilePicUrl().replace(" ", "%20"), profileImage, R.mipmap.ic_user_icon, R.mipmap.ic_user_icon);
+                UIHelper.getInstance().loadImage(this, userProfile.getProfilePicUrl().replace(" ", "%20"), profileImage, R.mipmap.ic_user_icon, R.mipmap.ic_user_icon);
             }
         } catch (Exception e) {
 
@@ -376,4 +414,6 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     public AppBarLayout getTopView() {
         return topPanel;
     }
+
+
 }

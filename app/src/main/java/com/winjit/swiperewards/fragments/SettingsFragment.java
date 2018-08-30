@@ -95,11 +95,11 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         switch (v.getId()) {
             case R.id.tv_change_password:
                 ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
-                UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, ChangePasswordFragment.newInstance(), true, ISwipe.APP_STACK);
+                UIHelper.getInstance().addFragment(getActivity().getSupportFragmentManager(), R.id.main_container, ChangePasswordFragment.newInstance(), true, ISwipe.FragTagChangePasswordFragment, ISwipe.APP_STACK);
                 break;
             case R.id.tv_contact_us:
                 ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
-                UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, ContactUsFragment.newInstance(), true, ISwipe.APP_STACK);
+                UIHelper.getInstance().addFragment(getActivity().getSupportFragmentManager(), R.id.main_container, ContactUsFragment.newInstance(), true, ISwipe.FragTagContactUsFragment, ISwipe.APP_STACK);
                 break;
             case R.id.tv_privacy:
                 if (SingletonAppCache.getInstance().getAppConfig() == null || SingletonAppCache.getInstance().getAppConfig().getPrivacySecurityUrl() == null ||
@@ -140,7 +140,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         Bundle termsBundle = new Bundle();
         termsBundle.putString(ISwipe.WEB_URL, url);
         webViewTermsFragment.setArguments(termsBundle);
-        UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, webViewTermsFragment, true, ISwipe.APP_STACK);
+        UIHelper.getInstance().addFragment(getActivity().getSupportFragmentManager(), R.id.main_container, webViewTermsFragment, true, ISwipe.FragTagWebViewFragment, ISwipe.APP_STACK);
 
     }
 
