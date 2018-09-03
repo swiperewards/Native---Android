@@ -40,7 +40,7 @@
             android:theme="@style/style_edit_text"
             app:errorTextAppearance="@style/AppEditTextInputErrorColorRed">
 
-        <com.winjit.swiperewards.customviews.creditcard.CardEditText
+        <com.nouvo.rewards.customviews.creditcard.CardEditText
                 android:id="@+id/tv_card_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

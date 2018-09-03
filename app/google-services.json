@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:891412668727:android:a48be9e9c5d39b68",
         "android_client_info": {
-          "package_name": "com.winjit.swiperewards"
+          "package_name": "com.nouvo.rewards"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "891412668727-mtk3njd8g1vcrt4r9pbh41b49h41nttl.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.winjit.swiperewards",
+            "package_name": "com.nouvo.rewards",
             "certificate_hash": "9ff41f1ab2fb045c484d330d13322eabef3ef2e9"
           }
         },
@@ -26,7 +26,7 @@
           "client_id": "891412668727-h0070a4ib5a7t097rhpljtlrkei9u06i.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.winjit.swiperewards",
+            "package_name": "com.nouvo.rewards",
             "certificate_hash": "e76433dab8bcbc4a1c817fd12bbb3449f1ade16d"
           }
         },

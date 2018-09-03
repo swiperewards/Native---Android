@@ -274,7 +274,7 @@
                 layout="@layout/layout_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_behavior="com.winjit.swiperewards.helpers.FixScrollingFooterBehavior"
+                app:layout_behavior="com.nouvo.rewards.helpers.FixScrollingFooterBehavior"
                 />
     </android.support.design.widget.CoordinatorLayout>
 
