@@ -128,4 +128,6 @@
     <string name="err_token_expired">Reset token is expired.</string>
     <string name="err_session_expired">Session has been expired please re-login to continue.</string>
     <string name="no_deal_error">No stores available for location %s. Please change the location/city.</string>
+
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 </resources>

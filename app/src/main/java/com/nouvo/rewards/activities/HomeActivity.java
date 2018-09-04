@@ -185,7 +185,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
 
     @Override
     public void onBackPressed() {
-        if (navigation.getCurrentItem() != 0 && getSupportFragmentManager().getBackStackEntryCount() == 0) {
+        if (navigation.getCurrentItem() != 0 && getSupportFragmentManager().getBackStackEntryCount() <= 1) {
             setDefaultHomeIndex();
         }else{
             super.onBackPressed();
