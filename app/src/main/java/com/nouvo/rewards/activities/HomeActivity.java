@@ -134,13 +134,17 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
 
                 boolean shouldAddToBackStack = navigation.getSelectedItemId() == R.id.navigation_home;
                 String backStackName = shouldAddToBackStack ? ISwipe.HOME_STACK : null;
+                shouldAddToBackStack = false;
+                backStackName = null;
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
-                        UIHelper.getInstance().popBackStackByName(getSupportFragmentManager(), null);
+//                        UIHelper.getInstance().popBackStackByName(getSupportFragmentManager(), null);
                         //default fragment already being shown "HomeFragment"
+                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, HomeFragment.newInstance(), shouldAddToBackStack, ISwipe.FragTagHomeFragment, backStackName);
+
                         return true;
                     case R.id.navigation_wallet:
-                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, WalletFragment.newInstance(), shouldAddToBackStack, ISwipe.FragTagWalletFragment,backStackName);
+                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, WalletFragment.newInstance(), shouldAddToBackStack, ISwipe.FragTagWalletFragment, backStackName);
                         return true;
                     case R.id.navigation_redeem:
                         UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, RedeemFragment.newInstance(), shouldAddToBackStack, ISwipe.FragTagRedeemFragment, backStackName);
@@ -149,7 +153,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
                         UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, EventHistoryFragment.newInstance(), shouldAddToBackStack, ISwipe.FragTagEventHistoryFragment, backStackName);
                         return true;
                     case R.id.navigation_Settings:
-                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, SettingsFragment.newInstance(), shouldAddToBackStack, ISwipe.FragTagSettingsFragment,backStackName);
+                        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, SettingsFragment.newInstance(), shouldAddToBackStack, ISwipe.FragTagSettingsFragment, backStackName);
                         return true;
 
                 }
@@ -160,14 +164,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         });
 
 
-        //Trick to avoid the reselection of selected item
-        navigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
-            @Override
-            public void onNavigationItemReselected(@NonNull MenuItem item) {
-                //To pop the child/sub fragments from created stack
-                UIHelper.getInstance().popBackStackByName(getSupportFragmentManager(), ISwipe.APP_STACK);
-            }
-        });
+
 
     }
 
@@ -180,14 +177,24 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     }
 
     public void setDefaultHomeIndex() {
-        UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, HomeFragment.newInstance(), false, ISwipe.FragTagHomeFragment, null);
+        View view = navigation.findViewById(R.id.navigation_home);
+        view.performClick();
+
+        //Trick to avoid the reselection of selected item
+        navigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem item) {
+                //To pop the child/sub fragments from created stack
+                UIHelper.getInstance().popBackStackByName(getSupportFragmentManager(), ISwipe.APP_STACK);
+            }
+        });
     }
 
     @Override
     public void onBackPressed() {
-        if (navigation.getCurrentItem() != 0 && getSupportFragmentManager().getBackStackEntryCount() <= 1) {
+        if (navigation.getCurrentItem() != 0 && getSupportFragmentManager().getBackStackEntryCount() == 0) {
             setDefaultHomeIndex();
-        }else{
+        } else {
             super.onBackPressed();
         }
     }

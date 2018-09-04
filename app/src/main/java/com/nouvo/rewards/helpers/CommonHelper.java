@@ -23,9 +23,9 @@ public class CommonHelper {
 
         try {
             for (Deals deal : deals) {
-                String startDate = DateUtil.getFormattedDate(deal.getStartDate(), DateUtil.DEAL_API_FORMAT, DateUtil.DEAL_DISPLAY_FORMAT);
+//                String startDate = DateUtil.getFormattedDate(deal.getStartDate(), DateUtil.DEAL_API_FORMAT, DateUtil.DEAL_DISPLAY_FORMAT);
                 String endDate = DateUtil.getFormattedDate(deal.getEndDate(), DateUtil.DEAL_API_FORMAT, DateUtil.DEAL_DISPLAY_FORMAT);
-                deal.setStartDate(startDate);
+//                deal.setStartDate(startDate);
                 deal.setEndDate(endDate);
             }
         } catch (Exception e) {

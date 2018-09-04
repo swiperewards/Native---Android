@@ -27,7 +27,7 @@ public class OnBoardingPresenter extends BasePresenter {
                         if (!isSocialLogin) {
                             onBoardingView.onSuccessfulRegistration(registerUserEvent.getSessionData());
                         } else {
-                            onBoardingView.onSuccessfulLogin(registerUserEvent.getSessionData());
+                            onBoardingView.onSuccessfulLogin(registerUserEvent.getSessionData(),isSocialLogin);
                         }
                     } else if (registerUserEvent.getStatus() != ISwipe.SUCCESS) {
                         handleReceivedError(onBoardingView, registerUserEvent);
@@ -52,7 +52,7 @@ public class OnBoardingPresenter extends BasePresenter {
                 public void onWebProcessSuccess(LoginEvent loginEvent) {
                     if (loginEvent.getStatus() == ISwipe.SUCCESS && loginEvent.getSessionData() != null) {
                         onBoardingView.hideProgress();
-                        onBoardingView.onSuccessfulLogin(loginEvent.getSessionData());
+                        onBoardingView.onSuccessfulLogin(loginEvent.getSessionData(),false);
                     } else {
                         handleReceivedError(onBoardingView, loginEvent);
                     }

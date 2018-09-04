@@ -70,6 +70,7 @@
                 android:textColor="@color/color_text"/>
 
         <View
+                android:id="@+id/vw_password_separator"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator"
                 android:background="@color/color_separator"/>

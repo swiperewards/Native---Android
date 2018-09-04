@@ -320,6 +320,7 @@ public class UIHelper {
             Picasso.with(context)
                     .load(url.replace(" ", "%20"))
                     .placeholder(defaultImage)
+                    .networkPolicy(NetworkPolicy.NO_CACHE)
                     .into(target, new Callback() {
                         @Override
                         public void onSuccess() {

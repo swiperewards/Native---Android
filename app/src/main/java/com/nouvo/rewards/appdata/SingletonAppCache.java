@@ -7,6 +7,7 @@ public class SingletonAppCache {
 
     private AppConfig appConfig;
     private UserProfile userProfile;
+    private boolean isSocialLogin;
 
     private static SingletonAppCache singletonAppCache;
 
@@ -32,5 +33,21 @@ public class SingletonAppCache {
 
     public void setUserProfile(UserProfile userProfile) {
         this.userProfile = userProfile;
+    }
+
+    public boolean isSocialLogin() {
+        return isSocialLogin;
+    }
+
+    public void setSocialLogin(boolean socialLogin) {
+        isSocialLogin = socialLogin;
+    }
+
+    public static SingletonAppCache getSingletonAppCache() {
+        return singletonAppCache;
+    }
+
+    public static void setSingletonAppCache(SingletonAppCache singletonAppCache) {
+        SingletonAppCache.singletonAppCache = singletonAppCache;
     }
 }

@@ -48,9 +48,8 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.AccountDetai
     @Override
     public void onBindViewHolder(AccountDetailViewHolder holder, final int position) {
         holder.tvStoreName.setText(dealsList.get(position).getShortDescription());
-        holder.tvLocationName.setText(dealsList.get(position).getLocation());
-        holder.tvCashBack.setText("" + dealsList.get(position).getCashBonus());
-        holder.tvValidity.setText(dealsList.get(position).getStartDate() + "-" + dealsList.get(position).getEndDate());
+        holder.tvCashBack.setText("$" + dealsList.get(position).getCashBonus());
+        holder.tvValidity.setText(dealsList.get(position).getEndDate());
         holder.rlParent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,7 +84,7 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.AccountDetai
     class AccountDetailViewHolder extends RecyclerView.ViewHolder {
         private AppCompatImageView ivIcon;
         private AppCompatTextView tvStoreName;
-        private AppCompatTextView tvLocationName;
+        private AppCompatTextView tvStatus;
         private AppCompatTextView tvCashBack;
         private AppCompatTextView tvValidity;
         private RelativeLayout rlParent;
@@ -94,7 +93,7 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.AccountDetai
             super(view);
             ivIcon = (AppCompatImageView) view.findViewById(R.id.iv_icon);
             tvStoreName = (AppCompatTextView) view.findViewById(R.id.tv_store_name);
-            tvLocationName = (AppCompatTextView) view.findViewById(R.id.tv_location_name);
+            tvStatus = (AppCompatTextView) view.findViewById(R.id.tv_status);
             tvCashBack = (AppCompatTextView) view.findViewById(R.id.tv_cashback);
             tvValidity = (AppCompatTextView) view.findViewById(R.id.tv_validity);
             rlParent = view.findViewById(R.id.rl_parent);

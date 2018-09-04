@@ -80,41 +80,7 @@
         </LinearLayout>
 
 
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:weightSum="1">
 
-            <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="left|center_vertical"
-                    android:layout_marginRight="@dimen/margin_tiny"
-                    android:layout_weight="0.4"
-                    android:gravity="center_vertical|left"
-                    android:text="Location"
-                    android:textColor="@color/color_hint"
-                    android:textSize="@dimen/text_size_very_small"/>
-
-
-            <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_location_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="right|center_vertical"
-                    android:layout_weight="0.6"
-                    android:gravity="center_vertical|left"
-                    android:maxLines="2"
-                    android:inputType="textCapWords"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_text"/>
-
-        </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -132,13 +98,13 @@
                     android:layout_marginRight="@dimen/margin_tiny"
                     android:layout_weight="0.4"
                     android:gravity="center_vertical|left"
-                    android:text="Cashback"
+                    android:text="Expiry"
                     android:textColor="@color/color_hint"
                     android:textSize="@dimen/text_size_very_small"/>
 
 
             <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_cashback"
+                    android:id="@+id/tv_validity"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -167,13 +133,50 @@
                     android:layout_marginRight="@dimen/margin_tiny"
                     android:layout_weight="0.4"
                     android:gravity="center_vertical|left"
-                    android:text="Promotion Date"
+                    android:text="Status"
                     android:textColor="@color/color_hint"
                     android:textSize="@dimen/text_size_very_small"/>
 
 
             <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tv_validity"
+                    android:id="@+id/tv_status"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_weight="0.6"
+                    android:gravity="center_vertical|left"
+                    android:maxLines="2"
+                    android:text="Active"
+                    android:inputType="textCapWords"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/color_text"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="left|center_vertical"
+                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:layout_weight="0.4"
+                    android:gravity="center_vertical|left"
+                    android:text="Pool"
+                    android:textColor="@color/color_hint"
+                    android:textSize="@dimen/text_size_very_small"/>
+
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_cashback"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
