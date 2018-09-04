@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "57300116160-l6fa5bavbss99kkd2jp2v0dgu3he0duk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nouvo.rewards",
+            "certificate_hash": "e76433dab8bcbc4a1c817fd12bbb3449f1ade16d"
+          }
+        },
+        {
           "client_id": "57300116160-ja68g40gknokoov9hcc3pauoj2q9m6qs.apps.googleusercontent.com",
           "client_type": 3
         }

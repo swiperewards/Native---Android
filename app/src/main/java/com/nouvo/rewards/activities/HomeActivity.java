@@ -164,8 +164,6 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         });
 
 
-
-
     }
 
     private void initToolBar() {
@@ -409,6 +407,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         imagePicker.choosePicture(true /*show camera intents*/);
 
     }
+
 
     public void updateCityLocation(String cityName) {
         tvUserLocation.setText(cityName);

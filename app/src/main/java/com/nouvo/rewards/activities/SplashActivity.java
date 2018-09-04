@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 
 import com.nouvo.rewards.R;
+import com.nouvo.rewards.helpers.CommonHelper;
 import com.nouvo.rewards.helpers.PreferenceUtils;
 
 
@@ -22,6 +24,7 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_splash);
+        setVersionNumber();
 
         if (!isTaskRoot()) {
             finish();
@@ -43,6 +46,13 @@ public class SplashActivity extends Activity {
             }
         }, SPLASH_TIME_OUT);
 
+    }
+
+    private void setVersionNumber() {
+        AppCompatTextView tvVersionNumber = findViewById(R.id.tv_version);
+        String versionName = new CommonHelper().getVersionName(this);
+        if (!TextUtils.isEmpty(versionName))
+            tvVersionNumber.setText("Version - " + new CommonHelper().getVersionName(this));
     }
 
     private boolean isValidSession() {
