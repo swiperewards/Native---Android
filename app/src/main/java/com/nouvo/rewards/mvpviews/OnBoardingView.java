@@ -12,7 +12,7 @@ import com.nouvo.rewards.entities.SessionData;
 public interface OnBoardingView extends BaseMVPView{
     void onSuccessfulRegistration(SessionData sessionData);
 
-    void onSuccessfulLogin(SessionData sessionData);
+    void onSuccessfulLogin(SessionData sessionData,boolean isSocialLogin);
 
 
 }

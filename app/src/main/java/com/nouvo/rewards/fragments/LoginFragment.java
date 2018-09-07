@@ -79,10 +79,10 @@ public class LoginFragment extends OnBoardingBaseFragment implements View.OnClic
                 }
                 break;
             case R.id.forgot_password:
-                UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container,ForgotPasswordFragment.newInstance(),true, ISwipe.FragTagForgotPasswordFragment,null);
+                UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, ForgotPasswordFragment.newInstance(), true, ISwipe.FragTagForgotPasswordFragment, null);
                 break;
             case R.id.bt_register:
-                UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container,RegisterFragment.newInstance(),true, ISwipe.FragTagRegisterFragment,null);
+                UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, RegisterFragment.newInstance(), true, ISwipe.FragTagRegisterFragment, null);
                 break;
             case R.id.iv_google:
                 initializeGoogleLogin();
@@ -105,8 +105,7 @@ public class LoginFragment extends OnBoardingBaseFragment implements View.OnClic
 
 
     private void setDummyData() {
-//        if (ISwipe.IS_DUMMY_DATA_ENABLED)
-        {
+        if (ISwipe.IS_DUMMY_DATA_ENABLED) {
             etUserEmail.setText("vishalb@winjit.com");
             etPassword.setText("Winjit@123");
         }

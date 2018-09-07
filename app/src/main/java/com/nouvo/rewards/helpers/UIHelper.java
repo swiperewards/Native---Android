@@ -20,12 +20,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nouvo.rewards.R;
+import com.nouvo.rewards.interfaces.MessageDialogConfirm;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-import com.nouvo.rewards.R;
-import com.nouvo.rewards.interfaces.MessageDialogConfirm;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -327,8 +327,7 @@ public class UIHelper {
 
                         @Override
                         public void onError() {
-                            Picasso.with(context)
-                                    .load(url.replace(" ", "%20"))
+                            Picasso.with(context).load(url.replace(" ", "%20"))
                                     .placeholder(defaultImage)
                                     .networkPolicy(NetworkPolicy.OFFLINE)
                                     .error(errorImage)

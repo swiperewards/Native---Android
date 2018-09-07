@@ -23,6 +23,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.nouvo.rewards.R;
 import com.nouvo.rewards.activities.HomeActivity;
+import com.nouvo.rewards.appdata.SingletonAppCache;
 import com.nouvo.rewards.constants.ISwipe;
 import com.nouvo.rewards.entities.SessionData;
 import com.nouvo.rewards.entities.UserDetails;
@@ -185,7 +186,8 @@ public class OnBoardingBaseFragment extends BaseFragment implements OnBoardingVi
     }
 
     @Override
-    public void onSuccessfulLogin(SessionData sessionData) {
+    public void onSuccessfulLogin(SessionData sessionData,boolean isSocialLogin) {
+        SingletonAppCache.getInstance().setSocialLogin(isSocialLogin);
         PreferenceUtils.writeString(getActivity(), PreferenceUtils.SESSION_TOKEN, sessionData.getToken());
         Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
         startActivity(homeIntent);

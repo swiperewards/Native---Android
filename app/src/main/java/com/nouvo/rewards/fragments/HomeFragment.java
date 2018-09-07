@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -116,7 +115,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         dealsArrayList = new ArrayList<Deals>();
         dealAdapter = new DealsAdapter(getActivity(), new CommonHelper().updateStartEndDateFormat(dealsArrayList), this);
         rvDeals.setAdapter(dealAdapter);
-
         rlLocation = mRootView.findViewById(R.id.rl_location);
         rlChangeLocation = mRootView.findViewById(R.id.rl_change_location);
         etSearchDeals = mRootView.findViewById(R.id.et_search_deals);
@@ -126,6 +124,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         rlLocation.setOnClickListener(this);
         tvChangeLocationError.setOnClickListener(this);
         setFilterListenerForLocation();
+
     }
 
     private void setFilterListenerForLocation() {
@@ -165,8 +164,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
 
     private void getDealsIfLocationEnabled() {
-        if (PermissionUtils.checkPermissionGranted((AppCompatActivity) getActivity(), "android.permission.ACCESS_COARSE_LOCATION") &&
-                PermissionUtils.checkPermissionGranted((AppCompatActivity) getActivity(), "android.permission.ACCESS_FINE_LOCATION")) {
+        if (PermissionUtils.checkPermissionGranted(getActivity(), "android.permission.ACCESS_COARSE_LOCATION") &&
+                PermissionUtils.checkPermissionGranted(getActivity(), "android.permission.ACCESS_FINE_LOCATION")) {
 
             GPSTracker gpsTracker = new GPSTracker(getActivity());
             boolean isLocationEnabled = gpsTracker.isLocationEnabled(getActivity());
@@ -274,15 +273,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         if (dealsList != null && dealsList.length > 0) {
             showHideBottomError(ISwipe.BottomErrorType.ERROR_NO_DEALS_AVAILABLE, false);
             if (currentDealPageNumber == 0) {
-                dealsArrayList = new ArrayList<Deals>(Arrays.asList(dealsList));
+                dealsArrayList = new CommonHelper().updateStartEndDateFormat(new ArrayList<Deals>(Arrays.asList(dealsList)));
             } else {
-                dealsArrayList.addAll(new ArrayList<Deals>(Arrays.asList(dealsList)));
+                dealsArrayList.addAll(new CommonHelper().updateStartEndDateFormat(new ArrayList<Deals>(Arrays.asList(dealsList))));
 
             }
             dealAdapter.setDealsSizeWithoutFilter(dealsArrayList.size());
             dealAdapter.setEndOfPaginationReached(false);
             currentDealPageNumber++;
-            dealAdapter.updateList(new CommonHelper().updateStartEndDateFormat(dealsArrayList));
+            dealAdapter.updateList(dealsArrayList);
         } else {
             //Setting an empty list
             if (currentDealPageNumber == 0) {
@@ -326,7 +325,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             for (int i = 0; i < cityDetails.length; i++) {
                 cityList[i] = cityDetails[i].getName();
             }
-            setupCityList(cityList);
+            if (getActivity() != null)
+                setupCityList(cityList);
             if (shouldCallGetDealsAPI)
                 getDealsIfLocationEnabled();
         }
@@ -422,4 +422,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         cachedHomeState.setSelectedCity(((HomeActivity) getActivity()).getCurrentLocation());
         return cachedHomeState;
     }
+
+
 }

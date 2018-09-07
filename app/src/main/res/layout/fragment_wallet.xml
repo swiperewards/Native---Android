@@ -40,7 +40,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/margin_very_small"
                 android:layout_marginTop="@dimen/margin_tiny"
-                android:drawableLeft="@drawable/wrapper_wallet"
+                android:drawableLeft="@drawable/wrapper_credit_cards"
                 android:drawablePadding="@dimen/margin_very_small"
                 android:gravity="center_vertical"
                 android:text="Credit/Debit Cards"

@@ -18,7 +18,7 @@ public class DateUtil {
     private static final String transactionDateFormat = "yyyy-MM-dd";
     private static final String transactionTimeFormat = "hh:mm:ss";
     private static final String dealApiFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-    private static final String dealDisplayFormat = "dd/MM/yyyy";
+    private static final String dealDisplayFormat = "MM/dd/yy";
 
     private static final SimpleDateFormat simpleDateFormatTransaction = new SimpleDateFormat(transactionDateFormat, Locale.US);
     private static final SimpleDateFormat simpleTimeFormatTransaction = new SimpleDateFormat(transactionTimeFormat, Locale.US);
