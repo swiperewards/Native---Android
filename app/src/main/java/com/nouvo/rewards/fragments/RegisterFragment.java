@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.AppCompatImageView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ public class RegisterFragment extends OnBoardingBaseFragment implements View.OnC
     private AppCompatImageView ivFacebook;
     private AppCompatImageView ivGoogle;
     private TextView tvSignIn;
-
+    private TextInputEditText etReferralCode;
 
     public static RegisterFragment newInstance() {
         Bundle args = new Bundle();
@@ -58,6 +59,7 @@ public class RegisterFragment extends OnBoardingBaseFragment implements View.OnC
         etUserEmail = (TextInputEditText) mRootView.findViewById(R.id.et_user_email);
         etPassword = (TextInputEditText) mRootView.findViewById(R.id.et_password);
         etConfirmPassword = (TextInputEditText) mRootView.findViewById(R.id.et_confirm_password);
+        etReferralCode = (TextInputEditText) mRootView.findViewById(R.id.et_referral_code);
         btSignUp = (Button) mRootView.findViewById(R.id.bt_sign_up);
         ivFacebook = (AppCompatImageView) mRootView.findViewById(R.id.iv_facebook);
         ivGoogle = (AppCompatImageView) mRootView.findViewById(R.id.iv_google);
@@ -108,6 +110,10 @@ public class RegisterFragment extends OnBoardingBaseFragment implements View.OnC
         userDetails.setLongitude("");
         userDetails.setPassword(etPassword.getText().toString());
         userDetails.setSocialLogin(false);
+        if (!TextUtils.isEmpty(etReferralCode.getText().toString().trim())) {
+            userDetails.setReferredBy(etReferralCode.getText().toString());
+        }
+
         return userDetails;
     }
 

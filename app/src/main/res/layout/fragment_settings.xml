@@ -144,6 +144,30 @@
                 android:layout_height="@dimen/separator"
                 android:background="@color/color_separator"/>
 
+
+        <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_refer_earn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/margin_very_small"
+                android:drawableLeft="@drawable/wrapper_refer"
+                android:drawablePadding="@dimen/margin_very_small"
+                android:gravity="center_vertical"
+                android:paddingBottom="@dimen/margin_very_small"
+                android:paddingTop="@dimen/margin_very_small"
+                android:text="@string/refer_earn"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/color_text"/>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/separator"
+                android:background="@color/color_separator"/>
+
+
         <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_sign_out"
                 android:layout_width="match_parent"

@@ -36,6 +36,13 @@ public class UserProfile {
     @Expose
     private float walletBalance;
 
+
+    @SerializedName("referralCode")
+    @Expose
+    private String referralCode;
+
+
+
     public Long getUserId() {
         return userId;
     }
@@ -106,5 +113,13 @@ public class UserProfile {
 
     public void setLevelDetails(LevelDetails levelDetails) {
         this.levelDetails = levelDetails;
+    }
+
+    public String getReferralCode() {
+        return referralCode;
+    }
+
+    public void setReferralCode(String referralCode) {
+        this.referralCode = referralCode;
     }
 }

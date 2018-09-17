@@ -31,6 +31,14 @@
           }
         },
         {
+          "client_id": "57300116160-8394tfmicf057kc2ojqo91c2a7q3a4es.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nouvo.rewards",
+            "certificate_hash": "2e745bcaf4fb56ccd36c9bbcdfc21b0b5e879786"
+          }
+        },
+        {
           "client_id": "57300116160-ja68g40gknokoov9hcc3pauoj2q9m6qs.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -48,7 +56,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "57300116160-ja68g40gknokoov9hcc3pauoj2q9m6qs.apps.googleusercontent.com",
+              "client_id": "57300116160-5rd47apk14k1i7ec7fac65p2gm5nv6sn.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

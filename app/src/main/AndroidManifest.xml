@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
-            android:name=".SwipeRewardsApp"
+            android:name=".NouvoApp"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
@@ -72,7 +72,6 @@
             </intent-filter>
         </activity>
 
-        //Firebase Start
         <service
                 android:name="com.nouvo.rewards.firebase.MyFirebaseMessagingService">
             <intent-filter>
@@ -96,7 +95,9 @@
                 android:name="com.google.firebase.messaging.default_notification_channel_id"
                 android:value="@string/default_notification_channel_id"
                 />
-        //Firebase End
+
+
+
     </application>
 
 </manifest>
