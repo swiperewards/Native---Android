@@ -17,7 +17,7 @@ import com.nouvo.rewards.constants.ISwipe;
  *
  * @author VishalB
  */
-public class SwipeRewardsApp extends Application {
+public class NouvoApp extends Application {
 
 
     private static boolean activityVisible;

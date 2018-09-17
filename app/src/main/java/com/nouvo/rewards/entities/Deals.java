@@ -56,6 +56,7 @@ public class Deals {
 
 
 
+
     @SerializedName("longitude")
     @Expose
     private String longitude;

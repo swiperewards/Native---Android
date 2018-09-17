@@ -263,7 +263,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     public void onResume() {
         super.onResume();
         if (getActivity() != null) {
-            ((HomeActivity) getActivity()).setTopBarTitle(getActivity().getResources().getString(R.string.title_home));
+            ((HomeActivity) getActivity()).setTopBarTitle(getActivity().getResources().getString(R.string.title_home).toUpperCase());
         }
 
     }

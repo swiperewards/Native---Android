@@ -14,6 +14,7 @@ import com.nouvo.rewards.R;
 import com.nouvo.rewards.activities.HomeActivity;
 import com.nouvo.rewards.appdata.SingletonAppCache;
 import com.nouvo.rewards.constants.ISwipe;
+import com.nouvo.rewards.helpers.CommunicationHelper;
 import com.nouvo.rewards.helpers.UIHelper;
 import com.nouvo.rewards.interfaces.MessageDialogConfirm;
 import com.nouvo.rewards.mvpviews.SettingsView;
@@ -26,6 +27,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     private AppCompatTextView tvPrivacy;
     private AppCompatTextView tvTermsOfUse;
     private AppCompatTextView tvSignOut;
+    private AppCompatTextView tvReferEarn;
     private SettingsPresenter settingsPresenter;
     private View vwPasswordSeparator;
 
@@ -57,6 +59,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         tvContactUs = (AppCompatTextView) mRootView.findViewById(R.id.tv_contact_us);
         tvPrivacy = (AppCompatTextView) mRootView.findViewById(R.id.tv_privacy);
         tvTermsOfUse = (AppCompatTextView) mRootView.findViewById(R.id.tv_terms_of_use);
+        tvReferEarn = (AppCompatTextView) mRootView.findViewById(R.id.tv_refer_earn);
         tvSignOut = (AppCompatTextView) mRootView.findViewById(R.id.tv_sign_out);
         vwPasswordSeparator = mRootView.findViewById(R.id.vw_password_separator);
 
@@ -64,10 +67,9 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         tvContactUs.setOnClickListener(this);
         tvPrivacy.setOnClickListener(this);
         tvTermsOfUse.setOnClickListener(this);
+        tvReferEarn.setOnClickListener(this);
         tvSignOut.setOnClickListener(this);
-        if (SingletonAppCache.getInstance().getUserProfile() != null) {
 
-        }
 
         if (SingletonAppCache.getInstance().getUserProfile() != null) {
             swNotification.setChecked(SingletonAppCache.getInstance().getUserProfile().getNotificationEnabled());
@@ -105,7 +107,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             case R.id.tv_change_password:
                 ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
 //                UIHelper.getInstance().addFragment(getActivity().getSupportFragmentManager(), R.id.main_container, ChangePasswordFragment.newInstance(), true, ISwipe.FragTagChangePasswordFragment, ISwipe.APP_STACK);
-                UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, ChangePasswordFragment.newInstance(), true,ISwipe.FragTagChangePasswordFragment,ISwipe.APP_STACK);
+                UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, ChangePasswordFragment.newInstance(), true, ISwipe.FragTagChangePasswordFragment, ISwipe.APP_STACK);
                 break;
             case R.id.tv_contact_us:
                 ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
@@ -139,6 +141,17 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                     ((HomeActivity) getActivity()).setTopBarTitle(ISwipe.TITLE_TERMS_OF_USE);
                 }
                 launchWebViewFragment(termsOfUseUrl);
+                break;
+            case R.id.tv_refer_earn:
+                if (SingletonAppCache.getInstance().getUserProfile() != null ||
+                        SingletonAppCache.getInstance().getUserProfile().getReferralCode() != null) {
+                    String url = "https://play.google.com/store/apps/details?id=" + getActivity().getPackageName();
+                    String referralCode = SingletonAppCache.getInstance().getUserProfile().getReferralCode();
+                    String message = getActivity().getResources().getString(R.string.nouvo_referral_invite, referralCode);
+                    new CommunicationHelper().shareOnSocial(getActivity(), url, message);
+                } else {
+                    showMessage(getActivity().getResources().getString(R.string.err_generic));
+                }
                 break;
             case R.id.tv_sign_out:
                 showConfirmationLogoutDialog();

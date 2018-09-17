@@ -107,9 +107,33 @@
                 android:drawableRight="@drawable/wrapper_password"
                 android:gravity="center_vertical"
                 android:hint="@string/confirm_pass_code_hint_text"
-                android:imeOptions="actionDone"
+                android:imeOptions="actionNext"
                 android:inputType="textPassword"
                 android:maxLength="14"
+                android:theme="@style/style_edit_text"
+                />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/style_edit_text"
+            app:errorTextAppearance="@style/AppEditTextInputErrorColorGray">
+
+
+        <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_referral_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/wrapper_password"
+                android:gravity="center_vertical"
+                android:hint="@string/referral_code_hint"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLength="10"
                 android:theme="@style/style_edit_text"
                 />
 

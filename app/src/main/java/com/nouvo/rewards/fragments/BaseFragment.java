@@ -8,11 +8,9 @@ import android.support.v4.app.Fragment;
 
 import com.nouvo.rewards.activities.LoginActivity;
 import com.nouvo.rewards.activities.UniversalBaseActivity;
-import com.nouvo.rewards.appdata.SingletonAppCache;
 import com.nouvo.rewards.helpers.PreferenceUtils;
 import com.nouvo.rewards.helpers.UIHelper;
 import com.nouvo.rewards.mvpviews.BaseMVPView;
-import com.squareup.picasso.Picasso;
 
 
 public class BaseFragment extends Fragment implements BaseMVPView {
@@ -70,7 +68,7 @@ public class BaseFragment extends Fragment implements BaseMVPView {
 
     protected void processLogout(Context context) {
         PreferenceUtils.clearPreferences(context);
-        Picasso.with(getActivity()).invalidate(SingletonAppCache.getInstance().getUserProfile().getProfilePicUrl());
+//        Picasso.with(getActivity()).invalidate(SingletonAppCache.getInstance().getUserProfile().getProfilePicUrl());
         Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
         startActivity(loginIntent);
         getActivity().finish();
