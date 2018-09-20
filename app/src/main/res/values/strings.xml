@@ -41,7 +41,7 @@
     <string name="sign_in_underline"><u>Sign In</u></string>
     <string name="login">Sign In</string>
     <string name="confirm_pass_code_hint_text">Confirm Password</string>
-    <string name="referral_code_hint">Referral code (optional)</string>
+    <string name="referral_code_hint">Referral code (Optional)</string>
     <string name="txt_continue">Continue</string>
     <string name="new_user">New User? Register Now</string>
     <string name="register">Register</string>
