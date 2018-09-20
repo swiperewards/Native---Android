@@ -48,7 +48,7 @@ public class CommonHelper {
                         R.string.yes, R.string.btn_cancel, R.string.confirm,
                         new MessageDialogConfirm() {
                             @Override
-                            public void onPositiveClick() {
+                            public void onPositiveClick(Bundle bundle) {
                                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                                         Uri.parse("http://maps.google.com/maps?daddr=" + latitude + "," + longitude));
                                 context.startActivity(intent);

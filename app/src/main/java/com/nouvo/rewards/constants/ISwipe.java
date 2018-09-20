@@ -52,6 +52,8 @@ public interface ISwipe {
     String HOME_STACK = "HOME_STACK";
     String CachedHomeState="CachedHomeState";
     int DEFAULT_DEALS_PAGE_SIZE = 0;
+    String REFERRED_BY = "referredBy";
+    String KEY_IS_FIRST_TIME_SOCIAL_LOGIN = "isNewRecord";
 
     enum BottomErrorType {
 
@@ -65,6 +67,7 @@ public interface ISwipe {
     String FragTagAddNewCardFragment="AddNewCardFragment";
     String FragTagChangePasswordFragment="ChangePasswordFragment";
     String FragTagContactUsFragment="ContactUsFragment";
+    String FragReferralInviteFragment="ReferralInviteFragment";
     String FragTagEventHistoryFragment="EventHistoryFragment";
     String FragTagForgotPasswordFragment="ForgotPasswordFragment";
     String FragTagHomeFragment="HomeFragment";

@@ -133,7 +133,7 @@
                 android:hint="@string/referral_code_hint"
                 android:imeOptions="actionDone"
                 android:inputType="text"
-                android:maxLength="10"
+                android:maxLength="12"
                 android:theme="@style/style_edit_text"
                 />
 

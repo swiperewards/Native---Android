@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -11,16 +12,21 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nouvo.rewards.R;
+import com.nouvo.rewards.constants.ISwipe;
 import com.nouvo.rewards.interfaces.MessageDialogConfirm;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
@@ -289,7 +295,7 @@ public class UIHelper {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                    messageDialogConfirm.onPositiveClick();
+                    messageDialogConfirm.onPositiveClick(null);
                 }
             }).setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
                 @Override
@@ -299,6 +305,76 @@ public class UIHelper {
                 }
             });
             builder.show();
+        }
+    }
+
+
+    public static void configureReferralDialogWithEditText(final String message, final Context context, int positiveButton, int negativeButton, int title, final MessageDialogConfirm messageDialogConfirm) {
+        if (message.trim().length() > 0) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogStyle);
+//            builder.setMessage(message);
+
+            final EditText input = new EditText(context);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT);
+            int padding = 20;
+            int sidePadding = 30;
+            lp.setMargins(sidePadding, padding, sidePadding, padding);
+            input.setLayoutParams(lp);
+
+            input.setMaxLines(1);
+            input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(12)});
+
+            input.setGravity(Gravity.CENTER);
+
+            builder.setMessage(message);
+//            TextView myMsg = new TextView(context);
+//            myMsg.setText(Html.fromHtml(message));
+//            myMsg.setGravity(Gravity.CENTER_VERTICAL);
+//            int padding = 20;
+//            int sidePadding = 20;
+//            myMsg.setPadding(sidePadding, padding, sidePadding, padding);
+//            myMsg.setLineSpacing(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5.0f, context.getResources().getDisplayMetrics()), 1.0f);
+//            myMsg.setTextAppearance(context, android.R.style.TextAppearance_DeviceDefault_Small);
+//            builder.setView(myMsg);
+            builder.setTitle(title);
+            builder.setCancelable(false);
+            builder.setPositiveButton(positiveButton, null);
+            builder.setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                    messageDialogConfirm.onNegativeClick();
+                }
+            });
+            builder.setView(input);
+
+
+            final AlertDialog mAlertDialog = builder.create();
+            mAlertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+                @Override
+                public void onShow(DialogInterface dialog) {
+
+                    Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                    b.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View view) {
+                            if (!new ValidationHelper().isEmpty(context, input)) {
+                                mAlertDialog.dismiss();
+                                Bundle bundle = new Bundle();
+                                bundle.putString(ISwipe.REFERRED_BY, input.getText().toString());
+                                messageDialogConfirm.onPositiveClick(bundle);
+                            }
+                        }
+                    });
+                }
+            });
+            mAlertDialog.show();
+//            builder.show();
         }
     }
 

@@ -73,7 +73,7 @@ public class WalletFragment extends BaseFragment implements View.OnClickListener
                 R.string.yes, R.string.btn_cancel, R.string.confirm,
                 new MessageDialogConfirm() {
                     @Override
-                    public void onPositiveClick() {
+                    public void onPositiveClick(Bundle bundle) {
                         showProgress(getActivity().getResources().getString(R.string.please_wait));
                         walletPresenter.deleteCard(cardID);
                     }

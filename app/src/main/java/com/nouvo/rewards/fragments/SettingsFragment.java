@@ -2,6 +2,7 @@ package com.nouvo.rewards.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
@@ -9,18 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ScrollView;
 
 import com.nouvo.rewards.R;
 import com.nouvo.rewards.activities.HomeActivity;
 import com.nouvo.rewards.appdata.SingletonAppCache;
 import com.nouvo.rewards.constants.ISwipe;
-import com.nouvo.rewards.helpers.CommunicationHelper;
 import com.nouvo.rewards.helpers.UIHelper;
 import com.nouvo.rewards.interfaces.MessageDialogConfirm;
 import com.nouvo.rewards.mvpviews.SettingsView;
 import com.nouvo.rewards.presenters.SettingsPresenter;
 
 public class SettingsFragment extends BaseFragment implements View.OnClickListener, SettingsView, CompoundButton.OnCheckedChangeListener {
+    private NestedScrollView svParent;
     private SwitchCompat swNotification;
     private AppCompatTextView tvChangePassword;
     private AppCompatTextView tvContactUs;
@@ -54,6 +56,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void initViews(View mRootView) {
+        svParent = mRootView.findViewById(R.id.sv_parent);
         swNotification = (SwitchCompat) mRootView.findViewById(R.id.sw_notification);
         tvChangePassword = (AppCompatTextView) mRootView.findViewById(R.id.tv_change_password);
         tvContactUs = (AppCompatTextView) mRootView.findViewById(R.id.tv_contact_us);
@@ -88,7 +91,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 R.string.yes, R.string.btn_cancel, R.string.confirm,
                 new MessageDialogConfirm() {
                     @Override
-                    public void onPositiveClick() {
+                    public void onPositiveClick(Bundle bundle) {
                         processLogout(getActivity());
                     }
 
@@ -145,10 +148,15 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             case R.id.tv_refer_earn:
                 if (SingletonAppCache.getInstance().getUserProfile() != null ||
                         SingletonAppCache.getInstance().getUserProfile().getReferralCode() != null) {
-                    String url = "https://play.google.com/store/apps/details?id=" + getActivity().getPackageName();
-                    String referralCode = SingletonAppCache.getInstance().getUserProfile().getReferralCode();
-                    String message = getActivity().getResources().getString(R.string.nouvo_referral_invite, referralCode);
-                    new CommunicationHelper().shareOnSocial(getActivity(), url, message);
+                    ((HomeActivity) getActivity()).getTopView().setExpanded(true, false);
+                    svParent.fullScroll(ScrollView.FOCUS_UP);
+                    ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
+                    if (((HomeActivity) getActivity()) != null) {
+                        ((HomeActivity) getActivity()).setTopBarTitle(getActivity().getResources().getString(R.string.refer_earn).toUpperCase());
+                    }
+                    UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, ReferralInviteFragment.newInstance(), true, ISwipe.FragReferralInviteFragment, ISwipe.APP_STACK);
+
+
                 } else {
                     showMessage(getActivity().getResources().getString(R.string.err_generic));
                 }
@@ -158,6 +166,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 break;
         }
     }
+
 
     private void launchWebViewFragment(String url) {
         WebViewFragment webViewTermsFragment = WebViewFragment.newInstance();

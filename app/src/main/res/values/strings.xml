@@ -129,8 +129,14 @@
     <string name="err_token_expired">Reset token is expired.</string>
     <string name="err_session_expired">Session has been expired please re-login to continue.</string>
     <string name="no_deal_error">No stores available for %s yet. Please change the location/city.</string>
-    <string name="nouvo_referral_invite">Hey, join this Nouvo app to get rewards on card swipe. Enter my code (%s) and we'll each get rewards!</string>
+    <string name="nouvo_referral_invite">Hey, join this Nouvo app to get rewards on card swipe. Enter my code %s and we\'ll each get rewards!</string>
 
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="refer_earn"><![CDATA[Refer & Earn]]></string>
+    <string name="referral_title">Referral Code</string>
+    <string name="have_referral_code">Have a referral code, apply it here to get the XP points!</string>
+    <string name="apply">Apply</string>
+    <string name="referral_applied">Referral code applied successfully!</string>
+    <string name="invite">Invite</string>
+    <string name="referral_desc">Share this special code with friends. Whey they use Nouvo for the first time you and they\'ll get 10 XP points each.</string>
 </resources>

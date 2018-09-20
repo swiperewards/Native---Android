@@ -190,6 +190,9 @@ public class OnBoardingBaseFragment extends BaseFragment implements OnBoardingVi
         SingletonAppCache.getInstance().setSocialLogin(isSocialLogin);
         PreferenceUtils.writeString(getActivity(), PreferenceUtils.SESSION_TOKEN, sessionData.getToken());
         Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+        if(isSocialLogin && sessionData.isFirstTimeSocialLogin()==1){
+            homeIntent.putExtra(ISwipe.KEY_IS_FIRST_TIME_SOCIAL_LOGIN,true);
+        }
         startActivity(homeIntent);
         getActivity().finish();
     }

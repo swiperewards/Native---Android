@@ -125,7 +125,7 @@ public class UniversalBaseActivity extends AppCompatActivity {
                     R.string.update, R.string.btn_exit, R.string.app_update,
                     new MessageDialogConfirm() {
                         @Override
-                        public void onPositiveClick() {
+                        public void onPositiveClick(Bundle bundle) {
                             final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
                             try {
                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
@@ -145,6 +145,10 @@ public class UniversalBaseActivity extends AppCompatActivity {
         }
         return false;
     }
+
+
+
+
 
 
 

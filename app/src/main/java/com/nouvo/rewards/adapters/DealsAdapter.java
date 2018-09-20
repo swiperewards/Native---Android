@@ -57,7 +57,8 @@ public class DealsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof DealViewHolder) {
             ((DealViewHolder) holder).tvStoreName.setText(dealsList.get(position).getShortDescription());
-            ((DealViewHolder) holder).tvCashBack.setText("$" + dealsList.get(position).getCashBonus());
+            String cashBack = String.format("%.2f", dealsList.get(position).getCashBonus());
+            ((DealViewHolder) holder).tvCashBack.setText("$" + cashBack);
             ((DealViewHolder) holder).tvValidity.setText(dealsList.get(position).getEndDate());
             ((DealViewHolder) holder).rlParent.setOnClickListener(new View.OnClickListener() {
                 @Override

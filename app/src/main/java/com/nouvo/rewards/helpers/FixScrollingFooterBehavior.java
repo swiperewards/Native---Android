@@ -43,6 +43,7 @@ public class FixScrollingFooterBehavior extends AppBarLayout.ScrollingViewBehavi
     // Calculate the padding needed to keep the bottom of the view pager's content at the same location on the screen.
     private int calculateBottomPadding(AppBarLayout dependency) {
         final int totalScrollRange = dependency.getTotalScrollRange();
-        return totalScrollRange + dependency.getTop();
+        int finalRange = totalScrollRange + dependency.getTop();
+        return  finalRange;
     }
 }
