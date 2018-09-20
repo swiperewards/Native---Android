@@ -245,7 +245,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     public void getAdapterResponse(Bundle bundle) {
-        new CommonHelper().navigateToDealLocation(getActivity(), bundle);
+        if (bundle != null) {
+            final String latitude = bundle.getString(ISwipe.LATITUDE);
+            final String longitude = bundle.getString(ISwipe.LONGITUDE);
+            if (!(TextUtils.isEmpty(latitude) || TextUtils.isEmpty(longitude))) {
+                new CommonHelper().navigateToDealLocation(getActivity(), bundle);
+            } else {
+            showMessage(getActivity().getResources().getString(R.string.unable_navigate));
+            }
+        }
 
     }
 

@@ -139,4 +139,5 @@
     <string name="referral_applied">Referral code applied successfully!</string>
     <string name="invite">Invite</string>
     <string name="referral_desc">Share this special code with friends. Whey they use Nouvo for the first time you and they\'ll get 10 XP points each.</string>
+    <string name="unable_navigate">Sorry, we are unable to naviate you to this store location.</string>
 </resources>

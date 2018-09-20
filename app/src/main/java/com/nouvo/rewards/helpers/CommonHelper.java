@@ -58,8 +58,6 @@ public class CommonHelper {
                             public void onNegativeClick() {
                             }
                         });
-
-
             }
         }
     }
