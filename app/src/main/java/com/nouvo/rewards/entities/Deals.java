@@ -24,6 +24,11 @@ public class Deals {
     @SerializedName("endDate")
     @Expose
     private String endDate;
+
+    @SerializedName("entityName")
+    @Expose
+    private String entityName;
+
     @SerializedName("cashBonus")
     @Expose
     private Double cashBonus;
@@ -187,5 +192,13 @@ public class Deals {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
     }
 }

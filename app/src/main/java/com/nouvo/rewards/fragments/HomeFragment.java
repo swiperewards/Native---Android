@@ -155,7 +155,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         ArrayList<Deals> filteredDealList = new ArrayList();
         for (Deals d : dealsArrayList) {
             if (d.getLocation().toLowerCase().contains(text.toLowerCase()) ||
-                    d.getShortDescription().toLowerCase().contains(text.toLowerCase())) {
+                    d.getEntityName().toLowerCase().contains(text.toLowerCase())) {
                 filteredDealList.add(d);
             }
         }
