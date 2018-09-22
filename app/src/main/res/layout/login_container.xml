@@ -5,50 +5,51 @@
               android:layout_height="match_parent"
               android:background="@color/color_white"
               android:orientation="vertical"
-              android:weightSum="3">
+              >
 
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:background="@drawable/top_bg"
             android:gravity="center"
+            android:padding="@dimen/margin_small"
             android:orientation="vertical"
-            android:weightSum="2">
+            >
         <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_swipe"
-                android:layout_width="200dp"
-                android:layout_height="0dp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
-                android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:cropToPadding="true"
                 android:scaleType="centerInside"
-                android:padding="@dimen/margin_medium"
                 android:tint="@color/color_white"
-                app:srcCompat="@drawable/vc_swipe"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_tiny"
+                app:srcCompat="@drawable/vc_nouvo"
 
                 />
 
         <TextView
+                android:id="@+id/tv_login_title"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|top"
-                android:layout_weight="1"
                 android:gravity="center_horizontal|top"
                 android:text="@string/welcome"
                 android:textColor="@color/color_white"
                 android:textSize="@dimen/text_size_medium"
-                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_very_small"
                 />
     </LinearLayout>
     <FrameLayout
             android:id="@+id/login_container"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:layout_weight="2"
             android:background="@color/color_white"/>
 
 

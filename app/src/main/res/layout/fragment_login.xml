@@ -23,7 +23,7 @@
                 android:id="@+id/et_user_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableRight="@drawable/vc_user"
+                android:drawableRight="@drawable/wrapper_user"
                 android:hint="@string/user_name_email"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
@@ -42,12 +42,12 @@
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableRight="@drawable/vc_password"
+                android:drawableRight="@drawable/wrapper_password"
                 android:gravity="center_vertical"
                 android:hint="@string/password"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
-                android:maxLength="10"
+                android:maxLength="14"
                 android:theme="@style/style_edit_text"
                 />
 
@@ -66,12 +66,12 @@
 
     <Button
             android:id="@+id/bt_login"
-            style="@style/AppButton"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_extra_large"
-            android:text="@string/login"/>
+            android:text="@string/login"
+            android:theme="@style/AppButton"/>
 
     <RelativeLayout
             android:layout_width="match_parent"
@@ -115,15 +115,26 @@
             android:layout_height="match_parent"
             android:layout_gravity="top|center_horizontal"
             android:orientation="horizontal">
+
         <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_facebook"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
-                android:layout_gravity="top|center_horizontal"
                 android:layout_marginLeft="@dimen/margin_very_small"
                 android:layout_marginRight="@dimen/margin_very_small"
                 android:padding="@dimen/margin_very_small"
                 app:srcCompat="@drawable/vc_facebook"/>
+
+        <com.facebook.login.widget.LoginButton
+                android:id="@+id/fb_login_button"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:visibility="gone"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginLeft="@dimen/margin_very_small"
+                android:layout_marginRight="@dimen/margin_very_small"
+                android:padding="@dimen/margin_very_small"
+                />
 
         <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_google"
@@ -150,11 +161,11 @@
 
     <Button
             android:id="@+id/bt_register"
-            style="@style/AppButton"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/margin_very_small"
-            android:text="@string/sign_up"/>
+            android:text="@string/sign_up"
+            android:theme="@style/AppButton"/>
 
 </LinearLayout>

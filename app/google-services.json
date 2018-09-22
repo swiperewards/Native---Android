@@ -1,35 +1,51 @@
 {
   "project_info": {
-    "project_number": "891412668727",
-    "firebase_url": "https://swiperewards-b9ea4.firebaseio.com",
-    "project_id": "swiperewards-b9ea4",
-    "storage_bucket": "swiperewards-b9ea4.appspot.com"
+    "project_number": "57300116160",
+    "firebase_url": "https://nouvo-android-app.firebaseio.com",
+    "project_id": "nouvo-android-app",
+    "storage_bucket": "nouvo-android-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:891412668727:android:a48be9e9c5d39b68",
+        "mobilesdk_app_id": "1:57300116160:android:0787257c2c6b460e",
         "android_client_info": {
-          "package_name": "com.winjit.swiperewards"
+          "package_name": "com.nouvo.rewards"
         }
       },
       "oauth_client": [
         {
-          "client_id": "891412668727-mtk3njd8g1vcrt4r9pbh41b49h41nttl.apps.googleusercontent.com",
+          "client_id": "57300116160-s50gkch7cmgpqraiopl1nve78p5kajie.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.winjit.swiperewards",
+            "package_name": "com.nouvo.rewards",
             "certificate_hash": "9ff41f1ab2fb045c484d330d13322eabef3ef2e9"
           }
         },
         {
-          "client_id": "891412668727-0ost48gdka1q8ol4i66grl8gbk0c288h.apps.googleusercontent.com",
+          "client_id": "57300116160-l6fa5bavbss99kkd2jp2v0dgu3he0duk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nouvo.rewards",
+            "certificate_hash": "e76433dab8bcbc4a1c817fd12bbb3449f1ade16d"
+          }
+        },
+        {
+          "client_id": "57300116160-8394tfmicf057kc2ojqo91c2a7q3a4es.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nouvo.rewards",
+            "certificate_hash": "2e745bcaf4fb56ccd36c9bbcdfc21b0b5e879786"
+          }
+        },
+        {
+          "client_id": "57300116160-ja68g40gknokoov9hcc3pauoj2q9m6qs.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCQkGczdXu1oug_ImqqRhK0kixrl3aXkjE"
+          "current_key": "AIzaSyColDIPBN_iZzVTnYapHttpFeQ2G2FMKAQ"
         }
       ],
       "services": {
@@ -40,7 +56,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "891412668727-0ost48gdka1q8ol4i66grl8gbk0c288h.apps.googleusercontent.com",
+              "client_id": "57300116160-5rd47apk14k1i7ec7fac65p2gm5nv6sn.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

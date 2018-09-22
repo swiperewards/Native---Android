@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@color/color_white"
-              android:orientation="vertical"
-        >
-
-
+<android.support.v4.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/sv_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/margin_very_small"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_very_small"
+        android:background="@color/color_white"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/margin_medium">
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:padding="@dimen/margin_small"
-            >
-
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
         <RelativeLayout
                 android:layout_width="match_parent"
@@ -29,7 +30,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_very_small"
-                    android:drawableLeft="@drawable/vc_notification"
+                    android:drawableLeft="@drawable/wrapper_notification"
                     android:drawablePadding="@dimen/margin_very_small"
                     android:gravity="center_vertical"
                     android:text="Notification"
@@ -40,15 +41,14 @@
                     android:id="@+id/sw_notification"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:layout_alignParentRight="true"
                     android:layout_gravity="center_vertical"
-                    android:layout_alignParentRight="true"/>
+                    android:gravity="center_vertical"/>
         </RelativeLayout>
 
         <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator"
-                android:layout_marginBottom="@dimen/margin_very_small"
                 android:layout_marginTop="@dimen/margin_very_small"
                 android:background="@color/color_separator"/>
 
@@ -61,18 +61,19 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/margin_very_small"
-                android:drawableLeft="@drawable/vc_password"
+                android:drawableLeft="@drawable/wrapper_password"
                 android:drawablePadding="@dimen/margin_very_small"
                 android:gravity="center_vertical"
+                android:paddingBottom="@dimen/margin_very_small"
+                android:paddingTop="@dimen/margin_very_small"
                 android:text="Change Password"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/color_text"/>
 
         <View
+                android:id="@+id/vw_password_separator"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator"
-                android:layout_marginBottom="@dimen/margin_very_small"
-                android:layout_marginTop="@dimen/margin_very_small"
                 android:background="@color/color_separator"/>
 
 
@@ -84,9 +85,11 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/margin_very_small"
-                android:drawableLeft="@drawable/vc_contact"
+                android:drawableLeft="@drawable/wrapper_conact_us"
                 android:drawablePadding="@dimen/margin_very_small"
                 android:gravity="center_vertical"
+                android:paddingBottom="@dimen/margin_very_small"
+                android:paddingTop="@dimen/margin_very_small"
                 android:text="Contact Us"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/color_text"/>
@@ -94,8 +97,6 @@
         <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator"
-                android:layout_marginBottom="@dimen/margin_very_small"
-                android:layout_marginTop="@dimen/margin_very_small"
                 android:background="@color/color_separator"/>
 
 
@@ -107,9 +108,11 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/margin_very_small"
-                android:drawableLeft="@drawable/vc_privacy"
+                android:drawableLeft="@drawable/wrapper_privacy"
                 android:drawablePadding="@dimen/margin_very_small"
                 android:gravity="center_vertical"
+                android:paddingBottom="@dimen/margin_very_small"
+                android:paddingTop="@dimen/margin_very_small"
                 android:text="@string/privacy"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/color_text"/>
@@ -117,22 +120,22 @@
         <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator"
-                android:layout_marginBottom="@dimen/margin_very_small"
-                android:layout_marginTop="@dimen/margin_very_small"
                 android:background="@color/color_separator"/>
 
 
         <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_terms_of_use"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/margin_very_small"
-                android:drawableLeft="@drawable/vc_terms_of_use"
+                android:drawableLeft="@drawable/wrapper_terms"
                 android:drawablePadding="@dimen/margin_very_small"
                 android:gravity="center_vertical"
+                android:paddingBottom="@dimen/margin_very_small"
+                android:paddingTop="@dimen/margin_very_small"
                 android:text="Terms of Use"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/color_text"/>
@@ -140,21 +143,45 @@
         <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator"
-                android:layout_marginBottom="@dimen/margin_very_small"
-                android:layout_marginTop="@dimen/margin_very_small"
                 android:background="@color/color_separator"/>
 
+
         <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_sign_out"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_refer_earn"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/margin_very_small"
-                android:drawableLeft="@drawable/vc_sign_out"
+                android:drawableLeft="@drawable/wrapper_refer"
                 android:drawablePadding="@dimen/margin_very_small"
                 android:gravity="center_vertical"
+                android:paddingBottom="@dimen/margin_very_small"
+                android:paddingTop="@dimen/margin_very_small"
+                android:text="@string/refer_earn"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/color_text"/>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/separator"
+                android:background="@color/color_separator"/>
+
+
+        <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_sign_out"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/margin_very_small"
+                android:drawableLeft="@drawable/wrapper_sign_out"
+                android:drawablePadding="@dimen/margin_very_small"
+                android:gravity="center_vertical"
+                android:paddingBottom="@dimen/margin_very_small"
+                android:paddingTop="@dimen/margin_very_small"
                 android:text="Sign Out"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/color_text"/>
@@ -163,12 +190,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator"
                 android:layout_marginBottom="@dimen/margin_very_small"
-                android:layout_marginTop="@dimen/margin_very_small"
                 android:background="@color/color_separator"/>
 
 
     </LinearLayout>
 
-</LinearLayout>
+</android.support.v4.widget.NestedScrollView>
 
 

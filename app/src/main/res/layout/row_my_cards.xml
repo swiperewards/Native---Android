@@ -17,16 +17,17 @@
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:background="@color/appColor"
-                android:paddingLeft="@dimen/margin_small"
-                android:paddingRight="@dimen/margin_small"
+                android:paddingLeft="@dimen/margin_medium"
+                android:visibility="gone"
+                android:paddingRight="@dimen/margin_medium"
                 app:srcCompat="@drawable/vc_edit"/>
         <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_delete"
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:background="#f00"
-                android:paddingLeft="@dimen/margin_small"
-                android:paddingRight="@dimen/margin_small"
+                android:paddingLeft="@dimen/margin_medium"
+                android:paddingRight="@dimen/margin_medium"
                 app:srcCompat="@drawable/vc_delete"/>
     </LinearLayout>
 
@@ -49,7 +50,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/margin_very_small"
-                android:drawableLeft="@drawable/vc_add"
+                android:drawableLeft="@drawable/wrapper_add"
                 android:drawablePadding="@dimen/margin_very_small"
                 android:gravity="center_vertical"
                 android:text="Visa Credit Card 4455"

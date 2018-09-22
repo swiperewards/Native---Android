@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_gravity="top"
-              android:layout_margin="@dimen/margin_very_small"
-              android:background="#fff"
-              android:gravity="top"
-              android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:background="#fff"
+                android:gravity="top"
+                android:orientation="vertical"
         >
 
 
-    <android.support.v7.widget.AppCompatEditText
+    <android.support.v7.widget.AppCompatAutoCompleteTextView
             android:id="@+id/et_search_deals"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             android:layout_gravity="top"
-            android:layout_marginLeft="@dimen/margin_very_small"
-            android:layout_marginRight="@dimen/margin_very_small"
+            android:layout_margin="@dimen/margin_very_small"
             android:background="@drawable/oval_button_background_white"
             android:drawablePadding="@dimen/margin_tiny"
-            android:drawableRight="@drawable/vc_search"
+            android:drawableRight="@drawable/wrapper_search"
             android:gravity="center_vertical"
-            android:hint="Store Location"
+            android:hint="Store/Location"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:lines="1"
+            android:maxLines="1"
             android:paddingBottom="@dimen/margin_tiny"
             android:paddingLeft="@dimen/margin_very_small"
             android:paddingRight="@dimen/margin_very_small"
@@ -32,9 +36,94 @@
             android:id="@+id/rv_deals"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/et_search_deals"
+            android:layout_marginBottom="@dimen/margin_very_small"
+            android:layout_marginLeft="@dimen/margin_very_small"
+            android:layout_marginRight="@dimen/margin_very_small"
             android:cacheColorHint="@android:color/transparent"
+            android:scrollbars="vertical"
+            />
+    <LinearLayout
+            android:id="@+id/lin_lay_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:isScrollContainer="false"
+            android:orientation="vertical">
 
-            android:nestedScrollingEnabled="false"
-            android:scrollbars="none"/>
+        <RelativeLayout
+                android:id="@+id/rl_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/unselected_item"
+                android:gravity="center_vertical"
+                android:padding="@dimen/margin_tiny"
+                android:visibility="gone">
 
-</LinearLayout>
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_location_error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@drawable/wrapper_location"
+                    android:drawablePadding="@dimen/margin_very_small"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_tiny"
+                    android:text="@string/enable_location"
+                    android:textColor="@color/secondary_text_color"
+                    android:textSize="@dimen/text_size_medium"/>
+
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_enable_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:gravity="center_horizontal"
+                    android:padding="@dimen/margin_tiny"
+                    android:text="@string/enable"
+                    android:textColor="@color/secondary_text_color"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:id="@+id/rl_change_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/unselected_item"
+                android:gravity="center_vertical"
+                android:padding="@dimen/margin_tiny"
+                android:visibility="gone">
+
+
+            <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_change_location_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:drawableLeft="@drawable/wrapper_location"
+                    android:drawablePadding="@dimen/margin_very_small"
+                    android:gravity="left|center_vertical"
+                    android:padding="@dimen/margin_tiny"
+                    android:text="@string/enable_location"
+                    android:textColor="@color/secondary_text_color"
+                    android:textSize="@dimen/text_size_medium"/>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
