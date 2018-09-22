@@ -30,6 +30,7 @@ public class WebRequestConstants {
     public static final String WS_UPLOAD_PROFILE_PIC = URL + "/users/updateProfilePic";
     public static final String WS_GET_CITIES = URL + "/config/getCities";
     public static final String WS_GET_DEALS_PAGINATION = URL + "/deals/getDealsWithPaging";
+    public static final String WS_APPLY_REFERRAL_CODE = URL + "/users/applyReferralCode";
 
 
 }

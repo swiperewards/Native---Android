@@ -37,7 +37,7 @@ public class UserProfile {
     private float walletBalance;
 
 
-    @SerializedName("referralCode")
+    @SerializedName("userReferralCode")
     @Expose
     private String referralCode;
 

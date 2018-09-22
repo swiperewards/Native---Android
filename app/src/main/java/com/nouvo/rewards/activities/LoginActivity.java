@@ -71,4 +71,9 @@ public class LoginActivity extends UniversalBaseActivity implements InitSwipeVie
 
     }
 
+    @Override
+    public void referralCodeAppliedSuccessfully() {
+
+    }
+
 }

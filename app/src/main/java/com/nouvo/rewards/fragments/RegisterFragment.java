@@ -132,9 +132,9 @@ public class RegisterFragment extends OnBoardingBaseFragment implements View.OnC
         if (ISwipe.IS_DUMMY_DATA_ENABLED) {
             etFirstName.setText("vishal");
             etLastName.setText("bharati");
-            etPassword.setText("winjit@123");
-            etConfirmPassword.setText("winjit@123");
-            etUserEmail.setText("vishalb@winjit.com");
+            etPassword.setText("Winjit@123");
+            etConfirmPassword.setText("Winjit@123");
+            etUserEmail.setText("vishalb1@winjit.com");
         }
     }
 }

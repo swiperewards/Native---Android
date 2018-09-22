@@ -155,7 +155,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         ArrayList<Deals> filteredDealList = new ArrayList();
         for (Deals d : dealsArrayList) {
             if (d.getLocation().toLowerCase().contains(text.toLowerCase()) ||
-                    d.getShortDescription().toLowerCase().contains(text.toLowerCase())) {
+                    d.getEntityName().toLowerCase().contains(text.toLowerCase())) {
                 filteredDealList.add(d);
             }
         }
@@ -245,7 +245,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     public void getAdapterResponse(Bundle bundle) {
-        new CommonHelper().navigateToDealLocation(getActivity(), bundle);
+        if (bundle != null) {
+            final String latitude = bundle.getString(ISwipe.LATITUDE);
+            final String longitude = bundle.getString(ISwipe.LONGITUDE);
+            if (!(TextUtils.isEmpty(latitude) || TextUtils.isEmpty(longitude))) {
+                new CommonHelper().navigateToDealLocation(getActivity(), bundle);
+            } else {
+            showMessage(getActivity().getResources().getString(R.string.unable_navigate));
+            }
+        }
 
     }
 

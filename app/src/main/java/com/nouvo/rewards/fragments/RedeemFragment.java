@@ -203,7 +203,7 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
                 R.string.confirm, R.string.btn_cancel, R.string.confirm,
                 new MessageDialogConfirm() {
                     @Override
-                    public void onPositiveClick() {
+                    public void onPositiveClick(Bundle bundle) {
                         initiateRedeemRequest();
                     }
 

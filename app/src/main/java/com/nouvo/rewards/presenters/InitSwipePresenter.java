@@ -69,4 +69,28 @@ public class InitSwipePresenter extends BasePresenter {
     }
 
 
+
+    public void applyReferralCode(String referredBy) {
+        try {
+            new ServiceController().applyReferralCode(initSwipeView.getViewContext(), referredBy, new WebRequestManager.WebProcessListener<BaseEvent>() {
+                @Override
+                public void onWebProcessSuccess(BaseEvent baseEvent) {
+                    if (baseEvent.getStatus() == ISwipe.SUCCESS) {
+//                        initSwipeView.hideProgress();
+                        initSwipeView.referralCodeAppliedSuccessfully();
+                    } else {
+                        handleReceivedError(initSwipeView, baseEvent);
+                    }
+                }
+
+                @Override
+                public void onWebProcessFailed(VolleyError error, Class aClass) {
+                    handleWebProcessFailed(initSwipeView, error);
+                }
+            });
+        } catch (Exception e) {
+            handleWebProcessFailed(initSwipeView, null);
+        }
+    }
+
 }

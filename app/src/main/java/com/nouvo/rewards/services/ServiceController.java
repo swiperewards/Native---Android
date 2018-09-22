@@ -258,4 +258,17 @@ public class ServiceController {
                 new InputRequestHelper().prepareWrappedInputRequest(context, map),
                 GetDealsEvent.class);
     }
+
+
+
+    public void applyReferralCode(Context context, String referredBy, WebRequestManager.WebProcessListener<BaseEvent>webProcessListener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("referredBy", referredBy);
+
+        new WebRequestManager(context, webProcessListener).makeRequest(NouvoApp.getRequestQueue(context), Request.Method.POST,
+                WebRequestConstants.WS_APPLY_REFERRAL_CODE,
+                generateRequestHeader(getSessionToken(context)),
+                new InputRequestHelper().prepareWrappedInputRequest(context, map),
+                BaseEvent.class);
+    }
 }

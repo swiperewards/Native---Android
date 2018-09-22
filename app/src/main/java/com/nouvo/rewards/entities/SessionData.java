@@ -15,6 +15,10 @@ public class SessionData {
     @Expose
     private String token;
 
+    @SerializedName("isNewRecord")
+    @Expose
+    private int isFirstTimeSocialLogin;
+
     public String getUserID() {
         return userID;
     }
@@ -37,5 +41,13 @@ public class SessionData {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public int isFirstTimeSocialLogin() {
+        return isFirstTimeSocialLogin;
+    }
+
+    public void setFirstTimeSocialLogin(int firstTimeSocialLogin) {
+        isFirstTimeSocialLogin = firstTimeSocialLogin;
     }
 }

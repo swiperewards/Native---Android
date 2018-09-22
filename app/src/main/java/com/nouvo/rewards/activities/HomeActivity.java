@@ -40,6 +40,7 @@ import com.nouvo.rewards.helpers.CommonHelper;
 import com.nouvo.rewards.helpers.GPSTracker;
 import com.nouvo.rewards.helpers.PreferenceUtils;
 import com.nouvo.rewards.helpers.UIHelper;
+import com.nouvo.rewards.interfaces.MessageDialogConfirm;
 import com.nouvo.rewards.mvpviews.InitSwipeView;
 import com.nouvo.rewards.presenters.InitSwipePresenter;
 
@@ -101,6 +102,13 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         navigation.enableAnimation(false);
         navigation.enableShiftingMode(false);
         navigation.enableItemShiftingMode(false);
+
+        if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(ISwipe.KEY_IS_FIRST_TIME_SOCIAL_LOGIN)) {
+            if (getIntent().getExtras().getBoolean(ISwipe.KEY_IS_FIRST_TIME_SOCIAL_LOGIN, false))
+                isFirstTimeSocialLoginUser();
+
+        }
+
         initSwipe();
     }
 
@@ -119,6 +127,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             }
         });
 
+        rlProfilePic.setOnClickListener(this);
 
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -224,7 +233,6 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
                 llCashback.setVisibility(View.GONE);
                 rlLevelDetails.setVisibility(View.GONE);
                 ivChangeProfilePic.setVisibility(View.VISIBLE);
-                rlProfilePic.setOnClickListener(this);
                 llProfilePic.setPadding(0, topPadding, 0, 0);
 //                tvUserName.setPadding(4, 4, 4, 25);
                 break;
@@ -236,7 +244,6 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
                 llCashback.setVisibility(View.VISIBLE);
                 rlLevelDetails.setVisibility(View.VISIBLE);
                 ivChangeProfilePic.setVisibility(View.INVISIBLE);
-                rlProfilePic.setOnClickListener(null);
 //                tvUserName.setPadding(4, 4, 4, 4);
                 llProfilePic.setPadding(0, 0, 0, 0);
                 break;
@@ -277,6 +284,12 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         }
         //Showing current location
         showCurrentCityName();
+    }
+
+    @Override
+    public void referralCodeAppliedSuccessfully() {
+        showMessage(getResources().getString(R.string.referral_applied));
+        initSwipe();
     }
 
     private void showCurrentCityName() {
@@ -345,7 +358,11 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_profile_pic:
-                launchGallery();
+                if(navigation.getCurrentItem()!=4){
+                      navigation.setSelectedItemId(R.id.navigation_Settings);
+                }else {
+                    launchGallery();
+                }
                 break;
         }
     }
@@ -409,6 +426,30 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     }
 
 
+    protected void isFirstTimeSocialLoginUser() {
+        String dialogInterfaceMessage = getString(R.string.have_referral_code);
+
+        UIHelper.configureReferralDialogWithEditText(dialogInterfaceMessage, this,
+                R.string.apply, R.string.btn_cancel, R.string.referral_title,
+                new MessageDialogConfirm() {
+                    @Override
+                    public void onPositiveClick(Bundle bundle) {
+                        if (bundle.containsKey(ISwipe.REFERRED_BY)) {
+                            String referredBy = bundle.getString(ISwipe.REFERRED_BY);
+                            showProgress(getResources().getString(R.string.please_wait));
+                            initSwipePresenter.applyReferralCode(referredBy);
+                        }
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+                        return;
+                    }
+                });
+
+    }
+
+
     public void updateCityLocation(String cityName) {
         tvUserLocation.setText(cityName);
     }
@@ -420,6 +461,5 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     public AppBarLayout getTopView() {
         return topPanel;
     }
-
 
 }
