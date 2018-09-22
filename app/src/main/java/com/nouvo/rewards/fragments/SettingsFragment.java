@@ -10,12 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.ScrollView;
 
 import com.nouvo.rewards.R;
 import com.nouvo.rewards.activities.HomeActivity;
 import com.nouvo.rewards.appdata.SingletonAppCache;
 import com.nouvo.rewards.constants.ISwipe;
+import com.nouvo.rewards.helpers.CommonHelper;
 import com.nouvo.rewards.helpers.UIHelper;
 import com.nouvo.rewards.interfaces.MessageDialogConfirm;
 import com.nouvo.rewards.mvpviews.SettingsView;
@@ -32,6 +32,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     private AppCompatTextView tvReferEarn;
     private SettingsPresenter settingsPresenter;
     private View vwPasswordSeparator;
+    AppCompatTextView tvVersionNumber;
 
     public static SettingsFragment newInstance() {
         Bundle args = new Bundle();
@@ -51,6 +52,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         initViews(view);
+        setVersionNumber();
         ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.SHOW_TOP_VIEW);
         return view;
     }
@@ -65,7 +67,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         tvReferEarn = (AppCompatTextView) mRootView.findViewById(R.id.tv_refer_earn);
         tvSignOut = (AppCompatTextView) mRootView.findViewById(R.id.tv_sign_out);
         vwPasswordSeparator = mRootView.findViewById(R.id.vw_password_separator);
-
+        tvVersionNumber = mRootView.findViewById(R.id.tv_version);
         tvChangePassword.setOnClickListener(this);
         tvContactUs.setOnClickListener(this);
         tvPrivacy.setOnClickListener(this);
@@ -148,8 +150,6 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             case R.id.tv_refer_earn:
                 if (SingletonAppCache.getInstance().getUserProfile() != null ||
                         SingletonAppCache.getInstance().getUserProfile().getReferralCode() != null) {
-                    ((HomeActivity) getActivity()).getTopView().setExpanded(true, false);
-                    svParent.fullScroll(ScrollView.FOCUS_UP);
                     ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
                     if (((HomeActivity) getActivity()) != null) {
                         ((HomeActivity) getActivity()).setTopBarTitle(getActivity().getResources().getString(R.string.refer_earn).toUpperCase());
@@ -206,6 +206,12 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             showProgress(getActivity().getResources().getString(R.string.please_wait));
             settingsPresenter.updateNotificationStatus(isEnabled);
         }
+    }
+
+    private void setVersionNumber() {
+        String versionName = new CommonHelper().getVersionName(getActivity());
+        if (!TextUtils.isEmpty(versionName))
+            tvVersionNumber.setText("Version - " + new CommonHelper().getVersionName(getActivity()));
     }
 
     @Override

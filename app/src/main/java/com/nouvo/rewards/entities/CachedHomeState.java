@@ -1,14 +1,21 @@
 package com.nouvo.rewards.entities;
 
-import java.io.Serializable;
+public class CachedHomeState{
 
-public class CachedHomeState implements Serializable{
-
+    public static CachedHomeState cachedHomeState;
     private Deals[] deals;
     private String appliedFilter;
     private String selectedCity;
     private CityDetails[] cityDetails;
     private int dealListIndex;
+
+    public static CachedHomeState getCachedHomeState() {
+        return cachedHomeState;
+    }
+
+    public static void setCachedHomeState(CachedHomeState cachedHomeState) {
+        CachedHomeState.cachedHomeState = cachedHomeState;
+    }
 
     public Deals[] getDeals() {
         return deals;

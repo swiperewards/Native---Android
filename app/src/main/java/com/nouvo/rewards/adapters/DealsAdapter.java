@@ -60,15 +60,6 @@ public class DealsAdapter extends RecyclerView.Adapter {
             String cashBack = String.format("%.2f", dealsList.get(position).getCashBonus());
             ((DealViewHolder) holder).tvCashBack.setText("$" + cashBack);
             ((DealViewHolder) holder).tvValidity.setText(dealsList.get(position).getEndDate());
-            ((DealViewHolder) holder).rlParent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString(ISwipe.LATITUDE, dealsList.get(position).getLatitude());
-                    bundle.putString(ISwipe.LONGITUDE, dealsList.get(position).getLongitude());
-                    adapterResponseInterface.getAdapterResponse(bundle);
-                }
-            });
 
             if (!TextUtils.isEmpty(dealsList.get(position).getIcon())) {
                 UIHelper.getInstance().loadImageOnline(context, dealsList.get(position).getIcon().replace(" ", "%20"), ((DealViewHolder) holder).ivIcon, R.mipmap.ic_launcher, R.mipmap.ic_launcher);
@@ -117,6 +108,17 @@ public class DealsAdapter extends RecyclerView.Adapter {
             tvCashBack = view.findViewById(R.id.tv_cashback);
             tvValidity = view.findViewById(R.id.tv_validity);
             rlParent = view.findViewById(R.id.rl_parent);
+
+            rlParent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ISwipe.LATITUDE, dealsList.get(getAdapterPosition()).getLatitude());
+                    bundle.putString(ISwipe.LONGITUDE, dealsList.get(getAdapterPosition()).getLongitude());
+                    adapterResponseInterface.getAdapterResponse(bundle);
+                }
+            });
+
 
         }
     }

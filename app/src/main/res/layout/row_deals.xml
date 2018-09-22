@@ -8,6 +8,7 @@
                 android:layout_marginTop="@dimen/margin_tiny"
                 android:background="@drawable/rounded_button_background_white"
                 android:gravity="center_vertical"
+                android:clickable="true"
                 android:paddingLeft="0dp"
 
         >
@@ -31,6 +32,7 @@
             android:layout_width="54dp"
             android:layout_height="54dp"
             android:layout_centerVertical="true"
+            android:clickable="false"
             android:layout_toEndOf="@id/ll_left_decor"
             android:layout_toRightOf="@id/ll_left_decor"
             android:src="@mipmap/ic_launcher"/>
@@ -43,6 +45,7 @@
             android:layout_marginLeft="@dimen/margin_tiny"
             android:layout_marginTop="@dimen/margin_tiny"
             android:layout_toRightOf="@id/iv_icon"
+            android:clickable="false"
             android:gravity="center_vertical"
             android:orientation="vertical">
 

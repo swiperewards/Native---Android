@@ -24,7 +24,6 @@ public class InitSwipePresenter extends BasePresenter {
                 @Override
                 public void onWebProcessSuccess(InitSwipeEvent initSwipeEvent) {
                     if (initSwipeEvent.getStatus() == ISwipe.SUCCESS) {
-                        initSwipeView.hideProgress();
                         initSwipeView.onSwipeInitialized(initSwipeEvent);
                     } else {
                         handleReceivedError(initSwipeView, initSwipeEvent);

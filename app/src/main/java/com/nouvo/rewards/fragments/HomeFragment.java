@@ -24,7 +24,6 @@ import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.nouvo.rewards.R;
 import com.nouvo.rewards.activities.HomeActivity;
 import com.nouvo.rewards.adapters.DealsAdapter;
@@ -56,7 +55,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private ArrayList<Deals> dealsArrayList;
     private DealsAdapter dealAdapter;
     private int currentDealPageNumber = 0;
-    private Bundle savedState = null;
     private CityDetails[] cityDetails;
 
     public static HomeFragment newInstance() {
@@ -80,19 +78,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         initViews(view);
 
-        /* If the Fragment was destroyed in between (screen rotation), we need to recover the savedState first */
-        /* However, if it was not, it stays in the instance from the last onDestroyView() and we don't want to overwrite it */
-        if (savedInstanceState != null && savedState == null) {
-            savedState = savedInstanceState.getBundle(ISwipe.CachedHomeState);
-        }
-        if (savedState != null && savedState.containsKey(ISwipe.CachedHomeState)) {
-            CachedHomeState cachedHomeState = new Gson().fromJson(savedState.get(ISwipe.CachedHomeState).toString(), CachedHomeState.class);
-            setCachedDataToViews(cachedHomeState);
-        } else {
-            showProgress(getActivity().getResources().getString(R.string.please_wait));
-            dealsPresenter.getCities();
-        }
-        savedState = null;
+
+        showProgress(getActivity().getResources().getString(R.string.please_wait));
+        dealsPresenter.getCities();
         getLocationPermissions(); // to check device location service on-off
         return view;
     }
@@ -140,7 +128,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             @Override
             public void afterTextChanged(Editable inputString) {
                 if (dealsArrayList != null && dealsArrayList.size() > 0) {
-                    if (inputString.length() >= 3) {
+                    if (inputString.length() >= 1) {
                         filter(inputString.toString());
                     } else if (inputString.length() == 0) {
                         dealAdapter.updateList(dealsArrayList);
@@ -159,7 +147,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 filteredDealList.add(d);
             }
         }
+        if (filteredDealList.size() == 0) {
+            etSearchDeals.setError(getString(R.string.no_deals_for_filter));
+        } else {
+            etSearchDeals.setError(null);
+        }
         dealAdapter.updateList(filteredDealList);
+
     }
 
 
@@ -251,7 +245,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             if (!(TextUtils.isEmpty(latitude) || TextUtils.isEmpty(longitude))) {
                 new CommonHelper().navigateToDealLocation(getActivity(), bundle);
             } else {
-            showMessage(getActivity().getResources().getString(R.string.unable_navigate));
+                showMessage(getActivity().getResources().getString(R.string.unable_navigate));
             }
         }
 
@@ -335,8 +329,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             }
             if (getActivity() != null)
                 setupCityList(cityList);
-            if (shouldCallGetDealsAPI)
-                getDealsIfLocationEnabled();
+            if (shouldCallGetDealsAPI) {
+//                dealsPresenter.getDeals(cityName);
+                if (CachedHomeState.getCachedHomeState() != null && !TextUtils.isEmpty(CachedHomeState.getCachedHomeState().getSelectedCity())) {
+                    dealsPresenter.getDealsWithPagination(CachedHomeState.getCachedHomeState().getSelectedCity(), currentDealPageNumber, ISwipe.DEFAULT_DEALS_PAGE_SIZE);
+                } else {
+                    getDealsIfLocationEnabled();
+                }
+
+            }
+
         }
 
     }
@@ -404,22 +406,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        savedState = saveState(); /* vstup defined here for sure */
-    }
-
-    private Bundle saveState() { /* called either from onDestroyView() or onSaveInstanceState() */
-        Bundle state = new Bundle();
-        state.putSerializable(ISwipe.CachedHomeState, new Gson().toJson(getDataToBeCached()));
-        return state;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        /* If onDestroyView() is called first, we can use the previously savedState but we can't call saveState() anymore */
-        /* If onSaveInstanceState() is called first, we don't have savedState, so we need to call saveState() */
-        /* => (?:) operator inevitable! */
-        outState.putBundle(ISwipe.CachedHomeState, (savedState != null) ? savedState : saveState());
+        CachedHomeState.setCachedHomeState(getDataToBeCached());
     }
 
     public CachedHomeState getDataToBeCached() {

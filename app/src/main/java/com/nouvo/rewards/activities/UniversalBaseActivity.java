@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
@@ -22,11 +23,15 @@ public class UniversalBaseActivity extends AppCompatActivity {
 
     private SimpleArcDialog pgLoader;
     boolean doubleBackToExitPressedOnce = false;
+    protected SwipeRefreshLayout swPullToRefresh;
+    protected boolean shouldPullToRefreshEnabled;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
 
     @Override
     public void onBackPressed() {
@@ -60,8 +65,20 @@ public class UniversalBaseActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Function to enable disable pull to refresh
+     *
+     * @param isEnabled - Flag to enable disable pull to refresh.
+     */
+    public void setPullToRefreshEnabled(boolean isEnabled) {
+        shouldPullToRefreshEnabled=isEnabled;
+    }
+
 
     public void showProgress(String message) {
+        if (swPullToRefresh != null && swPullToRefresh.isRefreshing()) {
+            return;
+        }
         String strMessage = getResources().getString(R.string.please_wait);
         if (pgLoader == null) {
             int[] colorArray =
@@ -90,18 +107,26 @@ public class UniversalBaseActivity extends AppCompatActivity {
     }
 
 
-
     public void hideProgress() {
         if (pgLoader != null && pgLoader.isShowing())
             pgLoader.dismiss();
+
+        //If pull to refresh loader is showing then hide it.
+        if (swPullToRefresh != null && swPullToRefresh.isRefreshing()) {
+            swPullToRefresh.setRefreshing(false);
+        }
     }
 
     public void onSessionExpired() {
 
     }
 
-    public SimpleArcDialog getLoader() {
-        return pgLoader;
+    /**
+     * Function to hide the app loader only.
+     */
+    public void hideLoaderOnly() {
+        if (pgLoader != null && pgLoader.isShowing())
+            pgLoader.dismiss();
     }
 
     /**
