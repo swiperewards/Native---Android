@@ -37,7 +37,7 @@
 
 
     //Login/Register
-    <string name="forget_password"><u>Forgot Password</u></string>
+    <string name="forget_password"><u>Forgot Password?</u></string>
     <string name="sign_in_underline"><u>Sign In</u></string>
     <string name="login">Sign In</string>
     <string name="confirm_pass_code_hint_text">Confirm Password</string>
@@ -140,4 +140,6 @@
     <string name="invite">Invite</string>
     <string name="referral_desc">Share this special code with friends. Whey they use Nouvo for the first time you and they\'ll get 10 XP points each.</string>
     <string name="unable_navigate">Sorry, we are unable to naviate you to this store location.</string>
+    <string name="routin_number">Routing Number</string>
+    <string name="no_deals_for_filter">No store/deals available for applied filter.</string>
 </resources>

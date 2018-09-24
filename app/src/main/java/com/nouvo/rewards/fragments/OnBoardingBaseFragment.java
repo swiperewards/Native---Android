@@ -45,7 +45,6 @@ public class OnBoardingBaseFragment extends BaseFragment implements OnBoardingVi
     private static final String EMAIL = "email";
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

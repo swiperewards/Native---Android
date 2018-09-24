@@ -1,89 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_gravity="center"
-              android:background="@color/color_white"
-              android:gravity="center_horizontal"
-              android:layout_marginBottom="@dimen/margin_small"
-              android:orientation="vertical"
-        >
-
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                                            android:layout_width="match_parent"
+                                            android:layout_gravity="top"
+                                            android:padding="0dp"
+                                            android:layout_margin="0dp"
+                                            android:clickable="true"
+                                            android:longClickable="true"
+                                            android:layout_height="match_parent">
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/top_bg"
-            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:background="@color/color_white"
+            android:gravity="center_horizontal|top"
             android:orientation="vertical"
-            android:padding="@dimen/margin_small"
             >
-        <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/iv_swipe"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|bottom"
-                android:layout_marginBottom="@dimen/margin_tiny"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginRight="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:adjustViewBounds="true"
-                android:cropToPadding="true"
-                android:scaleType="centerInside"
-                android:tint="@color/color_white"
-                app:srcCompat="@drawable/vc_nouvo"
 
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/top_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/margin_small"
+                >
+            <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_swipe"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_marginBottom="@dimen/margin_tiny"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:adjustViewBounds="true"
+                    android:cropToPadding="true"
+                    android:scaleType="centerInside"
+                    android:tint="@color/color_white"
+                    app:srcCompat="@drawable/vc_nouvo"
+
+                    />
+
+        </LinearLayout>
+
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/margin_small"
+                android:text="YOUR CODE"
+                android:textColor="@color/color_hint"
+                android:textSize="@dimen/text_size_very_small"
                 />
 
+
+        <TextView
+                android:id="@+id/tv_referral_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/dotted_squared_background"
+                android:gravity="center_horizontal"
+                android:paddingLeft="@dimen/margin_very_small"
+                android:paddingRight="@dimen/margin_very_small"
+                android:text="ABCDEFG"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/margin_extra_large"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_small"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/margin_small"
+                android:text="@string/referral_desc"
+                android:textColor="@color/color_text"
+                android:textSize="@dimen/text_size_small"
+                />
+
+        <Button
+                android:id="@+id/bt_invite"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@string/invite"
+                android:theme="@style/AppButton"
+                android:visibility="visible"/>
+
     </LinearLayout>
-
-
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:gravity="center_horizontal"
-            android:padding="@dimen/margin_small"
-            android:text="YOUR CODE"
-            android:textColor="@color/color_hint"
-            android:textSize="@dimen/text_size_very_small"
-            />
-
-
-    <TextView
-            android:id="@+id/tv_referral_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/dotted_squared_background"
-            android:gravity="center_horizontal"
-            android:paddingLeft="@dimen/margin_very_small"
-            android:paddingRight="@dimen/margin_very_small"
-            android:text="ABCDEFG"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/margin_extra_large"/>
-
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:gravity="center_horizontal"
-            android:padding="@dimen/margin_small"
-            android:text="@string/referral_desc"
-            android:textColor="@color/color_text"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:textSize="@dimen/text_size_small"
-            />
-
-    <Button
-            android:id="@+id/bt_invite"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="visible"
-            android:layout_marginTop="@dimen/margin_small"
-            android:text="@string/invite"
-            android:theme="@style/AppButton"/>
-
-</LinearLayout>
+</android.support.v4.widget.NestedScrollView>

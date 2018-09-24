@@ -8,6 +8,8 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,9 +39,9 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
     private TextInputEditText etAccountNumber;
     private AppCompatEditText etAmount;
     private AppCompatEditText etName;
-    private AppCompatEditText etAddress;
+    private AppCompatEditText etExtraField;
     private TextInputLayout tilName;
-    private TextInputLayout tilAddress;
+    private TextInputLayout tillExtraField;
     private TextInputLayout tilAccountNumber;
     private Button btConfirm;
     private RedeemPresenter redeemPresenter;
@@ -78,9 +80,9 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
         etAmount = (AppCompatEditText) mRootView.findViewById(R.id.et_amount);
 
         etName = (AppCompatEditText) mRootView.findViewById(R.id.et_name);
-        etAddress = (AppCompatEditText) mRootView.findViewById(R.id.et_address);
+        etExtraField = (AppCompatEditText) mRootView.findViewById(R.id.et_extra_field);
         tilName = mRootView.findViewById(R.id.til_name);
-        tilAddress = mRootView.findViewById(R.id.til_address);
+        tillExtraField = mRootView.findViewById(R.id.till_extra_field);
         tilAccountNumber = mRootView.findViewById(R.id.til_account_number);
 
         btConfirm = (Button) mRootView.findViewById(R.id.bt_confirm);
@@ -148,19 +150,30 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
     private void updateUiBasedOnSelectedRedeemMOde(String selectedItem) {
         if (selectedItem.equalsIgnoreCase(ISwipe.CHEQUE)) {
             spRedeemModeOptions.setVisibility(View.GONE);
-            tilAddress.setVisibility(View.VISIBLE);
+            tillExtraField.setVisibility(View.VISIBLE);
             tilName.setVisibility(View.VISIBLE);
             tilAccountNumber.setVisibility(View.GONE);
-        } else {
-            if (!selectedItem.equalsIgnoreCase(ISwipe.BANK_ACCOUNT)) {
-                tilAccountNumber.setHint(getActivity().getResources().getString(R.string.wallet_address));
-            } else {
-                tilAccountNumber.setHint(getActivity().getResources().getString(R.string.acc_number));
-            }
+            tillExtraField.setHint(getActivity().getResources().getString(R.string.address));
+        } else if (selectedItem.equalsIgnoreCase(ISwipe.BANK_ACCOUNT)) {
+            //tillExtraField
             spRedeemModeOptions.setVisibility(View.VISIBLE);
-            tilAddress.setVisibility(View.GONE);
             tilName.setVisibility(View.GONE);
             tilAccountNumber.setVisibility(View.VISIBLE);
+            tilAccountNumber.setHint(getActivity().getResources().getString(R.string.acc_number));
+            tillExtraField.setVisibility(View.VISIBLE);
+            etExtraField.setText("");
+            etExtraField.setInputType(InputType.TYPE_CLASS_PHONE);
+            etExtraField.setFilters(new InputFilter[]{new InputFilter.LengthFilter(9)});
+            tillExtraField.setHint(getActivity().getResources().getString(R.string.routin_number));
+        } else {
+            spRedeemModeOptions.setVisibility(View.VISIBLE);
+            tilName.setVisibility(View.GONE);
+            tilAccountNumber.setVisibility(View.VISIBLE);
+            tilAccountNumber.setHint(getActivity().getResources().getString(R.string.wallet_address));
+            tillExtraField.setVisibility(View.GONE);
+            etExtraField.setText("");
+            etExtraField.setInputType(InputType.TYPE_CLASS_TEXT);
+            etExtraField.setFilters(new InputFilter[]{new InputFilter.LengthFilter(128)});
 
         }
     }
@@ -223,17 +236,25 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
         map.put("redeemModeId", selectedModeId);
         map.put("amount", amount);
 
-        if (!selectedMode.equalsIgnoreCase(ISwipe.CHEQUE)) {
+        if (selectedMode.equalsIgnoreCase(ISwipe.BANK_ACCOUNT)) { // Bank Account
+            int selectedModeOptionId = redeemModes[spRedeemMode.getSelectedItemPosition()].getModeOptions()[spRedeemModeOptions.getSelectedItemPosition()].getModeSubId();
+            String accountNumber = etAccountNumber.getText().toString();
+            String routingNumber = etExtraField.getText().toString();
+            map.put("redeemModeOptionId", selectedModeOptionId);
+            map.put("details", accountNumber);
+            map.put("extraField", routingNumber);
+
+        } else if (selectedMode.equalsIgnoreCase(ISwipe.CHEQUE)) { // Cheque
+            String nameAsPerCheque = etName.getText().toString();
+            String address = etExtraField.getText().toString();
+            map.put("redeemModeOptionId", 0);
+            map.put("details", nameAsPerCheque);
+            map.put("extraField", address);
+        } else {// CryptoCurrency
             int selectedModeOptionId = redeemModes[spRedeemMode.getSelectedItemPosition()].getModeOptions()[spRedeemModeOptions.getSelectedItemPosition()].getModeSubId();
             String accountNumber = etAccountNumber.getText().toString();
             map.put("redeemModeOptionId", selectedModeOptionId);
             map.put("details", accountNumber);
-        } else {
-            String nameAsPerCheque = etName.getText().toString();
-            String address = etAddress.getText().toString();
-            map.put("redeemModeOptionId", 0);
-            map.put("details", nameAsPerCheque);
-            map.put("extraField", address);
         }
 
         redeemPresenter.raiseRedeemRequest(map);
@@ -249,7 +270,9 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
             return false;
         } else {
             String selectedMode = (String) spRedeemMode.getSelectedItem();
-            if (selectedMode.equalsIgnoreCase(ISwipe.CHEQUE) && validationHelper.isValidEditTexts(getActivity(), etName, etAddress, etAmount)) {
+            if (selectedMode.equalsIgnoreCase(ISwipe.CHEQUE) && validationHelper.isValidEditTexts(getActivity(), etName, etExtraField, etAmount)) {
+                return true;
+            } else if (selectedMode.equalsIgnoreCase(ISwipe.BANK_ACCOUNT) && validationHelper.isValidEditTexts(getActivity(), etName,etAccountNumber, etExtraField, etAmount)) {
                 return true;
             } else {
                 if (spRedeemModeOptions.getAdapter() == null || spRedeemModeOptions.getAdapter().getCount() == 0) {
@@ -309,11 +332,11 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
     public void onRedeemRequestGenerated() {
         clearFields();
         showMessage(getActivity().getResources().getString(R.string.redeem_request_raised));
-//        ((HomeActivity) getActivity()).setDefaultHomeIndex();
+//        ((HomeActivity) getActivity()).setNavigationSelectedItem();
     }
 
     private void clearFields() {
-        etAddress.setText("");
+        etExtraField.setText("");
         etName.setText("");
         etAmount.setText("");
         etAccountNumber.setText("");

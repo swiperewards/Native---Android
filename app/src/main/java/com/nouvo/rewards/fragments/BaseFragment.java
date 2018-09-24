@@ -63,7 +63,11 @@ public class BaseFragment extends Fragment implements BaseMVPView {
     @Override
     public void onStop() {
         super.onStop();
-        hideProgress();
+        if (((UniversalBaseActivity) getActivity()) != null) {
+            ((UniversalBaseActivity) getActivity()).hideLoaderOnly();
+        }
+
+
     }
 
     protected void processLogout(Context context) {

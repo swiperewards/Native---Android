@@ -42,8 +42,10 @@ public class BaseActivity extends UniversalBaseActivity {
             @Override
             public void onBackStackChanged() {
                 if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    shouldPullToRefreshEnabled=false;
                     configureBackButton(true);
                 } else {
+                    shouldPullToRefreshEnabled=true;
                     configureBackButton(false);
                 }
             }
