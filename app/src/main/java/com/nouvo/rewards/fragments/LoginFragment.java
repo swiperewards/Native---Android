@@ -106,7 +106,7 @@ public class LoginFragment extends OnBoardingBaseFragment implements View.OnClic
 
     private void setDummyData() {
         if (ISwipe.IS_DUMMY_DATA_ENABLED) {
-            etUserEmail.setText("vishalb@winjit.com");
+            etUserEmail.setText("nikitaw@winjit.com");
             etPassword.setText("Winjit@123");
         }
     }
