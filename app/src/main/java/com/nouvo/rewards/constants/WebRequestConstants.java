@@ -9,7 +9,8 @@ public class WebRequestConstants {
     //Host URL
 //    private static final String URL = "http://winjitstaging.cloudapp.net:5000";
 //    private static final String URL = "http://192.168.0.198:5000";
-    private static final String URL = "http://34.238.120.25:5008";
+   // private static final String URL = "http://34.238.120.25:5008";
+    private static final String URL  ="http://34.238.120.25:5009";
 
     public static final String WS_REGISTER = URL + "/users/registerUser";
     public static final String WS_LOGIN = URL + "/users/loginUser";

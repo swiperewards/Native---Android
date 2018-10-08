@@ -20,6 +20,7 @@ public class WebRequestManager implements WebRequestHelper.WebResponseListener {
     private WebProcessListener mWebProcessListener;
     private Context context;
     private JsEncryptor mJsEncryptor;
+
     public interface WebProcessListener<T> {
         void onWebProcessSuccess(T object);
 
@@ -33,33 +34,41 @@ public class WebRequestManager implements WebRequestHelper.WebResponseListener {
 
     public void makeRequest(final RequestQueue requestQueue, final int methodType, final String url, final Map<String, String> headers, final JSONObject params, final Class clazz) {
         if (context != null && NetworkUtil.getInstance().isConnectedToInternet(context)) {
-
             try {
-              mJsEncryptor = JsEncryptor.evaluateAllScripts(context);
-                JSONObject requestData = params.getJSONObject("requestData");
+                mJsEncryptor = JsEncryptor.evaluateAllScripts(context);
+                if (ISwipe.IS_ENCRYPTIOON_ON) {
+                    if (params.has("requestData")) {
+                        JSONObject requestData = params.getJSONObject("requestData");
 
-                mJsEncryptor.encrypt(requestData.toString().replace("\\",""), ISwipe.ENCRYPTION_PASSWORD,
-                        new JsCallback() {
-                            @Override
-                            public void onResult(final String encryptedMessage) {
-                                try {
-                                    params.put("requestData", encryptedMessage);
-                                    WebRequestHelper webRequest;
-                                    webRequest = new WebRequestHelper(methodType, url, headers, (params == null) ? new JSONObject() : params, WebRequestManager.this, clazz);
-                                    requestQueue.add(webRequest);
-                                } catch (JSONException e) {
-                                    onWebRequestError(new VolleyError(context.getResources().getString(R.string.err_generic)), clazz);
-                                }
+                        mJsEncryptor.encrypt(requestData.toString().replace("\\", ""), ISwipe.ENCRYPTION_PASSWORD,
+                                new JsCallback() {
+                                    @Override
+                                    public void onResult(final String encryptedMessage) {
+                                        try {
+                                            params.put("requestData", encryptedMessage);
+                                            WebRequestHelper webRequest;
+                                            webRequest = new WebRequestHelper(methodType, url, headers, (params == null) ? new JSONObject() : params, WebRequestManager.this, clazz);
+                                            requestQueue.add(webRequest);
+                                        } catch (JSONException e) {
+                                            onWebRequestError(new VolleyError(context.getResources().getString(R.string.err_generic)), clazz);
+                                        }
+                                    }
 
-                            }
-
-                            @Override
-                            public void onError(String s) {
-                                onWebRequestError(new VolleyError(context.getResources().getString(R.string.err_generic)), clazz);
-                            }
-                        });
-
-
+                                    @Override
+                                    public void onError(String s) {
+                                        onWebRequestError(new VolleyError(context.getResources().getString(R.string.err_generic)), clazz);
+                                    }
+                                });
+                    } else {
+                        WebRequestHelper webRequest;
+                        webRequest = new WebRequestHelper(methodType, url, headers, (params == null) ? new JSONObject() : params, WebRequestManager.this, clazz);
+                        requestQueue.add(webRequest);
+                    }
+                } else {
+                    WebRequestHelper webRequest;
+                    webRequest = new WebRequestHelper(methodType, url, headers, (params == null) ? new JSONObject() : params, WebRequestManager.this, clazz);
+                    requestQueue.add(webRequest);
+                }
 
 
             } catch (JSONException e) {

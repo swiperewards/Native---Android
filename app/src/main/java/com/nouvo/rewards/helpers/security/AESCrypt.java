@@ -196,12 +196,6 @@ final class AESCrypt {
     }
 
 
-
-
-
-
-
-
     public static String decryptJS(String cipherText, String secret) {
         try {
             byte[] cipherData = Base64.decode(cipherText, Base64.NO_WRAP);
