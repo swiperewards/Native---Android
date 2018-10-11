@@ -5,20 +5,30 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 
 import com.nouvo.rewards.activities.LoginActivity;
 import com.nouvo.rewards.activities.UniversalBaseActivity;
 import com.nouvo.rewards.helpers.PreferenceUtils;
 import com.nouvo.rewards.helpers.UIHelper;
 import com.nouvo.rewards.mvpviews.BaseMVPView;
+import com.nouvo.rewards.mvpviews.FCMView;
+import com.nouvo.rewards.presenters.FcmTokenPresenter;
 
 
-public class BaseFragment extends Fragment implements BaseMVPView {
+public class BaseFragment extends Fragment implements BaseMVPView, FCMView {
+
+    protected FcmTokenPresenter fcmTokenPresenter;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new UIHelper().hideKeyboard(getActivity());
+        fcmTokenPresenter = new FcmTokenPresenter(this);
+        if (isValidSession()) {
+            addUpdateFcmToken();
+        }
     }
 
     @Override
@@ -76,5 +86,27 @@ public class BaseFragment extends Fragment implements BaseMVPView {
         Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
         startActivity(loginIntent);
         getActivity().finish();
+    }
+
+
+    private void addUpdateFcmToken() {
+        try {
+            String Fcmtoken = PreferenceUtils.readString(getContext(), "Fcmtoken", "");
+            if (Fcmtoken != null && !Fcmtoken.isEmpty()) {
+                fcmTokenPresenter.fcmTokenAddUpdate(Fcmtoken);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onFcmTokenIdRecieved(String FcmTokenId) {
+        PreferenceUtils.clearValue(getContext(), "Fcmtoken");
+    }
+
+    private boolean isValidSession() {
+        return !TextUtils.isEmpty(PreferenceUtils.readString(getContext(), PreferenceUtils.SESSION_TOKEN, ""));
     }
 }

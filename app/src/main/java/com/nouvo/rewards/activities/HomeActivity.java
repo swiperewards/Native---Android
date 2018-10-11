@@ -75,6 +75,8 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     private RelativeLayout rlProfilePic;
     private ImagePicker imagePicker;
     private View includedContainerMain;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +103,8 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         swPullToRefresh = findViewById(R.id.sw_pull_to_refresh);
         includedContainerMain = findViewById(R.id.included_container_main);
         navigation = (BottomNavigationViewEx) findViewById(R.id.bottom_navigation);
+
+
         initToolBar();
         setListeners();
 
@@ -125,6 +129,8 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             showProgress(getResources().getString(R.string.please_wait));
         initSwipePresenter.initialiseSwipeRewards(new CommonHelper().getVersionCode(this));
     }
+
+
 
 
     private void setListeners() {
@@ -279,7 +285,6 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             toolbarTitle.setText(title);
         }
     }
-
 
 
     @Override
@@ -501,7 +506,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             params.setBehavior(new FixScrollingFooterBehavior());
         } else {
             params.setBehavior(new AppBarLayout.ScrollingViewBehavior());
-            includedContainerMain.setPadding(0,0,0,0);
+            includedContainerMain.setPadding(0, 0, 0, 0);
         }
 
         includedContainerMain.requestLayout();

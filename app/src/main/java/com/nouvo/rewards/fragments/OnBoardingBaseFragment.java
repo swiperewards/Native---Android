@@ -40,6 +40,7 @@ import java.util.Arrays;
 
 public class OnBoardingBaseFragment extends BaseFragment implements OnBoardingView {
     protected OnBoardingPresenter onBoardingPresenter;
+
     protected LoginButton fbLoginButton;
     private CallbackManager callbackManager;
     private static final String EMAIL = "email";
@@ -195,5 +196,6 @@ public class OnBoardingBaseFragment extends BaseFragment implements OnBoardingVi
         startActivity(homeIntent);
         getActivity().finish();
     }
+
 
 }

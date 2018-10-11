@@ -9,6 +9,10 @@ public class SingletonAppCache {
     private UserProfile userProfile;
     private boolean isSocialLogin;
 
+
+
+    private String FcmToken;
+
     private static SingletonAppCache singletonAppCache;
 
 
@@ -49,5 +53,13 @@ public class SingletonAppCache {
 
     public static void setSingletonAppCache(SingletonAppCache singletonAppCache) {
         SingletonAppCache.singletonAppCache = singletonAppCache;
+    }
+
+    public String getFcmToken() {
+        return FcmToken;
+    }
+
+    public void setFcmToken(String fcmToken) {
+        FcmToken = fcmToken;
     }
 }
