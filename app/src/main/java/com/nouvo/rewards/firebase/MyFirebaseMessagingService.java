@@ -101,8 +101,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void sendRegistrationToServer(String token) {
 
         // TODO: Implement this method to send token to your app server.
-
-        //SingletonAppCache.getInstance().setFcmToken(token);
         PreferenceUtils.writeString(this,"Fcmtoken",token);
     }
 

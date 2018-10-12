@@ -138,7 +138,7 @@
     <string name="apply">Apply</string>
     <string name="referral_applied">Referral code applied successfully!</string>
     <string name="invite">Invite</string>
-    <string name="referral_desc">Share this special code with friends. Whey they use Nouvo for the first time you and they\'ll get 10 XP points each.</string>
+    <string name="referral_desc">Share this special code with friends. When they use Nouvo for the first time you and they\'ll get 10 XP points each.</string>
     <string name="unable_navigate">Sorry, we are unable to navigate you to this store location.</string>
     <string name="routin_number">Routing Number</string>
     <string name="no_deals_for_filter">No store/deals available for applied filter.</string>

@@ -10,9 +10,6 @@ public class SingletonAppCache {
     private boolean isSocialLogin;
 
 
-
-    private String FcmToken;
-
     private static SingletonAppCache singletonAppCache;
 
 
@@ -55,11 +52,4 @@ public class SingletonAppCache {
         SingletonAppCache.singletonAppCache = singletonAppCache;
     }
 
-    public String getFcmToken() {
-        return FcmToken;
-    }
-
-    public void setFcmToken(String fcmToken) {
-        FcmToken = fcmToken;
-    }
 }

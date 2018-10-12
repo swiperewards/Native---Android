@@ -12,7 +12,7 @@ public class WebRequestConstants {
     // private static final String URL = "http://192.168.0.198:5000";
 //temporrary local data base
     //private static final String URL = "http://b54ca0fb.ngrok.io";
-    //  encrypted
+    //  encrypted ec2
     private static final String URL = "http://34.238.120.25:5008";
     //plain
 //    private static final String URL  ="http://34.238.120.25:5009";

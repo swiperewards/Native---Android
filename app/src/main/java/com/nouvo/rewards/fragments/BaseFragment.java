@@ -88,12 +88,15 @@ public class BaseFragment extends Fragment implements BaseMVPView, FCMView {
         getActivity().finish();
     }
 
-
+    /**
+     * api call for pushing fcm stoken to server
+     */
     private void addUpdateFcmToken() {
         try {
-            String Fcmtoken = PreferenceUtils.readString(getContext(), "Fcmtoken", "");
-            if (Fcmtoken != null && !Fcmtoken.isEmpty()) {
-                fcmTokenPresenter.fcmTokenAddUpdate(Fcmtoken);
+            String fcmToken = PreferenceUtils.readString(getContext(), "Fcmtoken", "");
+
+            if (fcmToken != null && !fcmToken.isEmpty()) {
+                fcmTokenPresenter.fcmTokenAddUpdate(fcmToken);
             }
 
         } catch (Exception e) {
