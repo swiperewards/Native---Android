@@ -69,7 +69,7 @@
     <string name="disclaimer"><b>Message:</b> Swipe any card you add here at any of our merchants to receive automatic cashback.</string>
     <string name="add">Add</string>
     <string name="description">Description</string>
-    <string name="dummy_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="txt_contact_us">Do you have any questions, comments, or concerns? Fill out the form below and a team member will get back to you as soon as possible</string>
     <string name="confirm">Confirm</string>
     <string name="acc_number">Account Number</string>
     <string name="wallet_address">Wallet Address</string>
@@ -93,7 +93,7 @@
     <string name="cashback_till_date">Total Cashback </string>
     <string name="permission_error">Location permission is must to explore the exciting deals!</string>
     <string name="address">Address</string>
-    <string name="name_as_per_bank">Name as per bank</string>
+    <string name="name_as_per_bank">Full Name</string>
     <string name="err_valid_redeem_mode">Please select valid redeem mode.</string>
     <string name="err_valid_redeem_option">Please select valid redeem option.</string>
     <string name="redeem_request_raised">Redeem request has been raised successfully!</string>

@@ -58,7 +58,7 @@ public class DealsAdapter extends RecyclerView.Adapter {
         if (holder instanceof DealViewHolder) {
             ((DealViewHolder) holder).tvStoreName.setText(dealsList.get(position).getEntityName());
             String cashBack = String.format("%.2f", dealsList.get(position).getCashBonus());
-            ((DealViewHolder) holder).tvCashBack.setText("$" + cashBack);
+            ((DealViewHolder) holder).tvCashBack.setText("up to $" + cashBack);
             ((DealViewHolder) holder).tvValidity.setText(dealsList.get(position).getEndDate());
 
             if (!TextUtils.isEmpty(dealsList.get(position).getIcon())) {
