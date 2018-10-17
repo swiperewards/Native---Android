@@ -57,6 +57,8 @@ public interface ISwipe {
     String ENCRYPTION_PASSWORD = "nn534oj90156fsd584sfs";
     Boolean IS_ENCRYPTIOON_ON = true;
 
+
+
     enum BottomErrorType {
 
         ERROR_ENABLE_LOCATION(1),

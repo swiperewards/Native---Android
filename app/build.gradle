@@ -13,8 +13,18 @@ android {
     }
     buildTypes {
         release {
+            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+
+        debug {
+//            debuggable true
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            consumerProguardFiles 'proguard-rules.pro'
+//             applicationIdSuffix ".debug"
         }
     }
 }

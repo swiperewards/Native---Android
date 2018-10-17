@@ -67,7 +67,8 @@ public class DealsPresenter extends BasePresenter {
 
 
     public void getDealsWithPagination(String location,int pageNumber, int pageSize) {
-        try {
+        try {System.out.print("deas 2");
+
             new ServiceController().getDealsWithPagination(dealsView.getViewContext(), location,pageNumber,pageSize, new WebRequestManager.WebProcessListener<GetDealsEvent>() {
                 @Override
                 public void onWebProcessSuccess(GetDealsEvent getDealsEvent) {
