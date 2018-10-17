@@ -71,7 +71,7 @@ public class UniversalBaseActivity extends AppCompatActivity {
      * @param isEnabled - Flag to enable disable pull to refresh.
      */
     public void setPullToRefreshEnabled(boolean isEnabled) {
-        shouldPullToRefreshEnabled=isEnabled;
+        shouldPullToRefreshEnabled = isEnabled;
     }
 
 
