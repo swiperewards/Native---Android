@@ -70,6 +70,7 @@ class WebRequestHelper<T> extends JsonRequest<T> { //com.android.volley.Request<
         Response<T> ntResponse;
         try {
             String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+
             if (ISwipe.IS_ENCRYPTIOON_ON) {
                 JSONObject encryptedObject = new JSONObject(jsonString);
                 int status = Integer.parseInt(String.valueOf(encryptedObject.get("status")));
@@ -77,6 +78,7 @@ class WebRequestHelper<T> extends JsonRequest<T> { //com.android.volley.Request<
                     if (encryptedObject.has("responseData")) {
                         String encryptedResponseData = String.valueOf(encryptedObject.get("responseData"));
                         String decryptedObject = new CryptoHelper().decryptAES(encryptedResponseData, ISwipe.ENCRYPTION_PASSWORD);
+                        System.out.print("response:"+ jsonString);
                         encryptedObject.remove("responseData");
                         if (decryptedObject.startsWith("[")) {
                             JSONArray jsonArray = new JSONArray(decryptedObject);

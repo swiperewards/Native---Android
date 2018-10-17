@@ -20,13 +20,13 @@ public class BaseFragment extends Fragment implements BaseMVPView, FCMView {
 
     protected FcmTokenPresenter fcmTokenPresenter;
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new UIHelper().hideKeyboard(getActivity());
         fcmTokenPresenter = new FcmTokenPresenter(this);
-        if (isValidSession()) {
+
+        if (isValidSession() && PreferenceUtils.readBoolean(getContext(), PreferenceUtils.TO_REGISTER_FCM_TOKEN, true) == true) {
             addUpdateFcmToken();
         }
     }
@@ -81,7 +81,12 @@ public class BaseFragment extends Fragment implements BaseMVPView, FCMView {
     }
 
     protected void processLogout(Context context) {
-        PreferenceUtils.clearPreferences(context);
+
+        //todo dont clear shared prefernce as to save fcm token
+        //PreferenceUtils.clearPreferences(context);
+        PreferenceUtils.clearValue(context,PreferenceUtils.USER_DETAILS);
+        PreferenceUtils.clearValue(context,PreferenceUtils.SESSION_TOKEN);
+        PreferenceUtils.clearValue(context,PreferenceUtils.TO_REGISTER_FCM_TOKEN);
 //        Picasso.with(getActivity()).invalidate(SingletonAppCache.getInstance().getUserProfile().getProfilePicUrl());
         Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
         startActivity(loginIntent);
@@ -89,24 +94,26 @@ public class BaseFragment extends Fragment implements BaseMVPView, FCMView {
     }
 
     /**
-     * api call for pushing fcm stoken to server
+     * api call to add or update fcm token to server
      */
     private void addUpdateFcmToken() {
         try {
-            String fcmToken = PreferenceUtils.readString(getContext(), "Fcmtoken", "");
-
+            String fcmToken = PreferenceUtils.readString(getContext(), PreferenceUtils.FCM_TOKEN, "");
             if (fcmToken != null && !fcmToken.isEmpty()) {
                 fcmTokenPresenter.fcmTokenAddUpdate(fcmToken);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void onFcmTokenIdRecieved(String FcmTokenId) {
-        PreferenceUtils.clearValue(getContext(), "Fcmtoken");
+    public void onFcmTokenIdRecieved(String fcmTokenId) {
+        if (fcmTokenId.trim().equalsIgnoreCase("")) {
+        } else {
+            PreferenceUtils.writeBoolean(getContext(), PreferenceUtils.TO_REGISTER_FCM_TOKEN, false);
+        }
+        // PreferenceUtils.clearValue(getContext(), "Fcmtoken");
     }
 
     private boolean isValidSession() {

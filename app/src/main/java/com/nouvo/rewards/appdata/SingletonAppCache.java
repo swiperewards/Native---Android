@@ -10,6 +10,9 @@ public class SingletonAppCache {
     private boolean isSocialLogin;
 
 
+
+
+
     private static SingletonAppCache singletonAppCache;
 
 
