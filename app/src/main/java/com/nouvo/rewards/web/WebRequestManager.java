@@ -49,6 +49,7 @@ public class WebRequestManager implements WebRequestHelper.WebResponseListener {
                                             WebRequestHelper webRequest;
                                             webRequest = new WebRequestHelper(methodType, url, headers, (params == null) ? new JSONObject() : params, WebRequestManager.this, clazz);
                                             requestQueue.add(webRequest);
+                                            System.out.print("webRequest:"+webRequest);
                                         } catch (JSONException e) {
                                             onWebRequestError(new VolleyError(context.getResources().getString(R.string.err_generic)), clazz);
                                         }

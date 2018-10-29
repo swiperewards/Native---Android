@@ -41,6 +41,7 @@ import com.nouvo.rewards.fragments.WalletFragment;
 import com.nouvo.rewards.helpers.CommonHelper;
 import com.nouvo.rewards.helpers.FixScrollingFooterBehavior;
 import com.nouvo.rewards.helpers.GPSTracker;
+import com.nouvo.rewards.helpers.NetworkUtil;
 import com.nouvo.rewards.helpers.PreferenceUtils;
 import com.nouvo.rewards.helpers.UIHelper;
 import com.nouvo.rewards.interfaces.MessageDialogConfirm;
@@ -120,6 +121,14 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         }
 
         initSwipe();
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
     private void initSwipe() {
@@ -129,8 +138,6 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             showProgress(getResources().getString(R.string.please_wait));
         initSwipePresenter.initialiseSwipeRewards(new CommonHelper().getVersionCode(this));
     }
-
-
 
 
     private void setListeners() {
@@ -325,6 +332,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         initSwipe();
     }
 
+
     private void showCurrentCityName() {
         GPSTracker gpsTracker = new GPSTracker(this);
         int attempts = 0;
@@ -369,7 +377,11 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             }
 
             if (!TextUtils.isEmpty(userProfile.getProfilePicUrl())) {
-                UIHelper.getInstance().loadImage(this, userProfile.getProfilePicUrl().replace(" ", "%20"), profileImage, R.mipmap.ic_user_icon, R.mipmap.ic_user_icon);
+                if (NetworkUtil.getInstance().isConnectedToInternet(this)) {
+                    UIHelper.getInstance().loadImageOnline(this,userProfile.getProfilePicUrl().replace(" ","%20"),profileImage,R.mipmap.ic_user_icon,R.mipmap.ic_user_icon);
+                } else {
+                    UIHelper.getInstance().loadImage(this, userProfile.getProfilePicUrl().replace(" ", "%20"), profileImage, R.mipmap.ic_user_icon, R.mipmap.ic_user_icon);
+                }
             }
         } catch (Exception e) {
 
@@ -511,5 +523,6 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
 
         includedContainerMain.requestLayout();
     }
+
 
 }

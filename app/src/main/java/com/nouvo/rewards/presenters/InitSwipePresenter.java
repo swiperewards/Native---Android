@@ -46,10 +46,12 @@ public class InitSwipePresenter extends BasePresenter {
 
     public void uploadProfilePic(Bitmap profilePic) {
         try {
-            new ServiceController().uploadProfilePic(initSwipeView.getViewContext(), new UIHelper().BitMapToString(profilePic), new WebRequestManager.WebProcessListener<BaseEvent>() {
+            String bitmapData =new UIHelper().BitMapToString(profilePic);
+            new ServiceController().uploadProfilePic(initSwipeView.getViewContext(), bitmapData, new WebRequestManager.WebProcessListener<BaseEvent>() {
                 @Override
                 public void onWebProcessSuccess(BaseEvent baseEvent) {
                     if (baseEvent.getStatus() == ISwipe.SUCCESS) {
+                        String imageUri="";
                         initSwipeView.hideProgress();
                         initSwipeView.showMessage("Profile pic uploaded successfully");
                     } else {

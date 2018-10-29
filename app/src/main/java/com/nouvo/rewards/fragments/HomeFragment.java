@@ -80,8 +80,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        initViews(view);
         context = view.getContext();
+        initViews(view);
         showProgress(context.getResources().getString(R.string.please_wait));
         dealsPresenter.getCities();
         getLocationPermissions(); // to check device location service on-off
@@ -312,7 +312,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(grantResults.length>0) {
+        if (grantResults.length > 0) {
             switch (requestCode) {
                 case ISwipe.LOCATION_PERMISSION:
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {

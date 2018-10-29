@@ -32,7 +32,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     private AppCompatTextView tvReferEarn;
     private SettingsPresenter settingsPresenter;
     private View vwPasswordSeparator;
-    AppCompatTextView tvVersionNumber;
+    private AppCompatTextView tvVersionNumber;
 
     public static SettingsFragment newInstance() {
         Bundle args = new Bundle();
@@ -193,6 +193,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         } else {
             showMessage(getActivity().getResources().getString(R.string.notification_disabled));
         }
+        SingletonAppCache.getInstance().getUserProfile().setNotificationEnabled(swNotification.isChecked());
     }
 
     @Override

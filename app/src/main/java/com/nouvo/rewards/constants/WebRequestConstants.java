@@ -7,15 +7,15 @@ package com.nouvo.rewards.constants;
  */
 public class WebRequestConstants {
     //Host URL
-//    private static final String URL = "http://winjitstaging.cloudapp.net:5000";
+    //private static final String URL = "http://winjitstaging.cloudapp.net:5000";
     //local url
-    // private static final String URL = "http://192.168.0.198:5000";
-//temporrary local data base
+     //private static final String URL = "http://192.168.0.198:5000";
+    //temporrary local data base
     //private static final String URL = "http://b54ca0fb.ngrok.io";
     //  encrypted ec2
-    private static final String URL = "http://34.238.120.25:5008";
+    //private static final String URL = "http://34.238.120.25:5008";
     //plain
-//    private static final String URL  ="http://34.238.120.25:5009";
+   private static final String URL  ="http://34.238.120.25:5009";
 
     public static final String WS_REGISTER = URL + "/users/registerUser";
     public static final String WS_LOGIN = URL + "/users/loginUser";
