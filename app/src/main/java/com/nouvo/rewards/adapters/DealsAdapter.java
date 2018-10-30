@@ -58,8 +58,14 @@ public class DealsAdapter extends RecyclerView.Adapter {
         if (holder instanceof DealViewHolder) {
             ((DealViewHolder) holder).tvStoreName.setText(dealsList.get(position).getEntityName());
             String cashBack = String.format("%.2f", dealsList.get(position).getCashBonus());
-            ((DealViewHolder) holder).tvCashBack.setText("up to $" + cashBack);
-            ((DealViewHolder) holder).tvValidity.setText(dealsList.get(position).getEndDate());
+            if (cashBack.equalsIgnoreCase("0.00")) {
+                ((DealViewHolder) holder).tvCashBack.setText("Upto 25% Cashback");
+            } else {
+                ((DealViewHolder) holder).tvCashBack.setText("$" + cashBack);
+            }
+
+            ((DealViewHolder) holder).tvValidity.setText("Available on " + dealsList.get(position).getEndDate());
+            ((DealViewHolder) holder).tvIncreasedPool.setText("(+" + dealsList.get(position).getIncreasedPool()+")");
 
             if (!TextUtils.isEmpty(dealsList.get(position).getIcon())) {
                 UIHelper.getInstance().loadImageOnline(context, dealsList.get(position).getIcon().replace(" ", "%20"), ((DealViewHolder) holder).ivIcon, R.mipmap.ic_launcher, R.mipmap.ic_launcher);
@@ -98,6 +104,7 @@ public class DealsAdapter extends RecyclerView.Adapter {
         private AppCompatTextView tvStatus;
         private AppCompatTextView tvCashBack;
         private AppCompatTextView tvValidity;
+        private AppCompatTextView tvIncreasedPool;
         private RelativeLayout rlParent;
 
         DealViewHolder(View view) {
@@ -108,6 +115,7 @@ public class DealsAdapter extends RecyclerView.Adapter {
             tvCashBack = view.findViewById(R.id.tv_cashback);
             tvValidity = view.findViewById(R.id.tv_validity);
             rlParent = view.findViewById(R.id.rl_parent);
+            tvIncreasedPool = view.findViewById(R.id.tv_increased_pool);
 
             rlParent.setOnClickListener(new View.OnClickListener() {
                 @Override
