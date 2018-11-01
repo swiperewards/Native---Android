@@ -18,7 +18,10 @@ import com.nouvo.rewards.entities.Deals;
 import com.nouvo.rewards.helpers.UIHelper;
 import com.nouvo.rewards.interfaces.DealAdapterResponseInterface;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class DealsAdapter extends RecyclerView.Adapter {
@@ -30,6 +33,7 @@ public class DealsAdapter extends RecyclerView.Adapter {
     private boolean isEndOfPaginationReached;
     private final int VIEW_ITEM = 1;
     private final int VIEW_PROG = 0;
+    private static DecimalFormat df2 = new DecimalFormat("#.##");
 
     public DealsAdapter(Context context, ArrayList<Deals> dealsList, DealAdapterResponseInterface adapterResponseInterface) {
         this.context = context;
@@ -55,17 +59,28 @@ public class DealsAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+
         if (holder instanceof DealViewHolder) {
             ((DealViewHolder) holder).tvStoreName.setText(dealsList.get(position).getEntityName());
             String cashBack = String.format("%.2f", dealsList.get(position).getCashBonus());
-            if (cashBack.equalsIgnoreCase("0.00")) {
+            if (dealsList.get(position).getCashBonus() == 0 || cashBack.equalsIgnoreCase("0,00")) {
                 ((DealViewHolder) holder).tvCashBack.setText("Upto 25% Cashback");
+                ((DealViewHolder) holder).tvIncreasedPool.setVisibility(View.GONE);
             } else {
                 ((DealViewHolder) holder).tvCashBack.setText("$" + cashBack);
             }
 
             ((DealViewHolder) holder).tvValidity.setText("Available on " + dealsList.get(position).getEndDate());
-            ((DealViewHolder) holder).tvIncreasedPool.setText("(+" + dealsList.get(position).getIncreasedPool()+")");
+
+            String increasedPoolServer = dealsList.get(position).getIncreasedPool();
+
+            if (increasedPoolServer == null || increasedPoolServer.trim().equalsIgnoreCase("")) {
+                increasedPoolServer = "0";
+            }
+
+            NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.UK);
+            increasedPoolServer = numberFormat.format(Double.parseDouble(increasedPoolServer));
+            ((DealViewHolder) holder).tvIncreasedPool.setText("(+" + increasedPoolServer + ")");
 
             if (!TextUtils.isEmpty(dealsList.get(position).getIcon())) {
                 UIHelper.getInstance().loadImageOnline(context, dealsList.get(position).getIcon().replace(" ", "%20"), ((DealViewHolder) holder).ivIcon, R.mipmap.ic_launcher, R.mipmap.ic_launcher);
@@ -101,7 +116,6 @@ public class DealsAdapter extends RecyclerView.Adapter {
     class DealViewHolder extends RecyclerView.ViewHolder {
         private AppCompatImageView ivIcon;
         private AppCompatTextView tvStoreName;
-        private AppCompatTextView tvStatus;
         private AppCompatTextView tvCashBack;
         private AppCompatTextView tvValidity;
         private AppCompatTextView tvIncreasedPool;
@@ -111,7 +125,6 @@ public class DealsAdapter extends RecyclerView.Adapter {
             super(view);
             ivIcon = view.findViewById(R.id.iv_icon);
             tvStoreName = view.findViewById(R.id.tv_store_name);
-            tvStatus = view.findViewById(R.id.tv_status);
             tvCashBack = view.findViewById(R.id.tv_cashback);
             tvValidity = view.findViewById(R.id.tv_validity);
             rlParent = view.findViewById(R.id.rl_parent);

@@ -220,7 +220,6 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     public void setNavigationSelectedItem(int navigationItem) {
         View view = navigation.findViewById(navigationItem);
         view.performClick();
-
 //        navigation.setSelectedItemId(navigationItem);
 //        //Trick to avoid the reselection of selected item
 //        navigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
@@ -297,16 +296,22 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     @Override
     public void onSwipeInitialized(InitSwipeEvent initSwipeEvent) {
         if (!checkIfForcedUpdate(initSwipeEvent.getInitSwipe().getAppConfig())) {
-            if (initSwipeEvent.getInitSwipe().getUserProfile() != null) {
-                SingletonAppCache.getInstance().setUserProfile(initSwipeEvent.getInitSwipe().getUserProfile());
-                SingletonAppCache.getInstance().setAppConfig(initSwipeEvent.getInitSwipe().getAppConfig());
-                PreferenceUtils.writeString(this, PreferenceUtils.USER_DETAILS, new Gson().toJson(initSwipeEvent.getInitSwipe().getUserProfile()));
-                setUserData(initSwipeEvent.getInitSwipe().getUserProfile());
-                setNavigationSelectedItem(navigation.getSelectedItemId());
-            } else {
-                hideProgress();
-                showMessage(getResources().getString(R.string.err_generic));
+            try {
+                if (initSwipeEvent.getInitSwipe().getUserProfile() != null) {
+                    SingletonAppCache.getInstance().setUserProfile(initSwipeEvent.getInitSwipe().getUserProfile());
+                    SingletonAppCache.getInstance().setAppConfig(initSwipeEvent.getInitSwipe().getAppConfig());
+                    PreferenceUtils.writeString(this, PreferenceUtils.USER_DETAILS, new Gson().toJson(initSwipeEvent.getInitSwipe().getUserProfile()));
+                    setUserData(initSwipeEvent.getInitSwipe().getUserProfile());
+                    setNavigationSelectedItem(navigation.getSelectedItemId());
+                } else {
+                    hideProgress();
+                    showMessage(getResources().getString(R.string.err_generic));
+                }
+            }catch (Exception ex){
+                ex.printStackTrace();
             }
+
+
         }
 
     }

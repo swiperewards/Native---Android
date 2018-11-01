@@ -9,9 +9,7 @@
     android:background="@drawable/rounded_button_background_white"
     android:clickable="true"
     android:gravity="center_vertical"
-    android:paddingLeft="0dp"
-
-    >
+    android:paddingLeft="0dp">
 
     <View
         android:id="@+id/ll_left_decor"
@@ -39,99 +37,54 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="@dimen/margin_tiny"
-        android:layout_marginLeft="@dimen/margin_tiny"
-        android:layout_marginTop="@dimen/margin_tiny"
         android:layout_toRightOf="@id/iv_icon"
-        android:clickable="false"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:weightSum="1">
 
-
-        <LinearLayout
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_store_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <!--<android.support.v7.widget.AppCompatTextView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center_vertical|left"-->
-            <!--android:layout_marginRight="@dimen/margin_tiny"-->
-            <!--android:layout_weight="0.4"-->
-            <!--android:gravity="center_vertical|left"-->
-            <!--android:text="Store"-->
-            <!--android:textColor="@color/color_hint"-->
-            <!--android:textSize="@dimen/text_size_very_small"-->
-            <!--android:visibility="gone" />-->
-
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_store_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical|left"
-                android:layout_weight="0.5"
-                android:gravity="center_vertical|left"
-                android:maxLines="2"
-                android:text="DBA Open Source"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/color_text"
-                android:textStyle="bold" />
-
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_increased_pool"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical|right"
-                android:maxLines="2"
-                android:text="(+0.20)"
-                android:gravity="right"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/amount_indicator" />
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_cashback"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical|right"
-                android:maxLines="2"
-                android:layout_weight="0.25"
-                android:gravity="center"
-                android:text="Up to $50 Cashback"
-                android:layout_marginRight="@dimen/margin_very_small"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/colorPrimary" />
-        </LinearLayout>
-
+            android:layout_weight="0.6"
+            android:padding="@dimen/margin_tiny"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/color_text"
+            android:textStyle="bold" />
 
         <LinearLayout
+            android:id="@+id/llDealsAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="@dimen/margin_very_small"
-            android:layout_marginTop="@dimen/margin_tiny"
-            android:gravity="right"
-            android:orientation="horizontal"
-            android:weightSum="1">
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/margin_tiny"
+            android:layout_weight="0.4"
+            android:orientation="vertical">
 
-            <!--<android.support.v7.widget.AppCompatTextView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_gravity="left|center_vertical"-->
-            <!--android:layout_marginRight="@dimen/margin_tiny"-->
-            <!--android:layout_weight="0.5"-->
-            <!--android:gravity="center_vertical|left"-->
-            <!--android:textColor="@color/color_hint"-->
-            <!--android:textSize="@dimen/text_size_very_small" />-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_cashback"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="Upto 25% cashback"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/colorPrimary" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_increased_pool"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:layout_toLeftOf="@id/tv_cashback"
+                    android:maxLines="2"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/amount_indicator" />
+            </RelativeLayout>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_validity"
@@ -141,87 +94,18 @@
                 android:layout_gravity="center_vertical|right"
                 android:gravity="center_vertical|right"
                 android:maxLines="2"
-                android:text="Available on 11/31/2018"
+                android:text="Available on 12/12/2018"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/color_text" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            android:weightSum="1">
-
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="left|center_vertical"
-                android:layout_marginRight="@dimen/margin_tiny"
-                android:layout_weight="0.4"
-                android:gravity="center_vertical|left"
-                android:text="Status"
-                android:textColor="@color/color_hint"
-                android:textSize="@dimen/text_size_very_small" />
-
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_status"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="right|center_vertical"
-                android:layout_weight="0.6"
-                android:gravity="center_vertical|left"
-                android:inputType="textCapWords"
-                android:maxLines="2"
-                android:text="Active"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/color_text" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            android:weightSum="1">
-
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="left|center_vertical"
-                android:layout_marginRight="@dimen/margin_tiny"
-                android:layout_weight="0.4"
-                android:gravity="center_vertical|left"
-                android:text="Pool"
-                android:textColor="@color/color_hint"
-                android:textSize="@dimen/text_size_very_small" />
-
-
-            <!--<android.support.v7.widget.AppCompatTextView-->
-            <!--android:id="@+id/tv_cashback"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_gravity="center_vertical|left"-->
-            <!--android:layout_weight="0.6"-->
-            <!--android:gravity="center_vertical|left"-->
-            <!--android:maxLines="2"-->
-            <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
-            <!--android:textColor="@color/color_text" />-->
 
         </LinearLayout>
 
     </LinearLayout>
+
+
+    <!--</RelativeLayout>-->
+    <!--</LinearLayout>-->
 
 </RelativeLayout>
 

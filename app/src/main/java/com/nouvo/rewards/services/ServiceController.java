@@ -284,5 +284,14 @@ public class ServiceController {
     }
 
 
+    public void logoutUser(Context context, WebRequestManager.WebProcessListener<BaseEvent> webProcessListener) {
+        new WebRequestManager(context, webProcessListener).makeRequest(NouvoApp.getRequestQueue(context), Request.Method.POST,
+                WebRequestConstants.WS_LOGOUT,
+                generateRequestHeader(getSessionToken(context)),
+                new InputRequestHelper().prepareWrappedInputRequest(context, null),
+                BaseEvent.class);
+    }
+
+
 
 }

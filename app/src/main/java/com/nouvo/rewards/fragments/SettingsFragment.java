@@ -94,6 +94,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 new MessageDialogConfirm() {
                     @Override
                     public void onPositiveClick(Bundle bundle) {
+                        settingsPresenter.logoutUser();
                         processLogout(getActivity());
                     }
 
