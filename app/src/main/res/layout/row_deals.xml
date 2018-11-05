@@ -70,7 +70,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:text="Upto 25% cashback"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/colorPrimary" />
 
@@ -94,7 +93,6 @@
                 android:layout_gravity="center_vertical|right"
                 android:gravity="center_vertical|right"
                 android:maxLines="2"
-                android:text="Available on 12/12/2018"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/color_text" />
 
@@ -103,9 +101,6 @@
 
     </LinearLayout>
 
-
-    <!--</RelativeLayout>-->
-    <!--</LinearLayout>-->
 
 </RelativeLayout>
 

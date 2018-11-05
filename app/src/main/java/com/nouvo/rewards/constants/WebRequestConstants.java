@@ -14,7 +14,7 @@ public class WebRequestConstants {
     //private static final String URL = "http://b54ca0fb.ngrok.io";
     //ec2 demo
     private static final String URL = "http://34.238.120.25:5008";
-    //  dev
+    //dev
     //private static final String URL = "http://34.238.120.25:5009";
 
     public static final String WS_REGISTER = URL + "/users/registerUser";
