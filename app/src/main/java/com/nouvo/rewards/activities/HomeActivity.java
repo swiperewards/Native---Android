@@ -10,6 +10,8 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.AppCompatTextView;
@@ -37,7 +39,9 @@ import com.nouvo.rewards.fragments.RedeemFragment;
 import com.nouvo.rewards.fragments.SettingsFragment;
 import com.nouvo.rewards.fragments.WalletFragment;
 import com.nouvo.rewards.helpers.CommonHelper;
+import com.nouvo.rewards.helpers.FixScrollingFooterBehavior;
 import com.nouvo.rewards.helpers.GPSTracker;
+import com.nouvo.rewards.helpers.NetworkUtil;
 import com.nouvo.rewards.helpers.PreferenceUtils;
 import com.nouvo.rewards.helpers.UIHelper;
 import com.nouvo.rewards.interfaces.MessageDialogConfirm;
@@ -71,6 +75,8 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     private AppCompatImageView ivChangeProfilePic;
     private RelativeLayout rlProfilePic;
     private ImagePicker imagePicker;
+    private View includedContainerMain;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,14 +100,19 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         llProfilePic = (LinearLayout) findViewById(R.id.ll_profile_pic);
         rlLevelDetails = (RelativeLayout) findViewById(R.id.rl_level_details);
         rlProfilePic = (RelativeLayout) findViewById(R.id.rl_profile_pic);
-
-
+        rlProfilePic = (RelativeLayout) findViewById(R.id.rl_profile_pic);
+        swPullToRefresh = findViewById(R.id.sw_pull_to_refresh);
+        includedContainerMain = findViewById(R.id.included_container_main);
         navigation = (BottomNavigationViewEx) findViewById(R.id.bottom_navigation);
+
+
         initToolBar();
         setListeners();
+
         navigation.enableAnimation(false);
         navigation.enableShiftingMode(false);
         navigation.enableItemShiftingMode(false);
+
 
         if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(ISwipe.KEY_IS_FIRST_TIME_SOCIAL_LOGIN)) {
             if (getIntent().getExtras().getBoolean(ISwipe.KEY_IS_FIRST_TIME_SOCIAL_LOGIN, false))
@@ -110,11 +121,21 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         }
 
         initSwipe();
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
     private void initSwipe() {
         initSwipePresenter = new InitSwipePresenter(this);
-        showProgress(getResources().getString(R.string.please_wait));
+        // if pull to refresh in progress then don't show progress bar.
+        if (!swPullToRefresh.isRefreshing())
+            showProgress(getResources().getString(R.string.please_wait));
         initSwipePresenter.initialiseSwipeRewards(new CommonHelper().getVersionCode(this));
     }
 
@@ -127,6 +148,22 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             }
         });
 
+
+        topPanel.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                //If topPanel is fully expanded and at default state then only pull to refresh should be enabled.
+                swPullToRefresh.setEnabled(shouldPullToRefreshEnabled && verticalOffset == 0);
+            }
+        });
+        swPullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initSwipe();
+            }
+        });
+
+
         rlProfilePic.setOnClickListener(this);
 
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -134,23 +171,21 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 setTopLayoutVisibility(item.getItemId());
                 setTopLayoutItemsVisibility(item.getItemId());
-
                 //To pop the child/sub fragments from created stack
                 UIHelper.getInstance().popBackStackByName(getSupportFragmentManager(), ISwipe.APP_STACK);
-//                UIHelper.getInstance().popBackStackByName(getSupportFragmentManager(), ISwipe.HOME_STACK);
-
                 //Add to backstack if current fragment is default home fragment
-
                 boolean shouldAddToBackStack = navigation.getSelectedItemId() == R.id.navigation_home;
                 String backStackName = shouldAddToBackStack ? ISwipe.HOME_STACK : null;
                 shouldAddToBackStack = false;
                 backStackName = null;
+
+
+                //Disable pull to refresh for settings module for other modules it should be enabled.
+
+                setPullToRefreshEnabled(item.getItemId() != R.id.navigation_Settings ? true : false);
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
-//                        UIHelper.getInstance().popBackStackByName(getSupportFragmentManager(), null);
-                        //default fragment already being shown "HomeFragment"
                         UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, HomeFragment.newInstance(), shouldAddToBackStack, ISwipe.FragTagHomeFragment, backStackName);
-
                         return true;
                     case R.id.navigation_wallet:
                         UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, WalletFragment.newInstance(), shouldAddToBackStack, ISwipe.FragTagWalletFragment, backStackName);
@@ -164,7 +199,6 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
                     case R.id.navigation_Settings:
                         UIHelper.getInstance().replaceFragment(getSupportFragmentManager(), R.id.main_container, SettingsFragment.newInstance(), shouldAddToBackStack, ISwipe.FragTagSettingsFragment, backStackName);
                         return true;
-
                 }
                 return false;
             }
@@ -183,24 +217,24 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
-    public void setDefaultHomeIndex() {
-        View view = navigation.findViewById(R.id.navigation_home);
+    public void setNavigationSelectedItem(int navigationItem) {
+        View view = navigation.findViewById(navigationItem);
         view.performClick();
-
-        //Trick to avoid the reselection of selected item
-        navigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
-            @Override
-            public void onNavigationItemReselected(@NonNull MenuItem item) {
-                //To pop the child/sub fragments from created stack
-                UIHelper.getInstance().popBackStackByName(getSupportFragmentManager(), ISwipe.APP_STACK);
-            }
-        });
+//        navigation.setSelectedItemId(navigationItem);
+//        //Trick to avoid the reselection of selected item
+//        navigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+//            @Override
+//            public void onNavigationItemReselected(@NonNull MenuItem item) {
+//                //To pop the child/sub fragments from created stack
+//                UIHelper.getInstance().popBackStackByName(getSupportFragmentManager(), ISwipe.APP_STACK);
+//            }
+//        });
     }
 
     @Override
     public void onBackPressed() {
         if (navigation.getCurrentItem() != 0 && getSupportFragmentManager().getBackStackEntryCount() == 0) {
-            setDefaultHomeIndex();
+            setNavigationSelectedItem(R.id.navigation_home);
         } else {
             super.onBackPressed();
         }
@@ -221,7 +255,9 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             case ISwipe.HIDE_TOP_VIEW:
                 llTop.setVisibility(View.GONE);
                 break;
+
         }
+        setScrollBehaviour();
     }
 
     public void setTopLayoutItemsVisibility(int itemId) {
@@ -260,21 +296,30 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     @Override
     public void onSwipeInitialized(InitSwipeEvent initSwipeEvent) {
         if (!checkIfForcedUpdate(initSwipeEvent.getInitSwipe().getAppConfig())) {
-            if (initSwipeEvent.getInitSwipe().getUserProfile() != null) {
-                SingletonAppCache.getInstance().setUserProfile(initSwipeEvent.getInitSwipe().getUserProfile());
-                SingletonAppCache.getInstance().setAppConfig(initSwipeEvent.getInitSwipe().getAppConfig());
-                PreferenceUtils.writeString(this, PreferenceUtils.USER_DETAILS, new Gson().toJson(initSwipeEvent.getInitSwipe().getUserProfile()));
-                setUserData(initSwipeEvent.getInitSwipe().getUserProfile());
-                setDefaultHomeIndex();
-            } else {
-                showMessage(getResources().getString(R.string.err_generic));
+            try {
+                if (initSwipeEvent.getInitSwipe().getUserProfile() != null) {
+                    SingletonAppCache.getInstance().setUserProfile(initSwipeEvent.getInitSwipe().getUserProfile());
+                    SingletonAppCache.getInstance().setAppConfig(initSwipeEvent.getInitSwipe().getAppConfig());
+                    PreferenceUtils.writeString(this, PreferenceUtils.USER_DETAILS, new Gson().toJson(initSwipeEvent.getInitSwipe().getUserProfile()));
+                    setUserData(initSwipeEvent.getInitSwipe().getUserProfile());
+                    setNavigationSelectedItem(navigation.getSelectedItemId());
+                } else {
+                    hideProgress();
+                    showMessage(getResources().getString(R.string.err_generic));
+                }
+            }catch (Exception ex){
+                ex.printStackTrace();
             }
+
+
         }
 
     }
 
     @Override
     public void onSwipeInitializationFailed() {
+        //Hide loader of pull to refresh if initswipe api call get failed.
+        swPullToRefresh.setRefreshing(false);
         String jsonUserObject = PreferenceUtils.readString(this, PreferenceUtils.USER_DETAILS, "");
         if (!TextUtils.isEmpty(jsonUserObject)) {
             UserProfile userProfile = new Gson().fromJson(jsonUserObject, UserProfile.class);
@@ -291,6 +336,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         showMessage(getResources().getString(R.string.referral_applied));
         initSwipe();
     }
+
 
     private void showCurrentCityName() {
         GPSTracker gpsTracker = new GPSTracker(this);
@@ -336,7 +382,11 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             }
 
             if (!TextUtils.isEmpty(userProfile.getProfilePicUrl())) {
-                UIHelper.getInstance().loadImage(this, userProfile.getProfilePicUrl().replace(" ", "%20"), profileImage, R.mipmap.ic_user_icon, R.mipmap.ic_user_icon);
+                if (NetworkUtil.getInstance().isConnectedToInternet(this)) {
+                    UIHelper.getInstance().loadImageOnline(this,userProfile.getProfilePicUrl().replace(" ","%20"),profileImage,R.mipmap.ic_user_icon,R.mipmap.ic_user_icon);
+                } else {
+                    UIHelper.getInstance().loadImage(this, userProfile.getProfilePicUrl().replace(" ", "%20"), profileImage, R.mipmap.ic_user_icon, R.mipmap.ic_user_icon);
+                }
             }
         } catch (Exception e) {
 
@@ -358,9 +408,9 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_profile_pic:
-                if(navigation.getCurrentItem()!=4){
-                      navigation.setSelectedItemId(R.id.navigation_Settings);
-                }else {
+                if (navigation.getCurrentItem() != 4) {
+                    navigation.setSelectedItemId(R.id.navigation_Settings);
+                } else {
                     launchGallery();
                 }
                 break;
@@ -461,5 +511,23 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     public AppBarLayout getTopView() {
         return topPanel;
     }
+
+    /**
+     * To improve the scrolling behaviour of  parallax effect this function is introduced which sets scrolling behaviour accordingly.
+     */
+    private void setScrollBehaviour() {
+        CoordinatorLayout.LayoutParams params =
+                (CoordinatorLayout.LayoutParams) includedContainerMain.getLayoutParams();
+
+        if (llTop.getVisibility() == View.VISIBLE) {
+            params.setBehavior(new FixScrollingFooterBehavior());
+        } else {
+            params.setBehavior(new AppBarLayout.ScrollingViewBehavior());
+            includedContainerMain.setPadding(0, 0, 0, 0);
+        }
+
+        includedContainerMain.requestLayout();
+    }
+
 
 }

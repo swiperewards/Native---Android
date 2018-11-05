@@ -9,6 +9,10 @@ public class SingletonAppCache {
     private UserProfile userProfile;
     private boolean isSocialLogin;
 
+
+
+
+
     private static SingletonAppCache singletonAppCache;
 
 
@@ -50,4 +54,5 @@ public class SingletonAppCache {
     public static void setSingletonAppCache(SingletonAppCache singletonAppCache) {
         SingletonAppCache.singletonAppCache = singletonAppCache;
     }
+
 }

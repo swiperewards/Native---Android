@@ -54,6 +54,10 @@ public interface ISwipe {
     int DEFAULT_DEALS_PAGE_SIZE = 0;
     String REFERRED_BY = "referredBy";
     String KEY_IS_FIRST_TIME_SOCIAL_LOGIN = "isNewRecord";
+    String ENCRYPTION_PASSWORD = "nn534oj90156fsd584sfs";
+    Boolean IS_ENCRYPTIOON_ON = true;
+
+
 
     enum BottomErrorType {
 

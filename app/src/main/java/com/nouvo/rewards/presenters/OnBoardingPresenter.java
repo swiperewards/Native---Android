@@ -12,6 +12,7 @@ import com.nouvo.rewards.web.WebRequestManager;
 public class OnBoardingPresenter extends BasePresenter {
     private OnBoardingView onBoardingView;
 
+
     public OnBoardingPresenter(OnBoardingView onBoardingView) {
         this.onBoardingView = onBoardingView;
     }
@@ -67,6 +68,5 @@ public class OnBoardingPresenter extends BasePresenter {
             handleWebProcessFailed(onBoardingView, null);
         }
     }
-
 
 }

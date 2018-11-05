@@ -61,9 +61,6 @@ public class UserDetails {
     private String profilePicUrl;
 
 
-
-
-
     @SerializedName("referredBy")
     @Expose
     private String referredBy;

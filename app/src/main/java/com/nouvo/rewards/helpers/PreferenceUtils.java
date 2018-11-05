@@ -18,6 +18,13 @@ public class PreferenceUtils {
     public static final String SESSION_TOKEN = "session_token";
     public static final String USER_DETAILS = "user_details";
     private static final String PREF_NAME = "swipe_rewards";
+    public static final String FCM_TOKEN = "fcmtoken";
+    /**
+     * flag that decides whether or not to upload fcm token to the server
+     * false - do not upload
+     * true - upload
+     */
+    public static final String TO_REGISTER_FCM_TOKEN = "toRegisterFcmToken";
 
 
     public static void writeBoolean(Context context, String key, boolean value) {
@@ -114,6 +121,12 @@ public class PreferenceUtils {
     public static void clearPreferences(Context context) {
         if (context != null) {
             getEditor(context).clear().commit();
+        }
+    }
+
+    public static void clearValue(Context context, String key) {
+        if (context != null) {
+            getEditor(context).remove(key).commit();
         }
     }
 

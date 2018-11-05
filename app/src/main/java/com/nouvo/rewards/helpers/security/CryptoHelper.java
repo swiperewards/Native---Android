@@ -18,13 +18,7 @@ public class CryptoHelper {
     }
 
     public String decryptAES(String input, String password) {
-        try {
-//            return new AES256().decrypt(input,password);
-            return AESCrypt.decrypt(password, input);
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-            return "";
-        }
+        return AESCrypt.decryptJS(input, password);
     }
 
     public String encryptXOR(String input) {

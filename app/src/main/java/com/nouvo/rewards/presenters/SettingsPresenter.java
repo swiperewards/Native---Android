@@ -2,6 +2,7 @@ package com.nouvo.rewards.presenters;
 
 import com.android.volley.VolleyError;
 import com.nouvo.rewards.constants.ISwipe;
+import com.nouvo.rewards.events.BaseEvent;
 import com.nouvo.rewards.events.NotificationStatusEvent;
 import com.nouvo.rewards.mvpviews.SettingsView;
 import com.nouvo.rewards.services.ServiceController;
@@ -40,5 +41,27 @@ public class SettingsPresenter extends BasePresenter {
         }
     }
 
+
+    public void logoutUser() {
+        try {
+            new ServiceController().logoutUser(settingsView.getViewContext(), new WebRequestManager.WebProcessListener<BaseEvent>() {
+                @Override
+                public void onWebProcessSuccess(BaseEvent baseEvent) {
+                    if (baseEvent.getStatus() == ISwipe.SUCCESS) {
+                        settingsView.hideProgress();
+                    } else {
+                        handleReceivedError(settingsView, baseEvent);
+                    }
+                }
+
+                @Override
+                public void onWebProcessFailed(VolleyError error, Class aClass) {
+                    handleWebProcessFailed(settingsView, error);
+                }
+            });
+        } catch (Exception e) {
+            handleWebProcessFailed(settingsView, null);
+        }
+    }
 
 }

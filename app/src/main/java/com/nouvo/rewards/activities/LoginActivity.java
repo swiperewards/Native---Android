@@ -63,6 +63,7 @@ public class LoginActivity extends UniversalBaseActivity implements InitSwipeVie
     }
     @Override
     public void onSwipeInitialized(InitSwipeEvent initSwipeEvent) {
+        hideProgress();
         checkIfForcedUpdate(initSwipeEvent.getInitSwipe().getAppConfig());
     }
 

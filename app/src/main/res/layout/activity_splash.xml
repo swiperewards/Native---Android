@@ -16,15 +16,6 @@
 
 
 
-    <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/tv_version"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:layout_alignParentBottom="true"
-            android:padding="@dimen/margin_very_small"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/color_white"/>
+
 
 </RelativeLayout>

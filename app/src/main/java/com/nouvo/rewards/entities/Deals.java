@@ -54,17 +54,27 @@ public class Deals {
     @Expose
     private String modifiedDate;
 
-
     @SerializedName("latitude")
     @Expose
     private String latitude;
 
-
-
-
     @SerializedName("longitude")
     @Expose
     private String longitude;
+
+    public String getIncreasedPool() {
+        return increasedPool;
+    }
+
+    public void setIncreasedPool(String increasedPool) {
+        this.increasedPool = increasedPool;
+    }
+
+    @SerializedName("increasedPool")
+    @Expose
+    private String increasedPool;
+
+
 
     public Integer getId() {
         return id;

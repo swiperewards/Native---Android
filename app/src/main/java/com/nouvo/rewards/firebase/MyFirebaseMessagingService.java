@@ -31,10 +31,13 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.nouvo.rewards.R;
 import com.nouvo.rewards.activities.SplashActivity;
+import com.nouvo.rewards.helpers.PreferenceUtils;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
+
+
 
     /**
      * Called when message is received.
@@ -96,7 +99,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param token The new token.
      */
     private void sendRegistrationToServer(String token) {
+
         // TODO: Implement this method to send token to your app server.
+
+        PreferenceUtils.writeString(this,PreferenceUtils.FCM_TOKEN,token);
+        PreferenceUtils.writeBoolean(this,PreferenceUtils.TO_REGISTER_FCM_TOKEN,true);
     }
 
     /**

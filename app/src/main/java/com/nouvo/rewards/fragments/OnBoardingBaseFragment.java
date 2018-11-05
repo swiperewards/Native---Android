@@ -40,6 +40,7 @@ import java.util.Arrays;
 
 public class OnBoardingBaseFragment extends BaseFragment implements OnBoardingView {
     protected OnBoardingPresenter onBoardingPresenter;
+
     protected LoginButton fbLoginButton;
     private CallbackManager callbackManager;
     private static final String EMAIL = "email";
@@ -132,6 +133,8 @@ public class OnBoardingBaseFragment extends BaseFragment implements OnBoardingVi
             showProgress(getActivity().getResources().getString(R.string.please_wait));
             callbackManager.onActivityResult(requestCode, resultCode, data);
             super.onActivityResult(requestCode, resultCode, data);
+
+
         }
     }
 
@@ -180,21 +183,22 @@ public class OnBoardingBaseFragment extends BaseFragment implements OnBoardingVi
         Bundle bundle = new Bundle();
         bundle.putBoolean(ISwipe.IS_FROM_SIGN_UP, true);
         successFragment.setArguments(bundle);
-        UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container,successFragment,false, ISwipe.FragTagSuccessFragment,null);
+        UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.login_container, successFragment, false, ISwipe.FragTagSuccessFragment, null);
 
 
     }
 
     @Override
-    public void onSuccessfulLogin(SessionData sessionData,boolean isSocialLogin) {
+    public void onSuccessfulLogin(SessionData sessionData, boolean isSocialLogin) {
         SingletonAppCache.getInstance().setSocialLogin(isSocialLogin);
         PreferenceUtils.writeString(getActivity(), PreferenceUtils.SESSION_TOKEN, sessionData.getToken());
         Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-        if(isSocialLogin && sessionData.isFirstTimeSocialLogin()==1){
-            homeIntent.putExtra(ISwipe.KEY_IS_FIRST_TIME_SOCIAL_LOGIN,true);
+        if (isSocialLogin && sessionData.isFirstTimeSocialLogin() == 1) {
+            homeIntent.putExtra(ISwipe.KEY_IS_FIRST_TIME_SOCIAL_LOGIN, true);
         }
         startActivity(homeIntent);
         getActivity().finish();
     }
+
 
 }

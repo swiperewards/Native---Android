@@ -9,7 +9,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonRequest;
 import com.google.gson.Gson;
+import com.nouvo.rewards.constants.ISwipe;
+import com.nouvo.rewards.helpers.security.CryptoHelper;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -67,7 +70,43 @@ class WebRequestHelper<T> extends JsonRequest<T> { //com.android.volley.Request<
         Response<T> ntResponse;
         try {
             String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-            ntResponse = Response.success(new Gson().fromJson(jsonString, clazz), HttpHeaderParser.parseCacheHeaders(response));
+
+            if (ISwipe.IS_ENCRYPTIOON_ON) {
+                JSONObject encryptedObject = new JSONObject(jsonString);
+                int status = Integer.parseInt(String.valueOf(encryptedObject.get("status")));
+                if (status == ISwipe.SUCCESS) {
+                    if (encryptedObject.has("responseData")) {
+                        String encryptedResponseData = String.valueOf(encryptedObject.get("responseData"));
+                        String decryptedObject = new CryptoHelper().decryptAES(encryptedResponseData, ISwipe.ENCRYPTION_PASSWORD);
+                        System.out.print("response:"+ jsonString);
+                        encryptedObject.remove("responseData");
+                        if (decryptedObject.startsWith("[")) {
+                            JSONArray jsonArray = new JSONArray(decryptedObject);
+                            encryptedObject.put("responseData", jsonArray);
+                        } else {
+                            if(decryptedObject.equalsIgnoreCase("null")) {
+
+                            }else {
+                                JSONObject jsonObject = new JSONObject(decryptedObject);
+                                encryptedObject.put("responseData", jsonObject);
+                            }
+                        }
+                    }
+                    String finalJsonString = encryptedObject.toString();
+                    ntResponse = (Response<T>) Response.success(new Gson().fromJson(finalJsonString, clazz), HttpHeaderParser.parseCacheHeaders(response));
+                } else {
+                    if (encryptedObject.has("responseData"))
+                        encryptedObject.remove("responseData");
+//                encryptedObject.add("responseData",null);
+                    String finalJsonString = encryptedObject.toString();
+                    ntResponse = (Response<T>) Response.success(new Gson().fromJson(finalJsonString, clazz), HttpHeaderParser.parseCacheHeaders(response));
+
+                }
+            } else {
+                ntResponse = Response.success(new Gson().fromJson(jsonString, clazz), HttpHeaderParser.parseCacheHeaders(response));
+            }
+
+
         } catch (Exception e) {
             ntResponse = Response.error(new ParseError(e));
         }

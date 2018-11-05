@@ -187,8 +187,9 @@ public class UIHelper {
 
     public String BitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        String temp = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        String temp = Base64.encodeToString(baos.toByteArray(), Base64.NO_WRAP);
+        System.out.print("temp =" +temp);
         return temp;
     }
 
@@ -403,6 +404,7 @@ public class UIHelper {
 
                         @Override
                         public void onError() {
+
                             Picasso.with(context).load(url.replace(" ", "%20"))
                                     .placeholder(defaultImage)
                                     .networkPolicy(NetworkPolicy.OFFLINE)
@@ -410,6 +412,7 @@ public class UIHelper {
                                     .into(target);
                         }
                     });
+
         }
     }
 

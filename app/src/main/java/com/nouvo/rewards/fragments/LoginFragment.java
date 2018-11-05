@@ -75,7 +75,8 @@ public class LoginFragment extends OnBoardingBaseFragment implements View.OnClic
             case R.id.bt_login:
                 if (isValidInputsEntered()) {
                     showProgress(getActivity().getResources().getString(R.string.please_wait));
-                    onBoardingPresenter.loginUser(etUserEmail.getText().toString(), etPassword.getText().toString());
+                   onBoardingPresenter.loginUser(etUserEmail.getText().toString(), etPassword.getText().toString());
+
                 }
                 break;
             case R.id.forgot_password:
@@ -105,9 +106,9 @@ public class LoginFragment extends OnBoardingBaseFragment implements View.OnClic
 
 
     private void setDummyData() {
-        if (ISwipe.IS_DUMMY_DATA_ENABLED) {
-            etUserEmail.setText("vishalb@winjit.com");
-            etPassword.setText("Winjit@123");
-        }
+      //  if (ISwipe.IS_DUMMY_DATA_ENABLED) {
+//            etUserEmail.setText("kalpeshs@winjit.com");
+//            etPassword.setText("Kalpesh@123");
+        //}
     }
 }
