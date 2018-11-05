@@ -133,6 +133,8 @@ public class OnBoardingBaseFragment extends BaseFragment implements OnBoardingVi
             showProgress(getActivity().getResources().getString(R.string.please_wait));
             callbackManager.onActivityResult(requestCode, resultCode, data);
             super.onActivityResult(requestCode, resultCode, data);
+
+
         }
     }
 

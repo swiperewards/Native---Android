@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.nouvo.rewards.R;
 import com.nouvo.rewards.activities.HomeActivity;
@@ -19,10 +20,11 @@ import com.nouvo.rewards.mvpviews.EventHistoryView;
 import com.nouvo.rewards.presenters.EventHistoryPresenter;
 
 
-public class EventHistoryFragment extends BaseFragment implements AdapterResponseInterface,EventHistoryView {
+public class EventHistoryFragment extends BaseFragment implements AdapterResponseInterface, EventHistoryView {
 
     private RecyclerView rvEventHistory;
     private EventHistoryPresenter eventHistoryPresenter;
+    private TextView tvNoHistory;
 
 
     public static EventHistoryFragment newInstance() {
@@ -51,6 +53,7 @@ public class EventHistoryFragment extends BaseFragment implements AdapterRespons
 
     private void initViews(View mRootView) {
         rvEventHistory = mRootView.findViewById(R.id.rv_event_history);
+        tvNoHistory = mRootView.findViewById(R.id.tv_no_history);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rvEventHistory.setLayoutManager(linearLayoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvEventHistory.getContext(),
@@ -58,7 +61,6 @@ public class EventHistoryFragment extends BaseFragment implements AdapterRespons
         rvEventHistory.addItemDecoration(dividerItemDecoration);
 
     }
-
 
 
     @Override
@@ -76,6 +78,14 @@ public class EventHistoryFragment extends BaseFragment implements AdapterRespons
 
     @Override
     public void onEventHistoryReceived(EventDetails[] eventDetails) {
-        rvEventHistory.setAdapter(new EventHistoryAdapter(getActivity(), this,eventDetails));
+        if (eventDetails != null && eventDetails.length > 0) {
+            rvEventHistory.setVisibility(View.VISIBLE);
+            tvNoHistory.setVisibility(View.GONE);
+            rvEventHistory.setAdapter(new EventHistoryAdapter(getActivity(), this, eventDetails));
+        } else {
+            rvEventHistory.setVisibility(View.GONE);
+            tvNoHistory.setVisibility(View.VISIBLE);
+
+        }
     }
 }

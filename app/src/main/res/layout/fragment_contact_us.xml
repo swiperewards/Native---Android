@@ -25,7 +25,7 @@
                 android:layout_centerVertical="true"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
-                android:text="@string/dummy_text"
+            android:text="@string/txt_contact_us"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/color_text"/>
 

@@ -271,7 +271,13 @@ public class ServiceController {
                 BaseEvent.class);
     }
 
-
+    /**
+     * this api is used to add or update fcm token to server
+     *
+     * @param context            context of activity
+     * @param fcmToken           token genereated from firebase
+     * @param webProcessListener webprocess listerner
+     */
     public void addUpdateFcmToken(Context context, String fcmToken, WebRequestManager.WebProcessListener<BaseEvent> webProcessListener) {
         HashMap<String, String> map = new HashMap<>();
         map.put("token", fcmToken);
@@ -283,6 +289,18 @@ public class ServiceController {
                 BaseEvent.class);
     }
 
+    /**
+     * this api is used to send auth token to server while user logs out of application
+     * @param context context of activity
+     * @param webProcessListener webprocess listener
+     */
+    public void logoutUser(Context context, WebRequestManager.WebProcessListener<BaseEvent> webProcessListener) {
+        new WebRequestManager(context, webProcessListener).makeRequest(NouvoApp.getRequestQueue(context), Request.Method.POST,
+                WebRequestConstants.WS_LOGOUT,
+                generateRequestHeader(getSessionToken(context)),
+                new InputRequestHelper().prepareWrappedInputRequest(context, null),
+                BaseEvent.class);
+    }
 
 
 }

@@ -84,8 +84,12 @@ class WebRequestHelper<T> extends JsonRequest<T> { //com.android.volley.Request<
                             JSONArray jsonArray = new JSONArray(decryptedObject);
                             encryptedObject.put("responseData", jsonArray);
                         } else {
-                            JSONObject jsonObject = new JSONObject(decryptedObject);
-                            encryptedObject.put("responseData", jsonObject);
+                            if(decryptedObject.equalsIgnoreCase("null")) {
+
+                            }else {
+                                JSONObject jsonObject = new JSONObject(decryptedObject);
+                                encryptedObject.put("responseData", jsonObject);
+                            }
                         }
                     }
                     String finalJsonString = encryptedObject.toString();

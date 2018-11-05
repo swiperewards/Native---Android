@@ -18,6 +18,7 @@ import com.nouvo.rewards.presenters.FcmTokenPresenter;
 
 public class BaseFragment extends Fragment implements BaseMVPView, FCMView {
 
+
     protected FcmTokenPresenter fcmTokenPresenter;
 
     @Override
@@ -84,10 +85,10 @@ public class BaseFragment extends Fragment implements BaseMVPView, FCMView {
 
         //todo dont clear shared prefernce as to save fcm token
         //PreferenceUtils.clearPreferences(context);
-        PreferenceUtils.clearValue(context,PreferenceUtils.USER_DETAILS);
-        PreferenceUtils.clearValue(context,PreferenceUtils.SESSION_TOKEN);
-        PreferenceUtils.clearValue(context,PreferenceUtils.TO_REGISTER_FCM_TOKEN);
-//        Picasso.with(getActivity()).invalidate(SingletonAppCache.getInstance().getUserProfile().getProfilePicUrl());
+        PreferenceUtils.clearValue(context, PreferenceUtils.USER_DETAILS);
+        PreferenceUtils.clearValue(context, PreferenceUtils.SESSION_TOKEN);
+        PreferenceUtils.clearValue(context, PreferenceUtils.TO_REGISTER_FCM_TOKEN);
+//      Picasso.with(getActivity()).invalidate(SingletonAppCache.getInstance().getUserProfile().getProfilePicUrl());
         Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
         startActivity(loginIntent);
         getActivity().finish();

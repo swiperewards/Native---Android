@@ -29,6 +29,7 @@
     <color name="grey_300">#E0E0E0</color>
     <color name="grey_500">#9E9E9E</color>
     <color name="color_green">#228B22</color>
+    <color name="amount_indicator">#89f442</color>
     <color name="camera_icon_bg">#C0E6FB</color>
     <color name="trans_black">#80000000</color>
 </resources>
