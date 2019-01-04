@@ -249,7 +249,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             case R.id.navigation_redeem:
             case R.id.navigation_Settings:
             case ISwipe.SHOW_TOP_VIEW:
-                llTop.setVisibility(View.VISIBLE);
+                  llTop.setVisibility(View.VISIBLE);
                 break;
             case R.id.navigation_history:
             case ISwipe.HIDE_TOP_VIEW:

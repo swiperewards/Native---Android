@@ -73,7 +73,7 @@ public class RegisterFragment extends OnBoardingBaseFragment implements View.OnC
         fbLoginButton.setOnClickListener(this);
 
         ((LoginActivity) getActivity()).changeHeader(getActivity().getResources().getString(R.string.welcome_register));
-        setDummyData();
+        //setDummyData();
     }
 
 

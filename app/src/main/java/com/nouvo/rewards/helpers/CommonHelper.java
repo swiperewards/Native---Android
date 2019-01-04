@@ -51,7 +51,12 @@ public class CommonHelper {
                             public void onPositiveClick(Bundle bundle) {
                                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                                         Uri.parse("http://maps.google.com/maps?daddr=" + latitude + "," + longitude));
+                                //Uri.parse("google.navigation:q=1250+Beverly+Blvd,LosAngeles+CA+90026+USA"));
+                               // intent.setPackage("com.google.android.apps.maps");
                                 context.startActivity(intent);
+
+
+
                             }
 
                             @Override
@@ -101,12 +106,13 @@ public class CommonHelper {
     }
 
 
-
     public void deleteCache(Context context) {
         try {
             File dir = context.getCacheDir();
             deleteDir(dir);
-        } catch (Exception e) { e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean deleteDir(File dir) {
@@ -119,7 +125,7 @@ public class CommonHelper {
                 }
             }
             return dir.delete();
-        } else if(dir!= null && dir.isFile()) {
+        } else if (dir != null && dir.isFile()) {
             return dir.delete();
         } else {
             return false;

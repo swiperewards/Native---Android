@@ -51,6 +51,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="sign_in_with_social">Or Sign in with</string>
     <string name="welcome">Welcome to Nouvo!!</string>
+    <string name="welcom_login">Automatic Savings</string>
     <string name="welcome_register">Register to Nouvo!!</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
@@ -129,8 +130,8 @@
     <string name="err_token_expired">Reset token is expired.</string>
     <string name="err_session_expired">Session has been expired please re-login to continue.</string>
     <string name="no_deal_error">No stores available for %s yet. Please change the location/city.</string>
-    <string name="nouvo_referral_invite">Hey, join this Nouvo app to get rewards on card swipe. Enter my code %s and we\'ll each get rewards!</string>
-
+    <!--<string name="nouvo_referral_invite">Hey, join this Nouvo app to get rewards on card swipe. Enter my code %s and we\'ll each get rewards!</string>-->
+    <string name="nouvo_referral_invite"> Hey, download Nouvo today to get automatic rewards each time you swipe, dip, or insert a card at your favorite merchant. Enter my code %s and we’ll each get a bonus in XP, which boosts our cashback at locations!</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="refer_earn"><![CDATA[Refer & Earn]]></string>
     <string name="referral_title">Referral Code</string>

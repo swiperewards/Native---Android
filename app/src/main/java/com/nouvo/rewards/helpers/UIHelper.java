@@ -70,7 +70,10 @@ public class UIHelper {
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+        if (tagName.equals(ISwipe.FragTagAddNewCardFragment)) {
+            fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right,R.anim.slide_out_to_left);
 
+        }
         if (fragmentManager.findFragmentByTag(tagName) == null) {
             if (isBackStack) {
                 fragmentTransaction.replace(layout, fragment, tagName).addToBackStack(stackName).commit();
@@ -189,7 +192,7 @@ public class UIHelper {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         String temp = Base64.encodeToString(baos.toByteArray(), Base64.NO_WRAP);
-        System.out.print("temp =" +temp);
+        System.out.print("temp =" + temp);
         return temp;
     }
 

@@ -63,8 +63,8 @@ public class LoginFragment extends OnBoardingBaseFragment implements View.OnClic
         ivFacebook.setOnClickListener(this);
         btRegister.setOnClickListener(this);
 
-        ((LoginActivity) getActivity()).changeHeader(getActivity().getResources().getString(R.string.welcome));
-        setDummyData();
+        ((LoginActivity) getActivity()).changeHeader(getActivity().getResources().getString(R.string.welcom_login));
+        //setDummyData();
     }
 
 
@@ -107,8 +107,8 @@ public class LoginFragment extends OnBoardingBaseFragment implements View.OnClic
 
     private void setDummyData() {
       //  if (ISwipe.IS_DUMMY_DATA_ENABLED) {
-//            etUserEmail.setText("kalpeshs@winjit.com");
-//            etPassword.setText("Kalpesh@123");
-        //}
-    }
+            etUserEmail.setText("kalpeshs@winjit.com");
+            etPassword.setText("Kalpesh@123");
+        }
+    //}
 }

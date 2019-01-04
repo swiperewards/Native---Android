@@ -53,7 +53,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         initViews(view);
         setVersionNumber();
-        ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.SHOW_TOP_VIEW);
+       // ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.SHOW_TOP_VIEW);
         return view;
     }
 

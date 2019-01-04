@@ -50,7 +50,7 @@ public class WalletFragment extends BaseFragment implements View.OnClickListener
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_wallet, container, false);
         initViews(view);
-        ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.SHOW_TOP_VIEW);
+        //((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.SHOW_TOP_VIEW);
         showProgress(getActivity().getResources().getString(R.string.please_wait));
         walletPresenter.getWalletCards();
         return view;
@@ -111,7 +111,7 @@ public class WalletFragment extends BaseFragment implements View.OnClickListener
                     switch (actionName) {
                         case ISwipe.ACTION_ADD_NEW_CARD:
                             ((HomeActivity) getActivity()).setTopLayoutVisibility(ISwipe.HIDE_TOP_VIEW);
-                            UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container,AddNewCardFragment.newInstance(),true, ISwipe.FragTagAddNewCardFragment,ISwipe.APP_STACK);
+                            UIHelper.getInstance().replaceFragment(getActivity().getSupportFragmentManager(), R.id.main_container, AddNewCardFragment.newInstance(), true, ISwipe.FragTagAddNewCardFragment, ISwipe.APP_STACK);
 
                             break;
                         case ISwipe.ACTION_DELETE_CARD:

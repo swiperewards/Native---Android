@@ -153,7 +153,11 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
             tillExtraField.setVisibility(View.VISIBLE);
             tilName.setVisibility(View.VISIBLE);
             tilAccountNumber.setVisibility(View.GONE);
+            etAccountNumber.setText("");
             tillExtraField.setHint(getActivity().getResources().getString(R.string.address));
+            etExtraField.setText("");
+            etExtraField.setFilters(new InputFilter[]{new InputFilter.LengthFilter(128)});
+            etExtraField.setInputType(InputType.TYPE_CLASS_TEXT);
         } else if (selectedItem.equalsIgnoreCase(ISwipe.BANK_ACCOUNT)) {
             //tillExtraField
             spRedeemModeOptions.setVisibility(View.VISIBLE);
@@ -161,14 +165,16 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
             tilAccountNumber.setVisibility(View.VISIBLE);
             tilAccountNumber.setHint(getActivity().getResources().getString(R.string.acc_number));
             tillExtraField.setVisibility(View.VISIBLE);
+            etAccountNumber.setText("");
             etExtraField.setText("");
             etExtraField.setInputType(InputType.TYPE_CLASS_PHONE);
             etExtraField.setFilters(new InputFilter[]{new InputFilter.LengthFilter(9)});
             tillExtraField.setHint(getActivity().getResources().getString(R.string.routin_number));
-        } else {
+        } else if(selectedItem.equalsIgnoreCase(ISwipe.CRYPTOCURRENCIES)){
             spRedeemModeOptions.setVisibility(View.VISIBLE);
             tilName.setVisibility(View.GONE);
             tilAccountNumber.setVisibility(View.VISIBLE);
+            etAccountNumber.setText("");
             tilAccountNumber.setHint(getActivity().getResources().getString(R.string.wallet_address));
             tillExtraField.setVisibility(View.GONE);
             etExtraField.setText("");
@@ -272,7 +278,7 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
             String selectedMode = (String) spRedeemMode.getSelectedItem();
             if (selectedMode.equalsIgnoreCase(ISwipe.CHEQUE) && validationHelper.isValidEditTexts(getActivity(), etName, etExtraField, etAmount)) {
                 return true;
-            } else if (selectedMode.equalsIgnoreCase(ISwipe.BANK_ACCOUNT) && validationHelper.isValidEditTexts(getActivity(), etName,etAccountNumber, etExtraField, etAmount)) {
+            } else if (selectedMode.equalsIgnoreCase(ISwipe.BANK_ACCOUNT) && validationHelper.isValidEditTexts(getActivity(), etName, etAccountNumber, etExtraField, etAmount)) {
                 return true;
             } else {
                 if (spRedeemModeOptions.getAdapter() == null || spRedeemModeOptions.getAdapter().getCount() == 0) {

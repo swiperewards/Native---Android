@@ -63,6 +63,7 @@ public class DealsAdapter extends RecyclerView.Adapter {
         if (holder instanceof DealViewHolder) {
             ((DealViewHolder) holder).tvStoreName.setText(dealsList.get(position).getEntityName());
             String cashBack = String.format("%.2f", dealsList.get(position).getCashBonus());
+
             if (dealsList.get(position).getCashBonus() == 0 || cashBack.equalsIgnoreCase("0,00")) {
                 ((DealViewHolder) holder).tvCashBack.setText("Upto 25% Cashback");
                 ((DealViewHolder) holder).tvIncreasedPool.setVisibility(View.GONE);
@@ -80,7 +81,13 @@ public class DealsAdapter extends RecyclerView.Adapter {
 
             NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.UK);
             increasedPoolServer = numberFormat.format(Double.parseDouble(increasedPoolServer));
-            ((DealViewHolder) holder).tvIncreasedPool.setText("(+" + increasedPoolServer + ")");
+
+            if (increasedPoolServer.equals("0")) {
+                ((DealViewHolder) holder).tvIncreasedPool.setVisibility(View.GONE);
+            } else {
+                ((DealViewHolder) holder).tvIncreasedPool.setText("(+" + increasedPoolServer + ")");
+            }
+
 
             if (!TextUtils.isEmpty(dealsList.get(position).getIcon())) {
                 UIHelper.getInstance().loadImageOnline(context, dealsList.get(position).getIcon().replace(" ", "%20"), ((DealViewHolder) holder).ivIcon, R.mipmap.ic_launcher, R.mipmap.ic_launcher);

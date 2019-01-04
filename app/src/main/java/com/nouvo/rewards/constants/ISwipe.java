@@ -21,7 +21,7 @@ public interface ISwipe {
     String TITLE_CONTACT_US = "CONTACT US";
     String TITLE_PRIVACY_SECURITY = "PRIVACY & SECURITY";
     String TITLE_TERMS_OF_USE = "TERMS OF USE";
-    String TITLE_ADD_NEW_CARD = "ADD NEW CARD";
+    String TITLE_ADD_NEW_CARD = "ADD CARD";
     String PLATFORM = "Android";
     int SUCCESS = 200;
     String DUMMY_CITY = "new york";
@@ -40,6 +40,7 @@ public interface ISwipe {
 
     String CHEQUE = "Cheque";
     String BANK_ACCOUNT = "Bank Account";
+    String CRYPTOCURRENCIES= "Cryptocurrencies";
 
     int CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE_WITH_CAMERA = 100;
     int CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE_WITHOUT_CAMERA = 101;
