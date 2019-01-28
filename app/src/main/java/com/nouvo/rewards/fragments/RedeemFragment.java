@@ -170,12 +170,23 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
             etExtraField.setInputType(InputType.TYPE_CLASS_PHONE);
             etExtraField.setFilters(new InputFilter[]{new InputFilter.LengthFilter(9)});
             tillExtraField.setHint(getActivity().getResources().getString(R.string.routin_number));
-        } else if(selectedItem.equalsIgnoreCase(ISwipe.CRYPTOCURRENCIES)){
+        } else if (selectedItem.equalsIgnoreCase(ISwipe.CRYPTOCURRENCIES)) {
             spRedeemModeOptions.setVisibility(View.VISIBLE);
             tilName.setVisibility(View.GONE);
             tilAccountNumber.setVisibility(View.VISIBLE);
             etAccountNumber.setText("");
             tilAccountNumber.setHint(getActivity().getResources().getString(R.string.wallet_address));
+            tillExtraField.setVisibility(View.GONE);
+            etExtraField.setText("");
+            etExtraField.setInputType(InputType.TYPE_CLASS_TEXT);
+            etExtraField.setFilters(new InputFilter[]{new InputFilter.LengthFilter(128)});
+        } else if (selectedItem.equalsIgnoreCase(ISwipe.PAY_PAL)) {
+            spRedeemModeOptions.setVisibility(View.GONE);
+            tilName.setVisibility(View.GONE);
+            tilAccountNumber.setVisibility(View.VISIBLE);
+            etAccountNumber.setText("");
+            etAccountNumber.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+            tilAccountNumber.setHint(getActivity().getResources().getString(R.string.paypal_email));
             tillExtraField.setVisibility(View.GONE);
             etExtraField.setText("");
             etExtraField.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -216,7 +227,18 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
 
     private void showConfirmationDialog() {
         String amount = etAmount.getText().toString();
-        String dialogInterfaceMessage = "You are creating a redeem request of $" + amount + " to your account XXXX. Do you want to continue?";
+        String selectedMode = (String) spRedeemMode.getSelectedItem();
+        String dialogInterfaceMessage ="";
+        if (selectedMode.equalsIgnoreCase(ISwipe.PAY_PAL)) {
+            dialogInterfaceMessage = "You are creating a redeem request of $" + amount + " to your account " + etAccountNumber.getText().toString() + ". Do you want to continue?";
+        } else if(selectedMode.equalsIgnoreCase(ISwipe.BANK_ACCOUNT)){
+            dialogInterfaceMessage = "You are creating a redeem request of $" + amount + " to your account " + etAccountNumber.getText().toString() + ". Do you want to continue?";
+        }else if(selectedMode.equalsIgnoreCase(ISwipe.CRYPTOCURRENCIES)){
+            dialogInterfaceMessage = "You are creating a redeem request of $" + amount + " to your wallet address " + etAccountNumber.getText().toString() + ". Do you want to continue?";
+        }else if(selectedMode.equalsIgnoreCase(ISwipe.CHEQUE)) {
+            dialogInterfaceMessage = "You are creating a redeem request of $" + amount + " by cheque to " + etName.getText().toString() +" at "+etExtraField.getText().toString()+ ". Do you want to continue?";
+        }
+
 
         UIHelper.configureShowConfirmDialog(dialogInterfaceMessage, getActivity(),
                 R.string.confirm, R.string.btn_cancel, R.string.confirm,
@@ -256,11 +278,16 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
             map.put("redeemModeOptionId", 0);
             map.put("details", nameAsPerCheque);
             map.put("extraField", address);
-        } else {// CryptoCurrency
+        } else if (selectedMode.equalsIgnoreCase(ISwipe.CRYPTOCURRENCIES)) {// CryptoCurrency
             int selectedModeOptionId = redeemModes[spRedeemMode.getSelectedItemPosition()].getModeOptions()[spRedeemModeOptions.getSelectedItemPosition()].getModeSubId();
             String accountNumber = etAccountNumber.getText().toString();
             map.put("redeemModeOptionId", selectedModeOptionId);
             map.put("details", accountNumber);
+        } else if (selectedMode.equalsIgnoreCase(ISwipe.PAY_PAL)) {
+            int selectedModeOptionId = redeemModes[spRedeemMode.getSelectedItemPosition()].getModeOptions()[spRedeemModeOptions.getSelectedItemPosition()].getModeSubId();
+            String paypalEmailId = etAccountNumber.getText().toString();
+            map.put("redeemModeOptionId", selectedModeOptionId);
+            map.put("details", paypalEmailId);
         }
 
         redeemPresenter.raiseRedeemRequest(map);
@@ -278,13 +305,15 @@ public class RedeemFragment extends BaseFragment implements View.OnClickListener
             String selectedMode = (String) spRedeemMode.getSelectedItem();
             if (selectedMode.equalsIgnoreCase(ISwipe.CHEQUE) && validationHelper.isValidEditTexts(getActivity(), etName, etExtraField, etAmount)) {
                 return true;
-            } else if (selectedMode.equalsIgnoreCase(ISwipe.BANK_ACCOUNT) && validationHelper.isValidEditTexts(getActivity(), etName, etAccountNumber, etExtraField, etAmount)) {
+            } else if (selectedMode.equalsIgnoreCase(ISwipe.BANK_ACCOUNT) && validationHelper.isValidEditTexts(getActivity(), etAccountNumber, etExtraField, etAmount)) {
+                return true;
+            } else if (selectedMode.equalsIgnoreCase(ISwipe.PAY_PAL) && validationHelper.isValidEditTexts(getActivity(), etAccountNumber, etAmount) && validationHelper.isValidEmail(getActivity(), etAccountNumber)) {
                 return true;
             } else {
                 if (spRedeemModeOptions.getAdapter() == null || spRedeemModeOptions.getAdapter().getCount() == 0) {
                     showMessage(getString(R.string.err_valid_redeem_option));
                     return false;
-                } else if (validationHelper.isValidEditTexts(getActivity(), etAccountNumber, etAmount)) {
+                } else if (selectedMode.equalsIgnoreCase(ISwipe.CRYPTOCURRENCIES) && validationHelper.isValidEditTexts(getActivity(), etAccountNumber, etAmount)) {
                     return true;
                 }
                 return false;

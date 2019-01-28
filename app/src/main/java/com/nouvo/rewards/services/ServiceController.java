@@ -195,7 +195,7 @@ public class ServiceController {
         new WebRequestManager(context, webProcessListener).makeRequest(NouvoApp.getRequestQueue(context), Request.Method.POST,
                 WebRequestConstants.WS_RAISE_REDEEM_REQUEST,
                 generateRequestHeader(getSessionToken(context)),
-                new InputRequestHelper().prepareWrappedInputRequest(context, map),
+                 new InputRequestHelper().prepareWrappedInputRequest(context, map),
                 BaseEvent.class);
     }
 

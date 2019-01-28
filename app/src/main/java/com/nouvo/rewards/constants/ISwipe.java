@@ -41,6 +41,7 @@ public interface ISwipe {
     String CHEQUE = "Cheque";
     String BANK_ACCOUNT = "Bank Account";
     String CRYPTOCURRENCIES= "Cryptocurrencies";
+    String PAY_PAL="Paypal";
 
     int CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE_WITH_CAMERA = 100;
     int CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE_WITHOUT_CAMERA = 101;

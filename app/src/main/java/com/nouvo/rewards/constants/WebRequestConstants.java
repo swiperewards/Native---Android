@@ -13,15 +13,16 @@ public class WebRequestConstants {
     //temporrary local data base
     //private static final String URL = "http://b54ca0fb.ngrok.io";
     //ec2 demo
-    private static final String URL = "http://34.238.120.25:5008";
+    //private static final String URL = "http://34.238.120.25:5008";
 
     //dev
-    //private static final String URL = "http://34.238.120.25:5009";
+   // private static final String URL = /*"http://34.238.120.25:5009";//*/"http://3.83.130.235:5009";
     //production
     //private static final String URL = "http://18.218.166.82:5008";
-    //private static final String URL = "https://api.nouvo.io";
-
-//private  static final  String  URL ="http://192.168.9.87:5000";
+    //live
+   // private static final String URL = "https://api.nouvo.io";
+//local
+private  static final  String  URL ="http://192.168.9.87:5000";
 
     public static final String WS_REGISTER = URL + "/users/registerUser";
     public static final String WS_LOGIN = URL + "/users/loginUser";
