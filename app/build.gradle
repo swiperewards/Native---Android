@@ -6,8 +6,8 @@ android {
         applicationId "com.nouvo.reward"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 6 //15
-        versionName "1.0.0.6"//1.0.0.15"
+        versionCode 7 //15
+        versionName "1.0.0.7"//1.0.0.15"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

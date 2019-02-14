@@ -50,9 +50,9 @@
     <string name="password">Password</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_in_with_social">Or Sign in with</string>
-    <string name="welcome">Welcome to Nouvo!!</string>
+    <string name="welcome">Welcome to Nouvo</string>
     <string name="welcom_login">Automatic Savings</string>
-    <string name="welcome_register">Register to Nouvo!!</string>
+    <string name="welcome_register">Register to Nouvo</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="connect_with">Or connect with</string>

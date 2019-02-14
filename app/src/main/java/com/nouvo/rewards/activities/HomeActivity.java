@@ -1,8 +1,11 @@
 package com.nouvo.rewards.activities;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +23,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -70,13 +74,13 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     private AppCompatSeekBar skLevel;
     private InitSwipePresenter initSwipePresenter;
     private LinearLayout llUserInfo;
-    private LinearLayout llCashback;
+    private LinearLayout llCashback, linear_bottom_bar;
     private RelativeLayout rlLevelDetails;
-    private AppCompatImageView ivChangeProfilePic;
+    private AppCompatImageView ivChangeProfilePic, ivClose;
     private RelativeLayout rlProfilePic;
     private ImagePicker imagePicker;
     private View includedContainerMain;
-
+    private Dialog dialogWalkthrough;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +102,8 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         llUserInfo = (LinearLayout) findViewById(R.id.ll_user_info);
         llCashback = (LinearLayout) findViewById(R.id.ll_cashback);
         llProfilePic = (LinearLayout) findViewById(R.id.ll_profile_pic);
+        linear_bottom_bar = (LinearLayout) findViewById(R.id.linear_bottom_bar);
+
         rlLevelDetails = (RelativeLayout) findViewById(R.id.rl_level_details);
         rlProfilePic = (RelativeLayout) findViewById(R.id.rl_profile_pic);
         rlProfilePic = (RelativeLayout) findViewById(R.id.rl_profile_pic);
@@ -122,6 +128,11 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
 
         initSwipe();
 
+        if (PreferenceUtils.readBoolean(this, PreferenceUtils.SHOW_COACH_MARK, true) == true) {
+            PreferenceUtils.writeBoolean(this, PreferenceUtils.SHOW_COACH_MARK, false);
+            callWalktgroughDialog();
+        } else {
+        }
 
     }
 
@@ -147,8 +158,6 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
                 return true;
             }
         });
-
-
         topPanel.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -162,8 +171,6 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
                 initSwipe();
             }
         });
-
-
         rlProfilePic.setOnClickListener(this);
 
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -249,7 +256,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             case R.id.navigation_redeem:
             case R.id.navigation_Settings:
             case ISwipe.SHOW_TOP_VIEW:
-                  llTop.setVisibility(View.VISIBLE);
+                llTop.setVisibility(View.VISIBLE);
                 break;
             case R.id.navigation_history:
             case ISwipe.HIDE_TOP_VIEW:
@@ -307,7 +314,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
                     hideProgress();
                     showMessage(getResources().getString(R.string.err_generic));
                 }
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
 
@@ -383,7 +390,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
 
             if (!TextUtils.isEmpty(userProfile.getProfilePicUrl())) {
                 if (NetworkUtil.getInstance().isConnectedToInternet(this)) {
-                    UIHelper.getInstance().loadImageOnline(this,userProfile.getProfilePicUrl().replace(" ","%20"),profileImage,R.mipmap.ic_user_icon,R.mipmap.ic_user_icon);
+                    UIHelper.getInstance().loadImageOnline(this, userProfile.getProfilePicUrl().replace(" ", "%20"), profileImage, R.mipmap.ic_user_icon, R.mipmap.ic_user_icon);
                 } else {
                     UIHelper.getInstance().loadImage(this, userProfile.getProfilePicUrl().replace(" ", "%20"), profileImage, R.mipmap.ic_user_icon, R.mipmap.ic_user_icon);
                 }
@@ -529,5 +536,29 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         includedContainerMain.requestLayout();
     }
 
+    /**
+     *used to show walkthrough dialog when user logs in for first time
+     */
+    private void callWalktgroughDialog() {
+        if (dialogWalkthrough == null || !dialogWalkthrough.isShowing()) {
+            dialogWalkthrough = new Dialog(this, android.R.style.Theme_DeviceDefault_Light_DarkActionBar);
+            dialogWalkthrough.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialogWalkthrough.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialogWalkthrough.setContentView(R.layout.activity_coach_mark);
+            dialogWalkthrough.setCancelable(false);
+            dialogWalkthrough.setCanceledOnTouchOutside(false);
+            dialogWalkthrough.show();
+        }
 
+        final AppCompatImageView ivClose = dialogWalkthrough.findViewById(R.id.iv_close);
+
+
+        dialogWalkthrough.findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogWalkthrough.dismiss();
+            }
+        });
+
+    }
 }

@@ -144,6 +144,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private int getNotificationIcon() {
         boolean useWhiteIcon = (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP);
-        return useWhiteIcon ? R.drawable.ic_stat_notification : R.drawable.ic_stat_notification;
+        return useWhiteIcon ? R.drawable.ic_launcher_notific : R.drawable.ic_launcher_notific;
     }
+
 }

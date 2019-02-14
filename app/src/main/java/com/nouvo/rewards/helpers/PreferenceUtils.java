@@ -26,6 +26,12 @@ public class PreferenceUtils {
      */
     public static final String TO_REGISTER_FCM_TOKEN = "toRegisterFcmToken";
 
+    /**
+     * flag that decides whether to show coachmark or not
+     * false-do not show
+     * true - show
+     */
+    public static final String SHOW_COACH_MARK = "show_coach_mark";
 
     public static void writeBoolean(Context context, String key, boolean value) {
         if (context != null) {
