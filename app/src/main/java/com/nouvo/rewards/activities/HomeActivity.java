@@ -103,14 +103,12 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         llCashback = (LinearLayout) findViewById(R.id.ll_cashback);
         llProfilePic = (LinearLayout) findViewById(R.id.ll_profile_pic);
         linear_bottom_bar = (LinearLayout) findViewById(R.id.linear_bottom_bar);
-
         rlLevelDetails = (RelativeLayout) findViewById(R.id.rl_level_details);
         rlProfilePic = (RelativeLayout) findViewById(R.id.rl_profile_pic);
         rlProfilePic = (RelativeLayout) findViewById(R.id.rl_profile_pic);
         swPullToRefresh = findViewById(R.id.sw_pull_to_refresh);
         includedContainerMain = findViewById(R.id.included_container_main);
         navigation = (BottomNavigationViewEx) findViewById(R.id.bottom_navigation);
-
 
         initToolBar();
         setListeners();
@@ -123,15 +121,13 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
         if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(ISwipe.KEY_IS_FIRST_TIME_SOCIAL_LOGIN)) {
             if (getIntent().getExtras().getBoolean(ISwipe.KEY_IS_FIRST_TIME_SOCIAL_LOGIN, false))
                 isFirstTimeSocialLoginUser();
-
         }
 
         initSwipe();
 
-        if (PreferenceUtils.readBoolean(this, PreferenceUtils.SHOW_COACH_MARK, true) == true) {
+        if (PreferenceUtils.readBoolean(this, PreferenceUtils.SHOW_COACH_MARK, true) == true ) {
             PreferenceUtils.writeBoolean(this, PreferenceUtils.SHOW_COACH_MARK, false);
             callWalktgroughDialog();
-        } else {
         }
 
     }
@@ -537,7 +533,7 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
     }
 
     /**
-     *used to show walkthrough dialog when user logs in for first time
+     * used to show walkthrough dialog when user logs in for first time
      */
     private void callWalktgroughDialog() {
         if (dialogWalkthrough == null || !dialogWalkthrough.isShowing()) {
@@ -560,5 +556,9 @@ public class HomeActivity extends BaseActivity implements InitSwipeView, View.On
             }
         });
 
+    }
+
+    private boolean isValidSession() {
+        return !TextUtils.isEmpty(PreferenceUtils.readString(this, PreferenceUtils.SESSION_TOKEN, ""));
     }
 }

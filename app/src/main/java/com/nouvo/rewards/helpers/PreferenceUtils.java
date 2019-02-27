@@ -19,6 +19,13 @@ public class PreferenceUtils {
     public static final String USER_DETAILS = "user_details";
     private static final String PREF_NAME = "swipe_rewards";
     public static final String FCM_TOKEN = "fcmtoken";
+
+    /**
+     * flag that decides whether social log in is done
+     * false - not a socail login
+     * true- a social login
+     */
+    public static final String SOCIAL_LOGIN ="social_login";
     /**
      * flag that decides whether or not to upload fcm token to the server
      * false - do not upload

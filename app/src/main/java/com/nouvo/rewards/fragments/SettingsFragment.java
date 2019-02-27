@@ -16,6 +16,7 @@ import com.nouvo.rewards.activities.HomeActivity;
 import com.nouvo.rewards.appdata.SingletonAppCache;
 import com.nouvo.rewards.constants.ISwipe;
 import com.nouvo.rewards.helpers.CommonHelper;
+import com.nouvo.rewards.helpers.PreferenceUtils;
 import com.nouvo.rewards.helpers.UIHelper;
 import com.nouvo.rewards.interfaces.MessageDialogConfirm;
 import com.nouvo.rewards.mvpviews.SettingsView;
@@ -83,6 +84,12 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             tvChangePassword.setVisibility(View.GONE);
             vwPasswordSeparator.setVisibility(View.GONE);
         }
+
+        if(PreferenceUtils.readBoolean(getActivity(),PreferenceUtils.SOCIAL_LOGIN,true)==true){
+            tvChangePassword.setVisibility(View.GONE);
+            vwPasswordSeparator.setVisibility(View.GONE);
+        }
+
         swNotification.setOnCheckedChangeListener(this);
     }
 
